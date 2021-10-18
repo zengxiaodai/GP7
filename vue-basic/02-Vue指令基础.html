@@ -14,6 +14,7 @@
 <body>
 
   <div id='app'>
+
     <h1 v-text='name'></h1>
     <h1 v-cloak>{{name}}</h1>
     <hr>
@@ -51,9 +52,60 @@
     <hr>
 
     任务名称：<input type="text" v-model.trim.number='task' @keyup.enter='add' /><br>
-
     任务介绍：<textarea v-model.lazy='info' name="name" rows="5" cols="30"></textarea>
+    <hr>
 
+
+    <div v-for='(item, index) in list'>
+      <span v-text='index'></span>
+      -
+      <span v-text='item.name'></span>
+      -
+      <span v-text='item.age'></span>
+    </div>
+    <hr>
+
+    <div v-for='(item, index) in 5'>
+      <span v-text='index'></span>
+      -
+      <span v-text='item'></span>
+    </div>
+    <hr>
+
+    <div v-for='(item, index) in `hello`'>
+      <span v-text='index'></span>
+      -
+      <span v-text='item'></span>
+    </div>
+    <hr>
+
+    <div v-for='(v, k, index) in user' >
+      <span v-text='index'></span>
+      -
+      <span v-text='k'></span>
+      :
+      <span v-text='v'></span>
+    </div>
+    <hr>
+
+    <h2 v-show='bol'>请登录</h2>
+    <hr>
+
+    <h2 v-if='bol'>请登录</h2>
+    <hr>
+
+    <h2 v-if='bol'>太阳</h2>
+    <h2 v-else>月亮</h2>
+    <hr>
+
+    <h2 v-if='row===1'>第一行文字</h2>
+    <h2 v-else-if='row===2'>第二行文字</h2>
+    <h2 v-else>第三行文字</h2>
+    <hr>
+
+    <div v-pre>
+      <h2>{{count}}</h2>
+    </div>
 
     <br>
     <br>
@@ -124,6 +176,34 @@
         // .number  用于把由数字组成的字符串，转化成Number类型。
         // .lazy  用于“长表单”的v-model上。作用：当长表单光标失焦时，再把表单视图上的最新值更新到声明式变量。这是一种表单的性能优化。
 
+    // 五、列表循环
+
+    // v-for 常用于循环数组、数值、字符串、对象，一切可迭代的变量（比如Map、Set）
+      // Vue工作很少使用Map、Set，原因是Vue没有办法把Map、Set这类数据变成响应式数据。
+      // 提醒：在v-for中很少用于循环Map、Set结构。
+      // 说明：常用于循环数组、数值。
+      // 问题：v-for循环时要加key，后续再补充。
+
+    // 六、条件渲染
+
+    // v-show 用于对元素进行显示与隐藏
+      // 背后的原理是给元素节点添加或移除 'display:none' 来实现隐藏和显示的。
+      // 语法的坑：v-show='Boolean(表达式)'，v-show的值永远都是布尔值，一定要留意v-show值的数据类型。
+
+    // v-if / v-else-if / v-else  用于对元素进行显示与隐藏
+      // 背后的原理是通过DOM操作对元素节点进行插入或移除。
+      // 语法的坑：v-if='Boolean(表达式)'，v-if和v-else-if的值必须是布尔值，如果不是布尔值vue会自动隐式类型转换。
+      // 注意：当v-if/v-else-if/v-else成为“一组”时，在这一组兄弟节点之间不能插入其它任何节点。
+      // v-else 是不用给“值”的。
+
+    // 小结：使用v-show实现隐藏功能时，页面初始化的开销比较大。使用v-if实现隐藏功能时，页面初始化开销比较小。当一个元素节点需要频繁进行显示与隐藏，建议使用v-show来做；反之建议使用v-if来实现。
+
+    // 七、其它指令
+
+    // v-slot 插槽，是组件化的基础语法之一。它可以简写 #。
+    // v-pre  一般用于调试。特点：被v-pre所包裹的节点，都不再参与vue的编译与解析的。这个指令很少使用。
+
+
     const app = new Vue({
       el: '#app',
       data: {
@@ -136,7 +216,19 @@
         cc: 'c1',
         font: 30,
         task: '',
-        info: ''
+        info: '',
+        list: [
+          { id: 1, name: 'zhangsan', age: 10 },
+          { id: 2, name: 'lisi', age: 20 },
+          { id: 3, name: 'zhaoliu', age: 30 }
+        ],
+        user: {
+          name: 'zhangsan',
+          age: 30,
+          addr: '广东深圳'
+        },
+        bol: true,
+        row: 3       // “枚举”：数量有限并各不相同
       },
       methods: {
         initTitle() {
