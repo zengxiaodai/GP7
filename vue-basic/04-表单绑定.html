@@ -60,13 +60,16 @@
         type="checkbox"
         :value='item.value'
         :checked='job.includes(item.value)'
-        @change='($event.target.checked?job.push($event.target.value):job.filter(ele=>ele!==$event.ttarget.value))'
+        @change='job=($event.target.checked?[...job,$event.target.value]:job.filter(ele=>ele!==$event.target.value))'
       />
       <span v-text='item.label'></span>
     </span>
     <br>
 
     <!-- 不用v-model，实现一下select框的取值 -->
+    尺码：<select :value='size' @change='size=$event.target.value'>
+      <option v-for='item in sizeArr' :key='item.id' :value='item.value' v-text='item.label'></option>
+    </select>
 
 
     <button @click='submit'>提交</button>
@@ -78,10 +81,13 @@
     // 从组件化的角度，凡是会发生值的变化的组件，都可以被认为是表单。
 
     // 如何理解v-model这个指令？
+
     // 1、v-model是一种语法糖（一种比较好用的简写）。
       // 对普通文本框来讲，v-model = v-bind:value + v-on:input。
       // 对单选按钮组、复选框来讲，v-model = v-bind:checked + v-on:change。
       // 对下拉框来讲，v-model = v-bind:value + v-on:change。
+
+    // 2、v-model，在组件化中应用非常广泛，用于父子组件通信。
 
 
     var app = new Vue({
@@ -123,7 +129,13 @@
           { id: 3, value: 'rn', label: 'RN开发' },
           { id: 4, value: 'app', label: '混合开发' }
         ],
-        job: []
+        job: [],
+        sizeArr: [
+          { id: 1, value: 'M', label: '中码' },
+          { id: 2, value: 'L', label: '大码' },
+          { id: 3, value: 'XL', label: '超大码' }
+        ],
+        size: 'M'
 
       },
       methods: {
@@ -135,7 +147,8 @@
             level: this.level,
             gender: this.gender,
             fav: this.fav,
-            recieve: this.recieve
+            recieve: this.recieve,
+            size: this.size
           }
           console.log('提交', data)
         }
