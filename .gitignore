@@ -3,6 +3,7 @@ node_modules
 /dist
 day*
 tools
+/随堂视频
 
 
 # local env files
