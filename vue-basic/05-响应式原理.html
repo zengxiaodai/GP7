@@ -25,7 +25,7 @@
     // 想象这是app实例（new Vue()）
     const app = {}
 
-    // 当vue组件实例化时，对data选项上的数据进行
+    // 当vue组件实例化时，对data选项上的数据进行劫持
     Object.keys(data).forEach(ele=>{
       Object.defineProperty(app, ele, {
         get() { return data[ele] },
@@ -46,7 +46,6 @@
         document.getElementById('h1').innerText = app.name
       })
       // v-model
-      // document.getElementById('ipt').value = app.name
       dep['name'].push(function(){
         document.getElementById('ipt').value = app.name
       })
@@ -55,11 +54,10 @@
         app.name = ev.target.value
         // 修改了name，这会触发set的执行
       })
-      // 省略“依赖收集”过程
+      // 第一次更新DOM
       Wacher('name')
     }
     init()
-
 
     // 观察者，触发依赖收集异步执行、更新DOM。
     function Wacher(k) {
