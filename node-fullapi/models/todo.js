@@ -6,5 +6,6 @@ const mongoose = require('mongoose')
 module.exports = mongoose.model('todos', new mongoose.Schema({
   task: String,
   create_time: { type: Number, default: Date.now() },
-  status: Number
+  status: { type: Number, default: 1 },  // 1-未删除的  -1 已删除的任务
+  done: { type: Number, default: 1 }  // 1-正在进行的任务  0-已完成的任务
 }))

@@ -13,4 +13,4 @@ app.use(require('koa-body')())
 // 动态资源
 app.use(require('./routes/index').routes())
 
-app.listen(9999, ()=>console.log('server in running 9999'))
+app.listen(9999, ()=>console.log('server in running on 9999'))
