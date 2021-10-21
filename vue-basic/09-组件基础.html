@@ -17,23 +17,22 @@
     <!-- zzz是自定义事件 -->
     <!-- default自定义插槽 -->
     <qf-button :xxx='xxx' :yyy='true' @zzz='xxx=$event'>
-      <template #default>
-        <div>测试插槽233232</div>
-      </template>
+      <div>测试插槽233232</div>
     </qf-button>
   </div>
-
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   <script>
 
-    // 组件
+    // 理解组件
     // 本质：就是html的扩展。结论我们在使用组件时，你要把它成html元素一样的感觉来使用。
     // 约定：我们通常把那些除了HTML标签以外的自定义组件，才称之“组件”。结论是，我们说“父组件”“子组件”指是自定义组件之间的关系。
 
-    // 组件化的意义：封装（复用、把逻辑隐藏起来、提高可维护性）、快速开发（搭积木）
+    // 组件化的意义
+    // 1、封装（复用、把逻辑隐藏起来、提高可维护性）
+    // 2、快速开发（搭积木）
 
-    // 定义一个组件
+    // 如何定义一个组件？
     // 语法：Vue.component('组件名', '选项')
     // 第一个参数，“组件名”：组件名必须是两个以上的“单词”、并且要用中划线连接。
     // 第二个参数，“选项”：除了el不能用，其它选项都可以使用，比如data、methods、生命周期、computed、watch等。
@@ -44,7 +43,7 @@
     // props选项：props专门用于接受从父组件作用域向子组件传递“自定义属性”，props接收之后可以通过this访问。所以props数据在当前组件中可以用在指令中、其它选项中。
       // 父组件向子组件传递数据，子组件使用props接收，可以传递基本数据类型、引用数据类型。
 
-    // $emit('自定义事件名称', ...“将要回传给父组件的数据列表”)：用于触发一个自定义事件，同时向父组件传递数据。
+    // $emit('自定义事件名称', ...“将要回传给父组件的数据列表”)：用于触发一个自定义事件，向父组件传递数据。
 
     // 结论：组件化的核心是 “自定义属性props” “自定义事件$emit()” “自定义插槽<slot>”
       // 1、props，是子组件的一个选项，用于接收父组件给我的自定义属性 => v-bind 简写 :
@@ -56,7 +55,8 @@
       mounted(){console.log('qf-abc', this)}
     })
 
-    Vue.component('qf-button', {
+    // qf-button所需要的原材料
+    const btnOpt = {
       template: `
       <div>
         <span v-text='xxx'></span>
@@ -66,7 +66,7 @@
       `,
       data() {
         // do something
-        // return 必须返回一个对象，这个对象就是我们声明式变量
+        // return 必须返回一个对象，这个对象就是我们的声明式变量
         return {
           msg: 'hello button'
         }
@@ -82,13 +82,20 @@
           this.$emit('zzz', Math.random())
         }
       }
-    })
+    }
+
+    // 定义组件（全局注册组件）
+    // Vue.component('qf-button', btnOpt)
 
     // 创建一个根组件
     const app = new Vue({
       // 只有根组件才能使用el
       el: '#app',
       mounted() { console.log('app', this) },
+      // 定义组件（局部注册组件）
+      components: {
+        'qf-button': btnOpt
+      },
       data: {
         xxx: 111
       }
@@ -103,10 +110,8 @@
         b: 2
       }
     }
-
     const app1 = factory()
     const app2 = factory()
   </script>
-
 </body>
 </html>
