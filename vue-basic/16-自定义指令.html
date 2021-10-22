@@ -11,7 +11,7 @@
   <div id="app">
     <h1 v-qftext='count'></h1>
     <button v-qfon:click.prevent='add'>自增</button>
-    <!-- <a href="http://baidu.com" v-qfon:click='skip'>百度</a> -->
+    <a href="http://baidu.com" v-qfon:click='skip'>百度</a>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
@@ -40,7 +40,7 @@
       data: {
         count: 0
       },
-      // 局部指令：只能在当前组件中使用，跨组件不能使用。
+      // 局部指令：只能在当前组件中使用，不能跨组件使用。
       directives: {
         'qftext': function(el, binding) {
           // console.log('el', el)
