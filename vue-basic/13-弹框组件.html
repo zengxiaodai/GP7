@@ -5,7 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="stylesheet" href="./style.css">
+  <style>
+  .qf-layer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.8);
+  }
+  .qf-dialog {
+    position: absolute;
+    top: 15vh;
+    width: 50%;
+    left: 25%;
+    background: white;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 0 20px;
+  }
+  .header {
+    line-height: 60px;
+    font-size: 14px;
+    height: 60px;
+    overflow: hidden;
+    position: relative;
+  }
+  .header .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    height: 60px;
+  }
+  .body {}
+  .footer {
+    padding-bottom: 20px;
+  }
+  </style>
 </head>
 <body>
 
