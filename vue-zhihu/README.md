@@ -23,6 +23,10 @@ npm run serve
   - 2、url是如何发生变化的？（声明式路由跳转，编程式路由跳转）
   - 3、url变化时它所对应的vue组件在哪里显示？（<router-view>）
 
+- 什么是“嵌套路由”？在“路由规则”如何配置“嵌套路由”？
+- 两个重要的内置api：$router, $route
+- this.$router.push('/hot?list='+c.cate) 改变url，接$route变化。
+
 
 # 使用sass
 

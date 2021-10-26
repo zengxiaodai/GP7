@@ -1,17 +1,55 @@
 <template>
 <div class="zh-home">
+
   <div class="left">
-    <h3>二级菜单</h3>
-    <h3>各种列表</h3>
+
+    <div>
+      <router-link
+        v-for='nav in subRoutes'
+        :key='nav.id'
+        v-text='nav.text'
+        tag='span'
+        :to='nav.path'
+      />
+    </div>
+    <router-view></router-view>
   </div>
+
   <div class="right">
     <h3>四个来自layout中的组件</h3>
   </div>
+
 </div>
 </template>
 
 <script>
+import { routes } from '@/router'
+
 export default {
+  // data() {
+  //   return {
+  //     routes: routes[0].children
+  //   }
+  // }
+  computed: {
+    subRoutes() {
+      const p = this.$route.meta.page
+      if (p) {
+        const arr = routes.find(r=>r.path===p).children
+        return arr
+      }
+      return []
+    }
+  },
+  mounted() {
+    console.log('$route', this.$route)
+    console.log('$router', this.$router)
+  },
+  watch: {
+    $route() {
+      console.log('---$route', this.$route)
+    }
+  }
 }
 </script>
 
