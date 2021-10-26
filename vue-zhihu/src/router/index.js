@@ -8,6 +8,8 @@ import HomeHot from '@/views/home/components/Hot.vue'
 import HomeRecommend from '@/views/home/components/Recommend.vue'
 import HomeVideo from '@/views/home/components/Video.vue'
 
+import HotDetail from '@/views/home/HotDetail.vue'
+
 
 
 import Vip from '@/views/vip/Vip.vue'
@@ -15,7 +17,8 @@ import Vip from '@/views/vip/Vip.vue'
 // 自定义
 const routes = [
   {
-    id: 1, path: '/', component: Home, text: '首页',
+    // 人话：当url='/'时，路由系统要找到一个名字叫alive的<router-view>来显示Home组件。
+    id: 1, path: '/', components: { alive: Home }, text: '首页', name: 'home',
     // 这个children叫做“嵌套路由”
     children: [
       { id: 101, text:'关注', path: '/follow', component: HomeFollow, meta: { page: '/' } },
@@ -24,7 +27,10 @@ const routes = [
       { id: 104, text:'视频', path: '/video', component: HomeVideo, meta: { page: '/' } }
     ]
   },
-  { id: 2, path: '/vip', component: Vip, text: '会员' }
+  // 人话：当url='/vip'时，路由系统要找到一个叫default的<router-view>来显示Vip组件。
+  { id: 2, path: '/vip', component: Vip, text: '会员', name: 'vip' },
+  // props: true, 开启props传参
+  { id: 3, path: '/hot/:id', component: HotDetail, props: true }
 ]
 export { routes }
 

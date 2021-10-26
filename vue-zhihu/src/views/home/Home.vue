@@ -2,15 +2,15 @@
 <div class="zh-home">
 
   <div class="left">
-
-    <div>
+    <div class='navs'>
       <router-link
         v-for='nav in subRoutes'
         :key='nav.id'
-        v-text='nav.text'
-        tag='span'
         :to='nav.path'
-      />
+        exact-active-class='on'
+      >
+        <span v-text='nav.text'></span>
+      </router-link>
     </div>
     <router-view></router-view>
   </div>
@@ -62,6 +62,16 @@ export default {
   }
   .right {
     flex: 2;
+  }
+  .navs {
+    a {
+      display: inline-block;
+      padding: 10px 15px;
+      text-decoration: none;
+    }
+    a.on {
+      color: blue;
+    }
   }
 }
 </style>
