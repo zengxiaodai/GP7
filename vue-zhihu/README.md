@@ -12,3 +12,22 @@ vue create vue-zhihu
 cd vue-zhihu
 npm run serve
 ```
+
+# vue-router
+
+- SPA单页面应用程序：只有一个页面（index.html），使用vue-router实现组件的创建与销毁，在视觉上给人一种“页面切换”的错觉。所以，对SPA应用来讲，vue-router是核心。
+- 思想：在SPA应用程序中，一切皆组件，所有的组件都直接或间接地与“路由系统”有关。
+
+- 如何在vue项目中集成vue-router呢？
+  - 1、路由规则是如何配置的？（创建router实例，在main.js挂载）
+  - 2、url是如何发生变化的？（声明式路由跳转，编程式路由跳转）
+  - 3、url变化时它所对应的vue组件在哪里显示？（<router-view>）
+
+
+# 使用sass
+
+```
+cnpm i sass -D
+cnpm i sass-loader@10.2.0 -D
+```
+- .vue文件中，<style lang='scss'></style>

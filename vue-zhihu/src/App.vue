@@ -1,26 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <ZhNavBar />
+
+    <div class="container">
+      <!-- 用于显示当前地址栏中url所对应的vue组件 -->
+      <router-view></router-view>
+    </div>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { ZhNavBar } from '@/components'
 export default {
   components: {
-    HelloWorld
+    ZhNavBar
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+html,body { padding: 0; margin: 0; background: #eee; }
+.container { width: 1000px; margin: 5px auto; }
 </style>

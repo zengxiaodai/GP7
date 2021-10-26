@@ -6,7 +6,10 @@ import App from './App.vue'
 // 如果项目上线，关闭掉vue的报错等提示
 Vue.config.productionTip = false
 
+import router from '@/router'
+
 new Vue({
   render: h => h(App),
-  el: '#app'
+  el: '#app',
+  router,  // 挂载路由系统
 })
