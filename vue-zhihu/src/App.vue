@@ -17,6 +17,7 @@
 <script>
 import { ZhNavBar } from '@/components'
 export default {
+  name: 'App',
   components: {
     ZhNavBar
   }

@@ -6,14 +6,14 @@
       <!-- v-for和v-if，不建议一起使用 -->
       <span v-for='nav in routes' :key='nav.id'>
         <router-link
-          v-if='nav.path==="/"'
+          v-if='(nav.path==="/")&&(!nav.hidden)'
           :to='nav.path'
           :class='{"on": isOn}'
         >
-          <span  v-text='nav.text'></span>
+          <span v-text='nav.text'></span>
         </router-link>
         <router-link
-          v-else
+          v-if='(!(nav.path==="/"))&&(!nav.hidden)'
           :key='nav.id'
           :to='nav.path'
           exact-active-class='on'

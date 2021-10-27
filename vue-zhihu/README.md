@@ -22,10 +22,9 @@ npm run serve
   - 1、路由规则是如何配置的？（创建router实例，在main.js挂载）
   - 2、url是如何发生变化的？（声明式路由跳转，编程式路由跳转）
   - 3、url变化时它所对应的vue组件在哪里显示？（<router-view>）
-
 - 什么是“嵌套路由”？在“路由规则”如何配置“嵌套路由”？
 - 两个重要的内置api：$router, $route
-- this.$router.push('/hot?list='+c.cate) 改变url，接$route变化。
+- this.$router.push('/hot?list='+c.cate) 改变url，接着$route变化。
 
 
 - 两个全局组件：
@@ -54,6 +53,19 @@ npm run serve
   - 动态路由传参：“动态路由”一般用于从列表页跳转到详情页，“路由规则”配置一般这种风格{path:'/detail/:id'}。那么在详情页我们可以使用this.$route.params来接收这个“动态的路由参数”。还在在“路由规则”上开启props传参{path:'/detail/:id', props:true}，在详情页使用props接收这个“动态的路由参数”。
   - Query传参：在路由跳转时使用?a=1&b=2这种查询字符串，在另一个页面中使用this.$route.query来接收。
 
+- 两个优化：
+  - 重定向：给未定义的url添加默认跳转，跳转到指定的路由规则上，像这样配置{path:'/*',redirect:'/404'}。这是一种用户体验层面的优化。
+  - 路由懒加载：当页面太多时，我们要根据url访问需求按需加载组件。背后技术原理是Vue异步组件和Webpack代码分割技术。扩展：这种`()=>import()`代码是异步的，并且在webpack打包时只要遇到这种语法，会默认将其分割一个独立的小的.js文件。
+
+- 两个高级技巧：
+  - 导航守卫：我们知道每次发生url变化时，路由系统要根据“路由规则”去寻找对应的组件进行显示。vue-router把这个匹配的过程抽象成几个重要的“路由钩子”——beforeEach()/beforeResolve()/afterEach()。导航守卫经常用于登录拦截、权限设计等。
+  - 路由元信息：一种方便我们给“路由规则”添加自定义属性的方式，并且可以在$route上进行访问。在“路由规则”这样配置 {path,component,meta:{}}。通常路由元信息可以配置导航守卫实现权限设计。
+
+- 其它路由小技巧：
+  - 路由别名：{path:'/home', alias:'/h' }，路由别名的作用是给复杂的path取一个方便记忆的“小名”。
+  - 过渡行为：在<router-view>外面包裹一个<transition>动画，让页面切换时更加温和。
+  - 数据获取：使用watch监听$route的变化，当$route变化成功后调接口。
+  - 滚动行为：使用 new VueRouter({scrollBehavior}) 这个选项精确地控制页面的滚动位置。
 
 # 使用sass
 
@@ -62,3 +74,10 @@ cnpm i sass -D
 cnpm i sass-loader@10.2.0 -D
 ```
 - .vue文件中，<style lang='scss'></style>
+
+
+# Vuex状态管理
+
+- 如何理解“状态”？本质上“状态”就是数据，因为“数据驱动视图”。
+- 什么是vuex？vuex是vue技术栈中唯一的一个状态管理工具，用于管理vue应用程序中的数据。它的设计思想借鉴自Flux数据架构思想。（如果你能把vuex用好，那么理论上你的vue项目中的数据流应该是可预测的）
+- vuex作用：实现组件之间的数据共享（功能实现）；实现数据缓存（用户体验）。
