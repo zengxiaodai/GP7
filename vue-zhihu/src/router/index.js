@@ -39,7 +39,6 @@ const createRoutes = () => {
   return routes
 }
 
-
 export default new VueRouter({
   mode: 'hash', // 'history'
   // 自定义路由规则，如何理解路由规则？所谓的路由规则，当你访问某个url时，路由系统就加载指定的组件进行显示。

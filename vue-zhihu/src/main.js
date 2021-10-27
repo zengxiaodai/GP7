@@ -7,9 +7,11 @@ import App from './App.vue'
 Vue.config.productionTip = false
 
 import router from '@/router'
+import store from '@/store'
 
 new Vue({
   render: h => h(App),
   el: '#app',
   router,  // 挂载路由系统
+  store
 })
