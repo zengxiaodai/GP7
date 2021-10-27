@@ -82,3 +82,14 @@ cnpm i sass-loader@10.2.0 -D
 - 什么是vuex？vuex是vue技术栈中唯一的一个状态管理工具，用于管理vue应用程序中的数据。它的设计思想借鉴自Flux数据架构思想。（如果你能把vuex用好，那么理论上你的vue项目中的数据流应该是可预测的）
 - vuex作用：实现组件之间的数据共享（功能实现）；实现数据缓存（用户体验）。
 - 提示：vue全家桶（vue、vue-router、vuex）中，对小项目来讲vuex是可以选的。
+
+- axios
+  1、是基于promise封装的一个ajax工具。
+  2、axios在js环境（浏览器、node）都可以使用。
+  3、学习axios要学会封装axios。
+
+- 会对axios进行封装
+- 在vue项目中如何实现代理（解决浏览器CORS对ajax跨域请求的阻塞）
+- 走完整的vuex流程（dispatch触发调接口，commit更新state，视图自动流程）
+- 使用modules、namespaced这两个属性实现对store的拆分（思考：为什么要拆分？）
+- 四个map*方法的使用

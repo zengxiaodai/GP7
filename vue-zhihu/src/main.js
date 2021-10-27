@@ -9,6 +9,9 @@ Vue.config.productionTip = false
 import router from '@/router'
 import store from '@/store'
 
+import api from '@/api'
+Vue.prototype.$api = api
+
 new Vue({
   render: h => h(App),
   el: '#app',
