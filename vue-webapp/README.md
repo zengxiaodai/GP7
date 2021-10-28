@@ -1,24 +1,16 @@
-# vue-webapp
+created by xhf at 2021-10-28
 
-## Project setup
-```
-npm install
-```
+- 路由集成
+- 状态管理集成
+- 支持sass(版本)
+- 移动端布局
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+app = android app、ios app
+webapp = 长得像交互也像app的web h5
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- vw、vh
 
-### Lints and fixes files
-```
-npm run lint
-```
+px
+em 相对于最近的父级元素的fons-size
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+rem 永远相对于html根字体

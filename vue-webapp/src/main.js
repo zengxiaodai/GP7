@@ -6,8 +6,17 @@ Vue.config.productionTip = false
 import store from '@/store'
 import router from '@/router'
 
-import { Button } from 'vant'
+import {
+  Button,
+  Tabbar,
+  TabbarItem
+} from 'vant'
 Vue.use(Button)
+Vue.use(Tabbar)
+Vue.use(TabbarItem)
+
+import img from '@/utils/img'
+Vue.prototype.$img = img
 
 new Vue({
   render: h => h(App),
