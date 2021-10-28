@@ -8,14 +8,16 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+// import { qfMapState } from '@/utils/map'
 
 export default {
   name: 'VipTop',
   computed: {
     ...mapState('study', ['count']),
+    // ...qfMapState('study', ['count']),
     ...mapGetters('study', ['musicLeng'])
   },
-  mounted() {
+  mounted () {
     // 原则1：不建议$store.state.count这么使用store
     console.log('$store', this.$store)
   }

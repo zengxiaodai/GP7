@@ -93,3 +93,29 @@ cnpm i sass-loader@10.2.0 -D
 - 走完整的vuex流程（dispatch触发调接口，commit更新state，视图自动流程）
 - 使用modules、namespaced这两个属性实现对store的拆分（思考：为什么要拆分？）
 - 四个map*方法的使用
+
+
+【从vuex工作流程的角度】
+当vue项目中需要进行跨组件共享数据或缓存数据时，我们会用到vuex。
+安装vuex，在src/store中编写状态管理的逻辑。
+src/store/index.js 注册Vuex、创建store（要分modules）、抛出store。
+在main.js中挂载store。
+我们把需要共享的数据定义在子store中（一定开启命名空间），用state定义可共享数据，用mutations定义修改state的方法，用actions封装调接口的方法。
+在src/store/index.js使用modules字段合并子store。
+在vue组件中使用state，要么使用this.$store.state来访问（不建议），要么使用mapState()来访问（建议）。映射进入组件后，就可以使用this来访问它们了。（getters和state的用法是一样的）
+在vue组件中使用mutations，要么用this.$store.commit('mutations方法', '数据')提交并触发，要么使用mapMutations映射进来用this来访问它们。
+在vue组件中使用actions，要么用this.$store.dispatch('actions方法', '数据')提交并触发，要么使用mapActions映射进来用this来访问它们。
+
+简说：把需要共享或缓存的后端数据定义在state中，（数据在后端，怎么拿到数据？）封装api在actions定义方法（这个方法给谁用？）在vue组件触发actions方法，actions方法调接口，拿到后端数据，在actions方法内部使用mutations方法来修改state，因为state是响应式的，所以当state发生变化vue组件视图会自动更新。这就是vuex基本工作流程，也是所谓Flux单向数据流的基本思想。
+
+
+【从数据流的角度】
+在vue组件中触发actions方法
+actions方法调接口，数据首先要经过axios拦截器
+只有当axios拦截器没有问题时，actions方法才能收到后端数据。
+actions方法收到后端数据后，触发mutations方法
+mutations方法收到数据后，放到state上
+state数据给页面使用，一般在组件的计算属性中拿到数据
+组件拿到state数据，给指令使用来渲染页面。
+
+思考：数据库中的数据 -> .... -> 视图渲染。
