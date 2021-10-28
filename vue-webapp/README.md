@@ -14,3 +14,8 @@ px
 em 相对于最近的父级元素的fons-size
 
 rem 永远相对于html根字体
+
+内页
+外页
+
+颜色：fa2c19  、 8B8B8B
