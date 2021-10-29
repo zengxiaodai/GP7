@@ -16,7 +16,12 @@ import {
   SwipeItem,
   Lazyload,
   Grid,
-  GridItem
+  GridItem,
+  List,
+  PullRefresh,
+  NavBar,
+  Sidebar,
+  SidebarItem
 } from 'vant'
 Vue.use(Button)
 Vue.use(Tabbar)
@@ -28,6 +33,11 @@ Vue.use(SwipeItem)
 Vue.use(Lazyload)
 Vue.use(Grid)
 Vue.use(GridItem)
+Vue.use(List)
+Vue.use(PullRefresh)
+Vue.use(NavBar)
+Vue.use(Sidebar)
+Vue.use(SidebarItem)
 
 import img from '@/utils/img'
 Vue.prototype.$img = img

@@ -1,73 +1,86 @@
 <template>
 <div class="qf-home" style='font-size:20px;'>
 
-  <!-- 通知栏 -->
-  <van-notice-bar v-if='notice'>
-    <template>
-      <div class="vnb-text">打开京东App，购物更轻松</div>
-    </template>
-    <template #right-icon>
-      <div class="vnb-open">立即打开</div>
-    </template>
-    <template #left-icon>
-      <div class='vnb-left'>
-        <span @click='notice=false'>X</span>
-        <span><img :src='$img.iJD' alt=""></span>
-      </div>
-    </template>
-  </van-notice-bar>
+  <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
 
-  <!-- 搜索 -->
-  <van-search
-    show-action
-    background='#18193E'
-    :placeholder="text"
-    shape='round'
-    disabled
-  >
-    <template #action>
-      <div class="login" @click="onLogin">登录</div>
-    </template>
-    <template #left>
-      <div class="nav">三</div>
-    </template>
-    <template #label>
-      <div class='label'>
-        <span>JD</span>
-        <span>|</span>
-      </div>
-    </template>
-  </van-search>
+    <!-- 通知栏 -->
+    <van-notice-bar v-if='notice'>
+      <template>
+        <div class="vnb-text">打开京东App，购物更轻松</div>
+      </template>
+      <template #right-icon>
+        <div class="vnb-open">立即打开</div>
+      </template>
+      <template #left-icon>
+        <div class='vnb-left'>
+          <span @click='notice=false'>X</span>
+          <span><img :src='$img.iJD' alt=""></span>
+        </div>
+      </template>
+    </van-notice-bar>
 
-  <!-- 轮播图 -->
-  <van-swipe class="qf-swipe" :autoplay="3000" indicator-color='#fa2c19'>
-    <van-swipe-item v-for="item in images" :key="item.id">
-      <img v-lazy="item.src" />
-    </van-swipe-item>
-  </van-swipe>
+    <!-- 搜索 -->
+    <van-search
+      show-action
+      background='#18193E'
+      :placeholder="text"
+      shape='round'
+      disabled
+    >
+      <template #action>
+        <div class="login" @click="onLogin">登录</div>
+      </template>
+      <template #left>
+        <div class="nav">三</div>
+      </template>
+      <template #label>
+        <div class='label'>
+          <span>JD</span>
+          <span>|</span>
+        </div>
+      </template>
+    </van-search>
 
-  <!-- 品类 -->
-  <van-swipe class="qf-cate" :loop='false' indicator-color='#fa2c19'>
-    <van-swipe-item>
-      <van-grid :column-num='5' :border='false'>
-        <van-grid-item
-          v-for='i in 10' :key='i'
-          icon="//m.360buyimg.com/mobilecms/s120x120_jfs/t1/175540/24/19329/6842/60ec0b0aEf35f7384/ec560dbf9b82b90b.png!q70.jpg.dpg"
-          text="京东超市"
-        />
-      </van-grid>
-    </van-swipe-item>
-    <van-swipe-item>
-      <van-grid :column-num='5' :border='false'>
-        <van-grid-item
-          v-for='i in 10' :key='i'
-          icon="//m.360buyimg.com/mobilecms/s120x120_jfs/t1/175540/24/19329/6842/60ec0b0aEf35f7384/ec560dbf9b82b90b.png!q70.jpg.dpg"
-          text="京东超市"
-        />
-      </van-grid>
-    </van-swipe-item>
-  </van-swipe>
+    <!-- 轮播图 -->
+    <van-swipe class="qf-swipe" :autoplay="3000" indicator-color='#fa2c19'>
+      <van-swipe-item v-for="item in images" :key="item.id">
+        <img v-lazy="item.src" />
+      </van-swipe-item>
+    </van-swipe>
 
+    <!-- 品类 -->
+    <van-swipe class="qf-cate" :loop='false' indicator-color='#fa2c19'>
+      <van-swipe-item>
+        <van-grid :column-num='5' :border='false'>
+          <van-grid-item
+            v-for='i in 10' :key='i'
+            icon="//m.360buyimg.com/mobilecms/s120x120_jfs/t1/175540/24/19329/6842/60ec0b0aEf35f7384/ec560dbf9b82b90b.png!q70.jpg.dpg"
+            text="京东超市"
+          />
+        </van-grid>
+      </van-swipe-item>
+      <van-swipe-item>
+        <van-grid :column-num='5' :border='false'>
+          <van-grid-item
+            v-for='i in 10' :key='i'
+            icon="//m.360buyimg.com/mobilecms/s120x120_jfs/t1/175540/24/19329/6842/60ec0b0aEf35f7384/ec560dbf9b82b90b.png!q70.jpg.dpg"
+            text="京东超市"
+          />
+        </van-grid>
+      </van-swipe-item>
+    </van-swipe>
+
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+      :immediate-check='false'
+      offset='150'
+    >
+      <GoodList :n='n' />
+    </van-list>
+  </van-pull-refresh>
 
   <QfTabBar />
 </div>
@@ -75,9 +88,12 @@
 
 <script>
 import { QfTabBar } from '@/components'
+import GoodList from './components/GoodList.vue'
 export default {
+  name: 'Home',
   components: {
-    QfTabBar
+    QfTabBar,
+    GoodList
   },
   data() {
     return {
@@ -91,7 +107,12 @@ export default {
         { id: 1, src: '//m.360buyimg.com/mobilecms/s700x280_jfs/t1/181068/13/16622/771845/6102a71aE15dbe36e/c7f4953bb30e1efe.png!cr_1053x420_4_0!q70.jpg.dpg'},
         { id: 2, src: '//m.360buyimg.com/mobilecms/s700x280_jfs/t1/198829/36/14040/65895/61712053Ec3a8dfb7/124a0bb71ea68d58.jpg!cr_1053x420_4_0!q70.jpg.dpg'},
         { id: 3, src: '//m.360buyimg.com/mobilecms/s700x280_jfs/t1/213829/2/2037/64744/6178f13aEea971783/d95379f7af10919e.jpg!cr_1053x420_4_0!q70.jpg.dpg'}
-      ]
+      ],
+      // 表示正在“触底加载”，如果当前加载正在进行，下一次load事件将不再被触发
+      loading: false,
+      finished: false,
+      refreshing: false,
+      n: 0
     }
   },
   computed: {
@@ -99,9 +120,30 @@ export default {
       return this.hotArr[Math.floor(Math.random()*this.hotArr.length)].text
     }
   },
+  mounted(){
+    setTimeout(()=>{
+      this.n = 5
+    }, 1000)
+  },
   methods: {
     onLogin () {
       console.log('登录')
+    },
+    onRefresh(e) {
+      console.log('触发下拉刷新', e)
+      setTimeout(()=>{
+        this.refreshing = false
+        this.n = 5
+        this.finished = false
+      }, 1000)
+    },
+    onLoad(e) {
+      console.log('触发触底加载', e)
+      setTimeout(()=>{
+        this.n += 5
+        this.loading = false
+        if(this.n>=20) this.finished = true
+      },1000)
     }
   }
 }
@@ -109,6 +151,8 @@ export default {
 
 <style lang="scss" scoped>
 .qf-home {
+  background-color: rgba(247, 247, 247, 1);
+  padding-bottom: 2rem;
   .van-notice-bar {
     height: 1.2rem;
     padding-right: 0;
@@ -185,9 +229,7 @@ export default {
     .van-swipe-item {
       height: 100%;
       background-color: rgba(246, 246, 246, 1);
-
     }
-
   }
 }
 </style>
