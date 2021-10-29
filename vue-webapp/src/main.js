@@ -21,7 +21,13 @@ import {
   PullRefresh,
   NavBar,
   Sidebar,
-  SidebarItem
+  SidebarItem,
+  SubmitBar,
+  Checkbox,
+  SwipeCell,
+  Card,
+  Col,
+  Row
 } from 'vant'
 Vue.use(Button)
 Vue.use(Tabbar)
@@ -38,6 +44,12 @@ Vue.use(PullRefresh)
 Vue.use(NavBar)
 Vue.use(Sidebar)
 Vue.use(SidebarItem)
+Vue.use(SubmitBar)
+Vue.use(Checkbox)
+Vue.use(SwipeCell)
+Vue.use(Card)
+Vue.use(Col)
+Vue.use(Row)
 
 import img from '@/utils/img'
 Vue.prototype.$img = img

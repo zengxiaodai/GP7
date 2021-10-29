@@ -1,13 +1,14 @@
 <template>
 <div class="qf-find">
+  <QfNavBar>
+    <template>
+      <van-search shape='round' placeholder="小天鹅洗衣机" />
+    </template>
+    <template #action>
+      <div>$$$</div>
+    </template>
+  </QfNavBar>
 
-  <!-- 顶部导航 -->
-  <van-nav-bar
-    title="标题"
-    left-text="返回"
-    right-text="按钮"
-    left-arrow
-  />
 
   <div class="wrap">
     <div class="left">
@@ -37,11 +38,12 @@
 </template>
 
 <script>
-import { QfTabBar } from '@/components'
+import { QfTabBar, QfNavBar } from '@/components'
 export default {
   name: 'Find',
   components: {
-    QfTabBar
+    QfTabBar,
+    QfNavBar
   },
   data() {
     return {
