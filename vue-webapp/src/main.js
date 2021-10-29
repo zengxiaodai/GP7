@@ -27,7 +27,11 @@ import {
   SwipeCell,
   Card,
   Col,
-  Row
+  Row,
+  Cell,
+  CellGroup,
+  Tag,
+  Icon
 } from 'vant'
 Vue.use(Button)
 Vue.use(Tabbar)
@@ -50,6 +54,10 @@ Vue.use(SwipeCell)
 Vue.use(Card)
 Vue.use(Col)
 Vue.use(Row)
+Vue.use(CellGroup)
+Vue.use(Cell)
+Vue.use(Tag)
+Vue.use(Icon)
 
 import img from '@/utils/img'
 Vue.prototype.$img = img
