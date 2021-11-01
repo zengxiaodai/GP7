@@ -1,9 +1,14 @@
 const KoaRouter = require('@koa/router')
 const router = new KoaRouter()
+const checkToken = require('../middlewares/checkToken')
 
+// todolist
 const TD = require('../controllers/Todo')
 
-const GC = require('../controllers/vant/Good')
+// vue vant webapp
+const VG = require('../controllers/vant/Good')
+const VU = require('../controllers/vant/User')
+const VC = require('../controllers/vant/Cart')
 
 const v = '/api/v1'
 
@@ -13,7 +18,13 @@ router
 .get(`${v}/todo/delTodo`, TD.delTodo)
 .get(`${v}/todo/transferTodo`, TD.transferTodo)
 .post(`${v}/todo/updTodo`, TD.updTodo)
-.get(`${v}/vant/getGoodList`, GC.getGoodList)
-.get(`${v}/vant/getAllCate`, GC.getAllCates)
+
+.get(`${v}/vant/getGoodList`, VG.getGoodList)
+.get(`${v}/vant/getAllCate`, VG.getAllCates)
+.post(`${v}/vant/regist`, VU.regist)
+.post(`${v}/vant/login`, VU.login)
+.get(`${v}/vant/getGoodInfo`, VG.getGoodInfo)  // 这种接口不需要鉴权
+.post(`${v}/vant/addToCart`, checkToken, VC.addToCart)     // 这种接口要鉴权
+
 
 module.exports = router

@@ -7,7 +7,7 @@
   <div class="row" v-for='i in row' :key='i'>
     <!-- flex右一个右一个 -->
     <div class="row-wrap">
-      <div v-for='j in 2' :key='j'>
+      <div v-for='j in 2' :key='j' @click='skip(item(i,j))'>
         <div>
           <img :src="item(i,j).img" alt=""/>
           <div>
@@ -42,6 +42,9 @@ export default {
   methods: {
     item (i,j) {
       return this.list[2*i-3+j]
+    },
+    skip(item) {
+      this.$router.push("/good/detail/"+item._id)
     }
   }
 }

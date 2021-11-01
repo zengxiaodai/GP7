@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
+import store from '@/store'
 
 const Home = () => import('@/views/home/Home.vue')
+const Detail = () => import('@/views/home/Detail.vue')
+
 const Find = () => import('@/views/find/Find.vue')
 const Cart = () => import('@/views/cart/Cart.vue')
 const User = () => import('@/views/user/User.vue')
@@ -13,6 +16,7 @@ const router = new VueRouter({
   mode: 'hash',
   routes: [
     { path: '/', component: Home },
+    { path: '/good/detail/:id', component: Detail },
     { path: '/find', component: Find },
     { path: '/cart', component: Cart, meta:{ isAuth:true }},
     { path: '/user', component: User, meta:{ isAuth:true } },
@@ -31,10 +35,10 @@ router.beforeEach((to,from,next)=>{
   console.log('from', from)
   const { isAuth } = to.meta
   // 假设的一个登录标识
-  const isLogin = false
+  const token = store.state.user.token
   if (isAuth) {
     // 需要登录，才能过去
-    if (isLogin) next()
+    if (token) next()
     else location.href = '#/login'
     // else router.push('/login')
     // else next('/login')

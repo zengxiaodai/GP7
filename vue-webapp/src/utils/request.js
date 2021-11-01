@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { Toast } from 'vant'
+import store from '@/store'
 
 // const baseURL = 'https://c.y.qq.com'
 const baseURL = 'http://localhost:8001'
@@ -15,6 +17,7 @@ const instance = axios.create({
 // 给实例对象添加请求拦截器（出门）
 instance.interceptors.request.use(function (config) {
   // 添加token（鉴权信息）
+  config.headers.Authorization = store.state.user.token
   return config
 }, function (error) {
   return Promise.reject(error)
@@ -25,12 +28,17 @@ instance.interceptors.response.use(function (response) {
   // 做统一的错误处理
   if (response.status===200) {
     // 数据过滤
-    if(response.data && response.data.err===0) {
+    if (response.data && response.data.err===0) {
       return response.data.data
+    } else {
+      Toast.fail(response.data.msg)
     }
+  } else {
+    Toast.fail('网络异常')
   }
   return response
 }, function (error) {
+  Toast.fail('网络异常')
   return Promise.reject(error)
 })
 
