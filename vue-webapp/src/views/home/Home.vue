@@ -1,7 +1,7 @@
 <template>
 <div class="qf-home" style='font-size:20px;'>
 
-  <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+  <van-pull-refresh v-model="refreshing" @refresh="page=1">
 
     <!-- 通知栏 -->
     <van-notice-bar v-if='notice'>
@@ -74,11 +74,11 @@
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
-      @load="onLoad"
+      @load="page++"
       :immediate-check='false'
       offset='150'
     >
-      <GoodList :n='n' />
+      <GoodList :list='list' />
     </van-list>
   </van-pull-refresh>
 
@@ -110,9 +110,14 @@ export default {
       ],
       // 表示正在“触底加载”，如果当前加载正在进行，下一次load事件将不再被触发
       loading: false,
+
       finished: false,
+
       refreshing: false,
-      n: 0
+
+      list: [],
+      page: 1
+
     }
   },
   computed: {
@@ -120,30 +125,34 @@ export default {
       return this.hotArr[Math.floor(Math.random()*this.hotArr.length)].text
     }
   },
-  mounted(){
-    setTimeout(()=>{
-      this.n = 5
-    }, 1000)
+  created() {
+    this.getList()
+  },
+  watch: {
+    page() { this.getList() }
   },
   methods: {
+    getList() {
+      const params = { size: 6, page: this.page }
+      this.$api.fetchGoodList(params).then(res=>{
+        console.log('商品列表', res)
+        if (this.page==1) {
+          this.list = res.list
+          this.refreshing = false
+          this.finished = false
+        } else {
+          // 把分页数据合并到this.list上
+          this.list = [...this.list, ...res.list]
+          this.loading = false
+          // 判断是否到底了：判断数据库还有没有数据
+          this.finished = (this.list.length === res.total)
+        }
+        // 加载完成，保证下一次触底功能也是正常的
+        this.loading = false
+      })
+    },
     onLogin () {
       console.log('登录')
-    },
-    onRefresh(e) {
-      console.log('触发下拉刷新', e)
-      setTimeout(()=>{
-        this.refreshing = false
-        this.n = 5
-        this.finished = false
-      }, 1000)
-    },
-    onLoad(e) {
-      console.log('触发触底加载', e)
-      setTimeout(()=>{
-        this.n += 5
-        this.loading = false
-        if(this.n>=20) this.finished = true
-      },1000)
     }
   }
 }

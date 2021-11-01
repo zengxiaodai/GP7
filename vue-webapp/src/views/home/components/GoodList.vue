@@ -2,17 +2,20 @@
 
 <div class="qf-good-list">
   <!-- 商品列表 -->
-  <div class="row" v-for='i in n' :key='i'>
+
+  <!-- 一行 -->
+  <div class="row" v-for='i in row' :key='i'>
+    <!-- flex右一个右一个 -->
     <div class="row-wrap">
-      <div v-for='i in 2' :key='i'>
+      <div v-for='j in 2' :key='j'>
         <div>
-          <img src="//img20.360buyimg.com/mobilecms/s372x372_jfs/t1/140860/3/2760/413429/5f0b0012Eadd474b2/5ee5794705133196.jpg!q70.dpg.webp" alt=""/>
+          <img :src="item(i,j).img" alt=""/>
           <div>
             <span>ll</span>
-            <span>泉阳泉 长白山天然矿泉水 2L*6 整箱装</span>
+            <span v-text='item(i,j).desc'></span>
           </div>
           <div>
-            <span>￥36</span>
+            <span v-text='item(i,j).price'></span>
             <span>闪购</span>
             <span>看相似</span>
           </div>
@@ -29,7 +32,17 @@
 <script>
 export default {
   props: {
-    n: { type: Number, default: 0 }
+    list: { type: Array, required: true }
+  },
+  computed: {
+    row() {
+      return Math.floor(this.list.length/2)
+    }
+  },
+  methods: {
+    item (i,j) {
+      return this.list[2*i-3+j]
+    }
   }
 }
 </script>

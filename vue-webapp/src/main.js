@@ -59,8 +59,11 @@ Vue.use(Cell)
 Vue.use(Tag)
 Vue.use(Icon)
 
+// 原型链上尽量少放东西
 import img from '@/utils/img'
 Vue.prototype.$img = img
+import api from '@/api'
+Vue.prototype.$api = api
 
 new Vue({
   render: h => h(App),

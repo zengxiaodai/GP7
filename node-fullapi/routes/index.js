@@ -3,6 +3,8 @@ const router = new KoaRouter()
 
 const TD = require('../controllers/Todo')
 
+const GC = require('../controllers/vant/Good')
+
 const v = '/api/v1'
 
 router
@@ -11,5 +13,6 @@ router
 .get(`${v}/todo/delTodo`, TD.delTodo)
 .get(`${v}/todo/transferTodo`, TD.transferTodo)
 .post(`${v}/todo/updTodo`, TD.updTodo)
+.get(`${v}/vant/getGoodList`, GC.getGoodList)
 
 module.exports = router
