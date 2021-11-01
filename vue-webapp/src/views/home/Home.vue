@@ -129,7 +129,12 @@ export default {
     this.getList()
   },
   watch: {
-    page() { this.getList() }
+    loading() {
+      if(this.loading) this.getList()
+    },
+    refreshing() {
+      if(this.refreshing) this.getList()
+    }
   },
   methods: {
     getList() {

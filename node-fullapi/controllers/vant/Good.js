@@ -19,6 +19,7 @@ class GoodController {
 	  let list = await cateModel.find({})
 	  ctx.body = { err:0, msg:'success', data: {list} }
   }
+  
   static async getGoodInfo(ctx) {
 	  let { id } = ctx.request.query
 	  if(!id) return ctx.body = { err: 1, msg:'id是必填入参', data: {} }

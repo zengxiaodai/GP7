@@ -13,24 +13,26 @@
   <div class="wrap">
     <div class="left">
       <van-sidebar v-model="activeKey">
-        <van-sidebar-item v-for='i in 30' :key='i' title="礼品鲜花" />
+        <van-sidebar-item
+          v-for='item in cateArr'
+          :key='item._id'
+          :title="item.cate_zh"
+        />
       </van-sidebar>
     </div>
     <div class="right">
       <van-grid :column-num='3' :border='false'>
-        <van-grid-item v-for='i in 28' :key='i'>
+        <van-grid-item v-for='item in cache[activeKey]' :key='item._id'>
           <template>
             <div class="good">
-              <img src="//img20.360buyimg.com/focus/s140x140_jfs/t18280/1/2656168555/9439/7cab050f/5b029068N322d822c.jpg" alt=""/>
-              <div>狗狗活体</div>
+              <img :src="item.img" alt=""/>
+              <div v-text='item.name'></div>
             </div>
           </template>
         </van-grid-item>
       </van-grid>
     </div>
   </div>
-
-
 
   <QfTabBar />
 </div>
@@ -39,6 +41,7 @@
 
 <script>
 import { QfTabBar, QfNavBar } from '@/components'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'Find',
   components: {
@@ -47,8 +50,34 @@ export default {
   },
   data() {
     return {
-      activeKey: 0
+      activeKey: 0,
+      cateArr: [],
+      goodArr: []
     }
+  },
+  computed: {
+    ...mapState('good', ['cache']),
+    payload() {
+      const idx = this.activeKey
+      return {idx,cate:this.cateArr[idx].cate}
+    }
+  },
+  watch: {
+    activeKey() {
+      // 先判断cache缓存中是否有当前activeKey所对应的数据
+      // Y-直接使用，不调接口
+      // N-再走vuex流程
+      if(!this.cache[this.activeKey]) this.getList(this.payload)
+    }
+  },
+  async created() {
+    const res = await this.$api.fetchAllCate()
+    this.cateArr = res.list
+    // 触发并调用actions方法
+    this.getList(this.payload)
+  },
+  methods: {
+    ...mapActions('good', ['getList'])
   }
 }
 </script>
@@ -61,7 +90,6 @@ export default {
     right: 0;
     left: 0;
     top: 1.07rem;
-    background-color: #ccc;
     .left {
       position: absolute;
       bottom: 0;
