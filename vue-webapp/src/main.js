@@ -34,7 +34,8 @@ import {
   Toast,
   GoodsAction,
   GoodsActionIcon,
-  GoodsActionButton
+  GoodsActionButton,
+  Dialog
 } from 'vant'
 Vue.use(Button)
 Vue.use(Tabbar)
@@ -67,6 +68,7 @@ Vue.use(Toast)
 Vue.use(GoodsAction)
 Vue.use(GoodsActionButton)
 Vue.use(GoodsActionIcon)
+Vue.use(Dialog)
 
 // 原型链上尽量少放东西
 import img from '@/utils/img'

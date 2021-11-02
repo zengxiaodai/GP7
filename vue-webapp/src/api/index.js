@@ -25,6 +25,22 @@ export function fetchCartAdd(data) {
   return request({url:'/vant/addToCart', method:'POST', data})
 }
 
+export function fetchCartList(params) {
+  return request({url:'/vant/cartList',method:'GET', params})
+}
+
+export function fetchCartDel(params) {
+  return request({url:'/vant/cartDel',method:'GET', params})
+}
+
+export function fetchCartUpd(params) {
+  return request({url:'/vant/cartUpd',method:'GET', params})
+}
+
+export function fetchCartSubmit(data) {
+  return request({url:'/vant/cartSubmit',method:'POST', data})
+}
+
 // 模块化语法的最佳实践
 // 如果只一个“东西”要抛出，建议用export default
 // 如果有多个“东西”要抛出，建议用export按需抛出，还要使用export default抛出一个“最重要”的东西
@@ -35,5 +51,9 @@ export default {
   fetchLogin,
   fetchRegist,
   fetchGoodInfo,
-  fetchCartAdd
+  fetchCartAdd,
+  fetchCartList,
+  fetchCartDel,
+  fetchCartUpd,
+  fetchCartSubmit
 }

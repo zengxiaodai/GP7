@@ -15,6 +15,9 @@ export default {
       // 强制深复制一次
       // state.cache = JSON.parse(JSON.stringify(state.cache))
       state.cache = deepCopy(state.cache)
+    },
+    cleanCache(state) {
+      state.cache = {}
     }
   },
   actions: {

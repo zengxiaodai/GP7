@@ -6,7 +6,7 @@
     route
   >
     <van-tabbar-item
-      v-for='tab in tabArr'
+      v-for='tab in tabArr2'
       :to='tab.path'
       :key='tab.id'
       :dot='tab.dot'
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import deepCopy from '@/utils/copy'
 export default {
   data() {
     return {
@@ -33,6 +35,17 @@ export default {
         { id: 3, icon: 'Cart', path: '/cart', text: '购物车', dot: false },
         { id: 4, icon: 'User', path: '/user', text: '未登录', dot: false }
       ]
+    }
+  },
+  computed: {
+    ...mapState('user', ['token']),
+    tabArr2() {
+      // 以后做这种鉴权判断，建议使用用户信息
+      const arr = deepCopy(this.tabArr)
+      if (this.token) {
+        arr[3].text = '我的'
+      }
+      return arr
     }
   }
 }

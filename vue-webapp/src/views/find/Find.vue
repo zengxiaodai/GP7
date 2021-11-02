@@ -41,7 +41,7 @@
 
 <script>
 import { QfTabBar, QfNavBar } from '@/components'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapMutations } from 'vuex'
 export default {
   name: 'Find',
   components: {
@@ -77,7 +77,11 @@ export default {
     this.getList(this.payload)
   },
   methods: {
-    ...mapActions('good', ['getList'])
+    ...mapActions('good', ['getList']),
+    ...mapMutations('good', ['cleanCache'])
+  },
+  beforeDestroy() {
+    this.cleanCache()
   }
 }
 </script>

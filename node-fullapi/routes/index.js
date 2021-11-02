@@ -25,6 +25,10 @@ router
 .post(`${v}/vant/login`, VU.login)
 .get(`${v}/vant/getGoodInfo`, VG.getGoodInfo)  // 这种接口不需要鉴权
 .post(`${v}/vant/addToCart`, checkToken, VC.addToCart)     // 这种接口要鉴权
+.get(`${v}/vant/cartList`, checkToken, VC.getCartList)
+.get(`${v}/vant/cartDel`, checkToken, VC.delCartItem)
+.get(`${v}/vant/cartUpd`, checkToken, VC.updCartCount)
+.post(`${v}/vant/cartSubmit`, checkToken, VC.submitCart)
 
 
 module.exports = router

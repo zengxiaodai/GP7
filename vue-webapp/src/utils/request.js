@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Toast } from 'vant'
 import store from '@/store'
+import router from '@/router'
 
 // const baseURL = 'https://c.y.qq.com'
 const baseURL = 'http://localhost:8001'
@@ -30,6 +31,10 @@ instance.interceptors.response.use(function (response) {
     // 数据过滤
     if (response.data && response.data.err===0) {
       return response.data.data
+    } else if (response.data.err===-1) {
+      store.commit('user/updateToken', null)
+      localStorage.removeItem('token')
+      router.replace('/login')
     } else {
       Toast.fail(response.data.msg)
     }
