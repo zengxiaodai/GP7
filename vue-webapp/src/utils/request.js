@@ -32,9 +32,10 @@ instance.interceptors.response.use(function (response) {
     if (response.data && response.data.err===0) {
       return response.data.data
     } else if (response.data.err===-1) {
+      console.log('router', router)
       store.commit('user/updateToken', null)
       localStorage.removeItem('token')
-      router.replace('/login')
+      // router.replace('/login')
     } else {
       Toast.fail(response.data.msg)
     }

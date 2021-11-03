@@ -82,8 +82,8 @@ import router from '@/router'
 // <button v-auth>加入购物车</button>
 
 Vue.directive('auth', function(el){
-  const token = store.state.user.token
-  if (!token) {
+  const userinfo = store.state.user.userinfo
+  if (!userinfo || !userinfo._id) {
     el.style.position = 'relative'
     const oDiv = document.createElement('div')
     oDiv.style.position = 'absolute'
@@ -98,6 +98,15 @@ Vue.directive('auth', function(el){
     })
     el.appendChild(oDiv)
   }
+})
+
+Vue.directive('scroll', function(el){
+  el.style.position = 'absolute'
+  el.style.top = 0
+  el.style.bottom = 0
+  el.style.left = 0
+  el.style.right = 0
+  el.style.overflow = 'scroll'
 })
 
 new Vue({

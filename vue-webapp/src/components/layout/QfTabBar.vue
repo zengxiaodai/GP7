@@ -38,11 +38,11 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['token']),
+    ...mapState('user', ['userinfo']),
     tabArr2() {
       // 以后做这种鉴权判断，建议使用用户信息
       const arr = deepCopy(this.tabArr)
-      if (this.token) {
+      if (this.userinfo && this.userinfo._id) {
         arr[3].text = '我的'
       }
       return arr

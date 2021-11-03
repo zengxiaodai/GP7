@@ -29,6 +29,7 @@ router
 .get(`${v}/vant/cartDel`, checkToken, VC.delCartItem)
 .get(`${v}/vant/cartUpd`, checkToken, VC.updCartCount)
 .post(`${v}/vant/cartSubmit`, checkToken, VC.submitCart)
+.get(`${v}/vant/getUserInfo`, checkToken, VU.getUserInfo)
 
 
 module.exports = router

@@ -1,13 +1,17 @@
-import { fetchLogin } from '@/api'
+import { fetchLogin, fetchUserInfo } from '@/api'
 
 export default {
   namespaced: true,
   state: {
-    token: localStorage.getItem('token')
+    token: localStorage.getItem('token'),
+    userinfo: {}
   },
   mutations: {
     updateToken(state, token) {
       state.token = token
+    },
+    updateUserInfo(state, payload) {
+      state.userinfo = payload
     }
   },
   actions: {
@@ -18,6 +22,11 @@ export default {
           localStorage.setItem('token', res.token)
           resolve()
         })
+      })
+    },
+    getUserInfo({commit}) {
+      fetchUserInfo().then(res=>{
+        commit('updateUserInfo', res.userinfo)
       })
     }
   }

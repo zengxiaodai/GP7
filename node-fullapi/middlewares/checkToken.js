@@ -12,7 +12,7 @@ module.exports = async (ctx, next) => {
       // 只有成功时，才去到下一个中间件
       await next()
     } catch(err) {
-      console.log('err', err)
+      // console.log('err', err)
       ctx.body = { err: -1, msg: 'token无效', data: {}}
       // 如果失败，都不能交给下一个中间件
     }

@@ -1,5 +1,10 @@
 <template>
-<div class="qf-home" style='font-size:20px;'>
+<div
+  class="qf-home"
+  style='font-size:20px;'
+  v-scroll
+  ref='page'
+  @scroll='top=$event.srcElement.scrollTop'>
 
   <van-pull-refresh v-model="refreshing" @refresh="page=1">
 
@@ -89,11 +94,14 @@
 <script>
 import { QfTabBar } from '@/components'
 import GoodList from './components/GoodList.vue'
+import { Swipe, Grid } from 'vant'
 export default {
   name: 'Home',
   components: {
     QfTabBar,
-    GoodList
+    GoodList,
+    [Swipe.name]: Swipe,
+    [Grid.name]: Grid
   },
   data() {
     return {
@@ -110,14 +118,11 @@ export default {
       ],
       // 表示正在“触底加载”，如果当前加载正在进行，下一次load事件将不再被触发
       loading: false,
-
       finished: false,
-
       refreshing: false,
-
       list: [],
-      page: 1
-
+      page: 1,
+      top: 0    // 记录滚动条的位置
     }
   },
   computed: {
@@ -125,8 +130,10 @@ export default {
       return this.hotArr[Math.floor(Math.random()*this.hotArr.length)].text
     }
   },
-  created() {
-    this.getList()
+  created() { this.getList() },
+  activated() {
+    // 每次页面激活时，把页面滚动到上次离开时的位置
+    this.$refs.page.scrollTop = this.top
   },
   watch: {
     loading() {

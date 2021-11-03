@@ -24,6 +24,13 @@ class UserController {
       ctx.body = { err: 1, msg: '用户名和密码不匹配', data: {}}
     }
   }
+  
+  // 用户信息接口:前端传token过来,后端验证成功返回完整的用户信息.
+  static async getUserInfo(ctx) {
+	  const u = ctx.user
+	  const userinfo = await userModel.findOne({_id: u._id})
+	  ctx.body = { err: 0, msg: '成功', data: { userinfo }}
+  }
 }
 
 module.exports = UserController

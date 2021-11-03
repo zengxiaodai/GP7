@@ -15,7 +15,7 @@ const Regist = () => import('@/views/user/Regist.vue')
 const router = new VueRouter({
   mode: 'hash',
   routes: [
-    { path: '/', component: Home },
+    { path: '/', components: { alive: Home } },
     { path: '/good/detail/:id', component: Detail },
     { path: '/find', component: Find },
     { path: '/cart', component: Cart, meta:{ isAuth:true }},
@@ -36,6 +36,11 @@ router.beforeEach((to,from,next)=>{
   const { isAuth } = to.meta
   // 假设的一个登录标识
   const token = store.state.user.token
+  const userinfo = store.state.user.userinfo
+  if (token && (userinfo && !userinfo._id)) {
+    // 当token存在、userinfo不存在时，触发一个action方法去获取用户信息，并放进vuex中。
+    store.dispatch('user/getUserInfo')
+  }
   if (isAuth) {
     // 需要登录，才能过去
     if (token) next()
