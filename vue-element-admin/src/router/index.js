@@ -1,20 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 
-/* Layout */
+/* 引入布局组件 */
 import Layout from '@/layout'
 
-/* Router Modules */
-// import componentsRouter from './modules/components'
-// import chartsRouter from './modules/charts'
-// import tableRouter from './modules/table'
-// import nestedRouter from './modules/nested'
+/* 四个分组的路由规则 */
+import componentsRouter from './modules/components'
+import chartsRouter from './modules/charts'
+import tableRouter from './modules/table'
+import nestedRouter from './modules/nested'
 
 /**
- * Note: sub-menu only appear when route children.length >= 1
- * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
+ 在路由规则上添加的一些自定义字段
  *
  * hidden: true                   if set true, item will not show in the sidebar(default is false)
  * alwaysShow: true               if set true, will always show the root menu
@@ -34,9 +32,7 @@ import Layout from '@/layout'
  */
 
 /**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
+  静态路由规则，所有用户都能访问的页面（没有权限的页面）
  */
 export const constantRoutes = [
   {
@@ -125,8 +121,7 @@ export const constantRoutes = [
 ]
 
 /**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
+ 动态路由规则，要根据当前登录的用户角色进行配置（有权限的页面）
  */
 export const asyncRoutes = [
   {
@@ -142,7 +137,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'page',
+        path: 'page', // /permission/page
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -184,11 +179,11 @@ export const asyncRoutes = [
     ]
   },
 
-  /** when your routing map is too long, you can split it into small modules **/
-  // componentsRouter,
-  // chartsRouter,
-  // nestedRouter,
-  // tableRouter,
+  /** 当嵌套视图（children）太多时，建议封装起来 **/
+  componentsRouter,
+  chartsRouter,
+  nestedRouter,
+  tableRouter,
 
   {
     path: '/example',
@@ -383,22 +378,32 @@ export const asyncRoutes = [
     ]
   },
 
-  // 404 page must be placed at the end !!!
+  // 重定向规则必须放在最一条
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+// 封装“创建router”的方法
+function createRouter() {
+  return new Router({
+    mode: 'hash',
+    // 路由规则，在这里只考虑了静态路由规则
+    // 思考：那么那些动态路由规则是如何起作用的？（路由守卫）
+    routes: constantRoutes,
+    scrollBehavior: () => ({ y: 0 })
+  })
+}
 
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+// 在什么情况下需要重置所有的路由规则？当用户角色发生变化时。
 export function resetRouter() {
+  // 创建一个新的router，进行路由规则重置
   const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
+  router.matcher = newRouter.matcher
 }
+
+// 为什么路由守卫的代码没有写在这里？
+// 因为它太重要，所以封装到src根目录里 permission.js。
 
 export default router

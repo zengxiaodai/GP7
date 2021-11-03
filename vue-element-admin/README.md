@@ -2,6 +2,13 @@
 
 - 开源地址：https://github.com/PanJiaChen/vue-element-admin
 
+- 项目运行遇到问题：
+  - 把package.json中tui-editor删掉。
+  - 把src/components/MarkdownEditor/index.vue中与tui-editor有关的代码注释掉。
+  - 用`yarn`安装node_modules包。
+  - 执行`yarn add core-js`安装core-js。
+  - 重启项目`npm start`。
+
 
 # 分析项目的流程
 
