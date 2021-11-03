@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { Toast } from 'vant'
 import store from '@/store'
-import router from '@/router'
 
 // const baseURL = 'https://c.y.qq.com'
 const baseURL = 'http://localhost:8001'
@@ -31,11 +30,9 @@ instance.interceptors.response.use(function (response) {
     // 数据过滤
     if (response.data && response.data.err===0) {
       return response.data.data
-    } else if (response.data.err===-1) {
-      console.log('router', router)
-      store.commit('user/updateToken', null)
-      localStorage.removeItem('token')
-      // router.replace('/login')
+    } else if (response.data.err === -1) {
+      return response.data.data
+      // 在这里不再做跳转/login，我改在App中去实现
     } else {
       Toast.fail(response.data.msg)
     }

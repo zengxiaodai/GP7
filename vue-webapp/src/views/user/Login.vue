@@ -43,6 +43,9 @@ export default {
       }
     }
   },
+  created() {
+    console.log('login page created')
+  },
   methods: {
     ...mapActions('user', ['login']),
     onSubmit() {

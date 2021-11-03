@@ -35,15 +35,10 @@ router.beforeEach((to,from,next)=>{
   console.log('from', from)
   const { isAuth } = to.meta
   // 假设的一个登录标识
-  const token = store.state.user.token
   const userinfo = store.state.user.userinfo
-  if (token && (userinfo && !userinfo._id)) {
-    // 当token存在、userinfo不存在时，触发一个action方法去获取用户信息，并放进vuex中。
-    store.dispatch('user/getUserInfo')
-  }
   if (isAuth) {
     // 需要登录，才能过去
-    if (token) next()
+    if (userinfo._id) next()
     else location.href = '#/login'
     // else router.push('/login')
     // else next('/login')

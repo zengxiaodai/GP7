@@ -24,9 +24,12 @@ export default {
         })
       })
     },
-    getUserInfo({commit}) {
-      fetchUserInfo().then(res=>{
-        commit('updateUserInfo', res.userinfo)
+    getUserInfo() {
+      return new Promise(resolve=>{
+        fetchUserInfo().then(res=>{
+          // commit('updateUserInfo', res.userinfo)
+          resolve(res)
+        })
       })
     }
   }
