@@ -4,9 +4,7 @@ Vue.use(Router)
 
 /* 引入布局组件 */
 import Layout from '@/layout'
-import demoRoutes from './demoRoutes'
-
-
+// import demoRoutes from './demoRoutes'
 
 /**
  在路由规则上添加的一些自定义字段
@@ -72,46 +70,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/documentation',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/documentation/index'),
-        name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/guide',
-    component: Layout,
-    redirect: '/guide/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: 'Guide', icon: 'guide', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/profile',
-    component: Layout,
-    redirect: '/profile/index',
-    hidden: true,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/profile/index'),
-        name: 'Profile',
-        meta: { title: 'Profile', icon: 'user', noCache: true }
+        meta: { title: '首页大屏', icon: 'dashboard', affix: true }
       }
     ]
   }
@@ -122,9 +81,27 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   // 写我们公司自己的业务页面。。。
+  {
+    path: '/good',
+    component: Layout,
+    meta: { title: '商品管理', icon: 'el-icon-goods' },
+    children: [
+      {
+        path: 'list',
+        component: ()=>import('@/views/good/good-list'),
+        name: 'GoodList',
+        meta: { title: '商品列表', icon: 'el-icon-sugar', noCache: false }
+      },
+      {
+        path: 'cate',
+        component: ()=>import('@/views/good/cate-manage'),
+        name: 'CateManage',
+        meta: { title: '品类管理', icon: 'el-icon-food', noCache: false }
+      },
+    ]
+  },
 
   // ...demoRoutes,
-
   // 重定向规则必须放在最一条
   { path: '*', redirect: '/404', hidden: true }
 ]
