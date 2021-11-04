@@ -93,6 +93,20 @@ export const asyncRoutes = [
         meta: { title: '商品列表', icon: 'el-icon-sugar', noCache: false }
       },
       {
+        path: 'add',
+        component: ()=>import('@/views/good/good-form'),
+        hidden: true,
+        name: 'GoodAdd',
+        meta: { title: '商品新增', icon: 'el-icon-sugar', noCache: false }
+      },
+      {
+        path: 'edit/:id',
+        component: ()=>import('@/views/good/good-form'),
+        hidden: true,
+        name: 'GoodEdit',
+        meta: { title: '商品编辑', icon: 'el-icon-sugar', noCache: false }
+      },
+      {
         path: 'cate',
         component: ()=>import('@/views/good/cate-manage'),
         name: 'CateManage',
