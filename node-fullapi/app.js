@@ -8,7 +8,8 @@ app.use(require('koa-static')(path.resolve(__dirname, 'public')))
 require('./utils/connect')
 
 // 用于解析body体中数据的中间件
-app.use(require('koa-body')())
+// 开启koa-body对文件数据的解析，默认只能普通post提交的body数据
+app.use(require('koa-body')({multipart:true}))
 
 // 动态资源
 app.use(require('./routes/index').routes())

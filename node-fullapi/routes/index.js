@@ -14,6 +14,8 @@ const VC = require('../controllers/vant/Cart')
 const EU = require('../controllers/element/User')
 const EG = require('../controllers/element/Good')
 
+const UP = require('../controllers/Upload')
+
 
 const v = '/api/v1'
 
@@ -39,6 +41,10 @@ router
 .post(`${v}/element/login`, EU.login)
 .get(`${v}/element/getUserInfo`, checkToken, EU.getUserInfo)
 .get(`${v}/element/good/list`, checkToken, EG.goodList)
+.post(`${v}/element/good/add/edit`, checkToken, EG.goodAddOrEdit)
+.get(`${v}/element/all/cate`, checkToken, EG.getAllCate)
+
+.post(`${v}/upload/img`, UP.imgUpload)
 
 
 

@@ -4,7 +4,7 @@
     <el-form
       :model="ruleForm"
       :rules="rules"
-      ref="ruleForm"
+      ref="form"
       label-width="100px"
       class="demo-ruleForm">
       <el-form-item label="商品名称" prop="name">
@@ -30,14 +30,16 @@
       <el-form-item label="商品价格" prop="price">
         <el-input-number v-model="ruleForm.price" controls-position="right" :min="0" />
       </el-form-item>
+
       <el-form-item label="商品图片" prop="img">
-        <SingleImage />
+        <SingleImage v-model='ruleForm.img' />
       </el-form-item>
+
     </el-form>
   </div>
 
   <div class="btns" :style='{left: left+"px"}'>
-    <el-button type="primary" disabled @click="submitForm">添加</el-button>
+    <el-button type="primary" @click="submitForm">添加</el-button>
     <el-button>取消</el-button>
   </div>
 </div>
@@ -66,7 +68,7 @@ export default {
           { required: true, message: '请输入商品名称', trigger: 'blur' },
           { min: 2, message: '商品名称不能少于两个字', trigger: 'blur' },
           { max: 8, message: '商品名称不能多于八个字', trigger: 'blur' },
-          { pattern: /[a-zA-Z]{2,8}$/, message:'商品名称只能2~8字', trigger:'blur' }
+          // { pattern: /[a-zA-Z]{2,8}$/, message:'商品名称只能2~8字', trigger:'blur' }
         ],
         price: [
           { required: true, message: '请输入商品价格', trigger: 'blur' },
@@ -89,6 +91,24 @@ export default {
   methods: {
     submitForm() {
       console.log('提交', this.ruleForm)
+      this.$api.fetchGoodForm(this.ruleForm).then(()=>{
+        console.log('商品添加成功')
+        this.$message({
+          message: '商品添加成功',
+          type: 'success'
+        })
+        setTimeout(()=>this.$router.replace('/good/list'), 3000)
+      })
+
+      // this.$refs.form.validate((valid) => {
+      //   console.log('valid', valid)
+      //   if (valid) {
+      //
+      //   } else {
+      //     console.log('error submit!!');
+      //     return false;
+      //   }
+      // })
     }
   }
 }
@@ -114,6 +134,6 @@ export default {
 </style>
 <style>
 .image-preview {
-  display: none;
+  /* display: none; */
 }
 </style>

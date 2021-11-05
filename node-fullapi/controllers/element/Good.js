@@ -20,8 +20,30 @@ class Good {
     if (checked===undefined) delete params.checked
     // 一切准备到位，可以开始查询了
     const total = await goodModel.find(params).count()
-    const list = await goodModel.find(params).limit(size).skip((page-1)*size).sort({create_time:0})
+    const list = await goodModel.find(params).limit(size).skip((page-1)*size).sort({create_time:-1})
     ctx.body = { err: 0, msg: 'success', data: {total,list}}
+  }
+
+  // 编辑与新增
+  static async goodAddOrEdit(ctx) {
+    let { id, name, desc, price, img, cate, hot } = ctx.request.body
+    // 有id是编辑，没有id是新增
+    // 对所有的必填参数进行数据校验
+    let ele = {
+      name,
+      desc,
+      price,
+      img,
+      cate
+    }
+    const info = await goodModel.insertMany([ele])
+    ctx.body = { err: 0, msg: 'success', data: {info} }
+  }
+
+  // 获取所有品类
+  static async getAllCate(ctx) {
+    const list = await cateModel.find({})
+    ctx.body = { err: 0, msg:'success', data: { list } }
   }
 }
 

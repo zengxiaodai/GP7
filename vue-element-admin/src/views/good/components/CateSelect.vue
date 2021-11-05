@@ -4,7 +4,7 @@
     <el-option value=''>全部</el-option>
     <el-option
       v-for="item in cateArr"
-      :key="item.id"
+      :key="item._id"
       :label="item.cate_zh"
       :value="item.cate">
     </el-option>
@@ -16,14 +16,13 @@
 export default {
   data() {
     return {
-      cateArr: [
-        { id: 1, cate:'drink1', cate_zh: '酒水饮料1' },
-        { id: 2, cate:'drink2', cate_zh: '酒水饮料2' },
-        { id: 3, cate:'drink3', cate_zh: '酒水饮料3' },
-        { id: 4, cate:'drink4', cate_zh: '酒水饮料4' }
-      ],
+      cateArr: [],
       cate: ''
     }
+  },
+  async mounted() {
+    const res = await this.$api.fetchAllCate()
+    this.cateArr = res.list
   }
 }
 </script>

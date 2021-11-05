@@ -52,6 +52,10 @@ Vue.config.productionTip = false
 import api from '@/api'
 Vue.prototype.$api = api
 
+// 全局指令
+import permission from '@/directive/permission'
+Vue.use(permission)
+
 new Vue({
   el: '#app',
   router,

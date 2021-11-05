@@ -7,8 +7,8 @@
           style='width:120px;'
           v-model="filter.name"
           placeholder="商品名称"
-          @clear='filterChange(1)'
-          @change='filterChange(2)'
+          @clear='count++'
+          @change='count++'
           clearable
         />
         <CateSelect style="width:120px;" />
@@ -45,7 +45,7 @@
         align='center'>
         <template slot-scope='scope'>
           <div class="good">
-            <img :src="scope.row.img" alt="" />
+            <img :src='`http://localhost:9999${scope.row.img}`' alt="" />
             <div v-text='scope.row.name' />
           </div>
         </template>
@@ -83,6 +83,9 @@
         prop="checked"
         align='center'
         label="审核状态">
+        <template slot-scope='scope'>
+          <div>{{scope.row.checked?"审核通过":"待审核"}}</div>
+        </template>
       </el-table-column>
       <el-table-column
         prop="handle"
@@ -91,7 +94,7 @@
         label="操作">
         <template>
           <div>
-            <el-button size='mini' type="info">审核</el-button>
+            <el-button v-permission='["admin"]' size='mini' type="info">审核</el-button>
             <el-button size='mini' type="primary">编辑</el-button>
             <el-button size='mini' type="danger">删除</el-button>
           </div>
@@ -134,18 +137,30 @@ export default {
         size: 2
       },
       goodArr: [],
-      total: 0
+      total: 0,
+      isPageChange: false
     }
   },
   computed: {
     params() {
       // filter是用于表单双向绑定的。
       // 对filter数据进行二次处理
-      return this.filter
+      return { ...this.filter }
     }
   },
   created() { this.init() },
   watch: {
+    // params(newF, oldF) {
+    //   console.log('newF', newF)
+    //   console.log('oldF', oldF)
+    //   let page = newF.page
+    //   if (newF.page === oldF.page) {
+    //     console.log('非page变化')
+    //     page = 1
+    //   }
+    //   console.log('page变化')
+    //   this.init({...newF, page})
+    // },
     count() { this.init() }
   },
   filters: {
@@ -158,20 +173,30 @@ export default {
   },
   methods: {
     init() {
-      this.$api.fetchGoodList(this.params)
+      let params = this.params
+      if (!this.isPageChange) {
+        params = { ...params, page: 1 }
+      }
+      this.$api.fetchGoodList(params)
         .then(res=>{
           console.log('商品列表', res)
           this.goodArr = res.list
           this.total = res.total
+          this.isPageChange = false
         })
     },
-    filterChange (idx) {
-      // 触发搜索
+    sizeChange (val) {
+      this.filter.size = val
       this.count++
+      this.$forceUpdate()
     },
-    pageChange(page) {this.filter.page=page; this.count++},
-    sizeChange(size) {this.filter.size=size; this.count++},
-    skipToForm() { this.$router.push('/good/add') }
+    pageChange(val) {
+      this.filter.page = val
+      this.isPageChange = true
+      this.count++
+      this.$forceUpdate()
+    },
+    skipToForm() { this.$router.push('/good/add') },
   }
 }
 </script>

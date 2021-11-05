@@ -1,5 +1,7 @@
 <template>
   <div class="upload-container">
+    <!-- action是图片上传的接口地址 -->
+    <!-- name是后端接收图片的属性 -->
     <el-upload
       :data="dataObj"
       :multiple="false"
@@ -7,14 +9,18 @@
       :on-success="handleImageSuccess"
       class="image-uploader"
       drag
-      action="https://httpbin.org/post"
+      action="http://localhost:8002/api/v1/upload/img"
+      name='img'
     >
-      <i class="el-icon-upload" />
-      <div class="el-upload__text">
-        将文件拖到此处，或<em>点击上传</em>
+      <div v-if='!value'>
+        <i class="el-icon-upload" />
+        <div class="el-upload__text">
+          将文件拖到此处，或<em>点击上传</em>
+        </div>
       </div>
+      <img v-else :src='`http://localhost:9999${value}`' alt=""/>
     </el-upload>
-    <div class="image-preview">
+    <div class="image-preview" style="display:none;">
       <div v-show="imageUrl.length>1" class="image-preview-wrapper">
         <img :src="imageUrl+'?imageView2/1/w/200/h/200'">
         <div class="image-preview-action">
@@ -54,8 +60,10 @@ export default {
     emitInput(val) {
       this.$emit('input', val)
     },
-    handleImageSuccess() {
-      this.emitInput(this.tempUrl)
+    handleImageSuccess(response) {
+      console.log('el-upload图片传成功', response.data.img)
+      // this.emitInput(this.tempUrl)
+      this.emitInput(response.data.img)
     },
     beforeUpload() {
       const _self = this
@@ -81,8 +89,15 @@ export default {
     @import "~@/styles/mixin.scss";
     .upload-container {
         width: 100%;
+        width: 200px;
+        height: 200px;
         position: relative;
         @include clearfix;
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
         .image-uploader {
             width: 60%;
             float: left;
