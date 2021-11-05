@@ -42,7 +42,8 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    // 货币数据（自已）
+    // this.fetchData()
   },
   methods: {
     fetchData() {

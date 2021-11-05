@@ -109,6 +109,7 @@ export default {
   text-align: center;
   line-height: 60px;
   border-top: 1px solid #eee;
+  transition: left 0.28s;
 }
 </style>
 <style>

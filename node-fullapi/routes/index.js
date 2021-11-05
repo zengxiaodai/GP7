@@ -12,6 +12,8 @@ const VC = require('../controllers/vant/Cart')
 
 // vue-element-admin
 const EU = require('../controllers/element/User')
+const EG = require('../controllers/element/Good')
+
 
 const v = '/api/v1'
 
@@ -36,6 +38,8 @@ router
 
 .post(`${v}/element/login`, EU.login)
 .get(`${v}/element/getUserInfo`, checkToken, EU.getUserInfo)
+.get(`${v}/element/good/list`, checkToken, EG.goodList)
+
 
 
 module.exports = router

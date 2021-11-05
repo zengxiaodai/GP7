@@ -49,6 +49,9 @@ if (process.env.NODE_ENV === 'production') {
 
 Vue.config.productionTip = false
 
+import api from '@/api'
+Vue.prototype.$api = api
+
 new Vue({
   el: '#app',
   router,
