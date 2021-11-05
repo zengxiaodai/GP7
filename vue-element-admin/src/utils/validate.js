@@ -85,3 +85,10 @@ export function isArray(arg) {
   }
   return Array.isArray(arg)
 }
+
+// 一些公共的表单验证方法
+export function checkPrice(rule, value, callback) {
+  if (value <= 0) {
+    callback(new Error('价格不能小于0'));
+  }
+}

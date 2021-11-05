@@ -36,7 +36,7 @@
     </el-form>
   </div>
 
-  <div class="btns">
+  <div class="btns" :style='{left: left+"px"}'>
     <el-button type="primary" disabled @click="submitForm">添加</el-button>
     <el-button>取消</el-button>
   </div>
@@ -46,10 +46,13 @@
 <script>
 import CateSelect from './components/CateSelect'
 import SingleImage from '@/components/Upload/SingleImage'
+import { mapState } from 'vuex'
+import { checkPrice } from '@/utils/validate'
 export default {
   name: 'GoodForm',
   components: { CateSelect, SingleImage },
   data() {
+    // do something
     return {
       ruleForm: {
         img: '',
@@ -62,9 +65,25 @@ export default {
         name: [
           { required: true, message: '请输入商品名称', trigger: 'blur' },
           { min: 2, message: '商品名称不能少于两个字', trigger: 'blur' },
-          { max: 8, message: '商品名称不能多于八个字', trigger: 'blur' }
+          { max: 8, message: '商品名称不能多于八个字', trigger: 'blur' },
+          { pattern: /[a-zA-Z]{2,8}$/, message:'商品名称只能2~8字', trigger:'blur' }
+        ],
+        price: [
+          { required: true, message: '请输入商品价格', trigger: 'blur' },
+          { validator: checkPrice, trigger: 'blur' }
         ]
       }
+    }
+  },
+  computed: {
+    ...mapState('app',['sidebar','device']),
+    // 计算属性，可以任何__ob__变量进行计算
+    left() {
+      let l = 0
+      if (this.device!=='mobile') {
+        l = this.sidebar.opened ? 210 : 54
+      }
+      return l
     }
   },
   methods: {

@@ -56,6 +56,8 @@ router.beforeEach(async(to, from, next) => {
           const { roles } = await store.dispatch('user/getInfo')
           // 在这里，已经拿到了roles（用户的角色信息）
 
+          console.log('---roles', roles)
+
           // generate accessible routes map based on roles
           // 根据roles（用户的角色信息）生成当前用户可访问的路由规则
 

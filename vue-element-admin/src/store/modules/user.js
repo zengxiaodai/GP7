@@ -35,12 +35,12 @@ const actions = {
     // const { username, password } = payload
     return new Promise((resolve, reject) => {
       // 开始真正调接口
-      login(payload).then(response => {
-        const { data } = response
+      login(payload).then(data => {
+        const { token } = data
         // 把login登录成功返回的token放进vuex中
-        commit('SET_TOKEN', data.token)
+        commit('SET_TOKEN', token)
         // 把login登录成功返回的token放进Cookie中
-        setToken(data.token)
+        setToken(token)
         // 给.then()使用
         resolve()
       }).catch(error => {
@@ -56,15 +56,15 @@ const actions = {
     return new Promise((resolve, reject) => {
       // 真正调接口获取用户信息
       // 注意：这个作者是用query参数的方式向后端传递token的
-      getInfo(state.token).then(response => {
-        const { data } = response
+      getInfo({}).then(data => {
+        const { userinfo } = data
         // 如果data不存在，这说明token要么是假的，要么过期了。
         // 注意：为了配合这个异常，当拿不到用户信息时，希望data是null/undefined
-        if (!data) {
+        if (!userinfo) {
           reject('Verification failed, please Login again.')
         }
         // 在这里肯定拿到了用户信息
-        const { roles, name, avatar, introduction } = data
+        const { roles, name, avatar, introduction } = userinfo
         // 注意：roles必须是一个“非空数组”，像这样 ['admin']
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
@@ -75,7 +75,7 @@ const actions = {
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
         // 给.then()使用
-        resolve(data)
+        resolve(userinfo)
       }).catch(error => {
         reject(error)
       })
