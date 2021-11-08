@@ -22,7 +22,7 @@
           end-placeholder="结束日期">
         </el-date-picker>
         <el-button type="primary" icon="el-icon-search" @click='count++'>搜索</el-button>
-        <el-button type="primary" icon="el-icon-edit" @click='skipToForm'>新增</el-button>
+        <el-button v-permission='["editor"]' type="primary" icon="el-icon-edit" @click='skipToForm'>新增</el-button>
       </el-col>
     </el-row>
   </div>

@@ -1,4 +1,5 @@
 const userModel = require('../../models/user')
+const roleModel = require('../../models/role')
 const jwt = require('../../utils/jwt')
 
 class User {
@@ -62,7 +63,7 @@ class User {
   }
 
   static async getUserList(ctx) {
-    let { status, page, size, role } = ctx.request.query
+    let { status, page, size, role, name } = ctx.request.query
     page = parseInt(page || 1)
     size = parseInt(size || 10)
     let params = {
@@ -74,6 +75,7 @@ class User {
       // 查询带有role这个字段的用户
       params.role = { $exists: true }
     }
+    if(name) params.username = new RegExp(name, 'img')
     const total = await userModel.find(params).count()
     const list = await userModel.find(params).skip((page-1)*size).limit(size)
     ctx.body = {err:0, msg:'success', data: {list,total}}
@@ -85,6 +87,11 @@ class User {
     status = Number(status)
     const info = await userModel.updateOne({_id:id}, {$set:{status}})
     ctx.body = { err: 0, msg: 'success', data: { info } }
+  }
+
+  static async getRoleList(ctx) {
+    const list = await roleModel.find({})
+    ctx.body = { err: 0, msg: 'success', data: { list }}
   }
 }
 

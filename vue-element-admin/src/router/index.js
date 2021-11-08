@@ -84,33 +84,54 @@ export const asyncRoutes = [
   {
     path: '/good',
     component: Layout,
-    meta: { title: '商品管理', icon: 'el-icon-goods' },
+    meta: { title: '商品管理', icon: 'el-icon-goods', roles: ['admin', 'editor'] },
     children: [
       {
         path: 'list',
         component: ()=>import('@/views/good/good-list'),
         name: 'GoodList',
-        meta: { title: '商品列表', icon: 'el-icon-sugar', noCache: false }
+        meta: { title: '商品列表', icon: 'el-icon-sugar', noCache: false, roles: ['admin', 'editor'] }
       },
       {
         path: 'add',
         component: ()=>import('@/views/good/good-form'),
         hidden: true,
         name: 'GoodAdd',
-        meta: { title: '商品新增', icon: 'el-icon-sugar', noCache: false }
+        meta: { title: '商品新增', icon: 'el-icon-sugar', noCache: false, roles: ['editor'] }
       },
       {
         path: 'edit/:id',
         component: ()=>import('@/views/good/good-form'),
         hidden: true,
         name: 'GoodEdit',
-        meta: { title: '商品编辑', icon: 'el-icon-sugar', noCache: false }
+        meta: { title: '商品编辑', icon: 'el-icon-sugar', noCache: false, roles: ['editor'] }
       },
       {
         path: 'cate',
         component: ()=>import('@/views/good/cate-manage'),
         name: 'CateManage',
-        meta: { title: '品类管理', icon: 'el-icon-food', noCache: false }
+        meta: { title: '品类管理', icon: 'el-icon-food', noCache: false, roles: ['editor'] }
+      },
+    ]
+  },
+
+  // 系统管理
+  {
+    path: '/system',
+    component: Layout,
+    meta: { title: '系统管理', icon: 'el-icon-goods', roles:['admin'] },
+    children: [
+      {
+        path: 'user',
+        component: ()=>import('@/views/system/user-manage'),
+        name: 'UserManage',
+        meta: { title: '用户管理', icon: 'el-icon-sugar', noCache: false }
+      },
+      {
+        path: 'user2',
+        component: ()=>import('@/views/system/user-manage'),
+        name: 'GoodAdd',
+        meta: { title: '占位页面', icon: 'el-icon-sugar', noCache: false }
       },
     ]
   },

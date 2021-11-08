@@ -45,7 +45,10 @@ router
 .get(`${v}/element/all/cate`, checkToken, EG.getAllCate)
 .get(`${v}/element/good/check`, checkToken, EG.goodCheck)
 .get(`${v}/element/good/info`, checkToken, EG.goodInfo)
-.get(`${v}/element/user/list`,  EU.getUserList)
+.get(`${v}/element/user/list`, checkToken,  EU.getUserList)
+.post(`${v}/element/user/add`, checkToken, EU.addUser)
+.get(`${v}/element/user/upd`, checkToken, EU.updateUser)
+.get(`${v}/element/role/list`, checkToken, EU.getRoleList)
 
 .post(`${v}/upload/img`, UP.imgUpload)
 
