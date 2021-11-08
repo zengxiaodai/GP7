@@ -1,6 +1,6 @@
 <template>
 <div class="qf-cate-select">
-  <el-select style="width:100%;" clearable v-model='cate'>
+  <el-select style="width:100%;" clearable :value='value' @change='$emit("input", $event)'>
     <el-option value=''>全部</el-option>
     <el-option
       v-for="item in cateArr"
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -20,9 +21,17 @@ export default {
       cate: ''
     }
   },
+  props: {
+    value: { type: String, default: '' }
+  },
   async mounted() {
     const res = await this.$api.fetchAllCate()
     this.cateArr = res.list
+    // 把品类列表数据放进vuex
+    this.updateGoodCates(res.list)
+  },
+  methods: {
+    ...mapMutations('good', ['updateGoodCates'])
   }
 }
 </script>

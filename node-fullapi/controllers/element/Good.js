@@ -36,14 +36,46 @@ class Good {
       img,
       cate
     }
-    const info = await goodModel.insertMany([ele])
-    ctx.body = { err: 0, msg: 'success', data: {info} }
+    if (id) {
+      // 每次修改时，都要重新审核
+      const info = await goodModel.updateOne({_id: id}, {$set: {...ele, checked:0,create_time:Date.now()}})
+      ctx.body = { err: 0, msg: 'success', data: {info} }
+    } else {
+      const info = await goodModel.insertMany([ele])
+      ctx.body = { err: 0, msg: 'success', data: {info} }
+    }
   }
 
   // 获取所有品类
   static async getAllCate(ctx) {
     const list = await cateModel.find({})
     ctx.body = { err: 0, msg:'success', data: { list } }
+  }
+
+  static async goodCheck(ctx) {
+    // 谁修改的？审核消息？
+    // 当前商品审核完成后，下一次需要审核是什么时候？
+    let { id, checked } = ctx.request.query
+    // 0 - 未审核  -1 = 已驳回  1 审核通过
+    // 必填参数校验
+    if (checked===undefined) checked = 0
+    checked = Number(checked)
+    console.log('id', id, 'checked', checked)
+    try {
+      const info = await goodModel.updateOne({_id:id}, {$set:{checked}})
+      console.log('---', info)
+      ctx.body = { err: 0, msg: 'success', data: {info}}
+    } catch(err){
+      console.log('err', err)
+      ctx.body = { err: 1, msg: 'fail', data: {}}
+    }
+  }
+
+  static async goodInfo(ctx) {
+    let { id } = ctx.request.query
+    // 校验id
+    const info = await goodModel.findOne({_id: id})
+    ctx.body = { err:0, msg:'success', data: {info}}
   }
 }
 

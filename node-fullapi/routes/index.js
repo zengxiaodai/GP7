@@ -43,6 +43,8 @@ router
 .get(`${v}/element/good/list`, checkToken, EG.goodList)
 .post(`${v}/element/good/add/edit`, checkToken, EG.goodAddOrEdit)
 .get(`${v}/element/all/cate`, checkToken, EG.getAllCate)
+.get(`${v}/element/good/check`, checkToken, EG.goodCheck)
+.get(`${v}/element/good/info`, checkToken, EG.goodInfo)
 
 .post(`${v}/upload/img`, UP.imgUpload)
 

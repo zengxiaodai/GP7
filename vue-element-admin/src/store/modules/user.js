@@ -85,22 +85,25 @@ const actions = {
   // 退出登录：清除token、清除角色信息、重置路由、清除各种缓存
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
+
+      // 把vuex中的token和角色信息清除
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      // 把Cookie中的token清除
+      removeToken()
+      // 重置路由（*）
+      resetRouter()
+      // reset visited views and cached views
+      // 把vuex中tagViews、缓存的视图都清除。
+      dispatch('tagsView/delAllViews', null, { root: true })
+      resolve()
+
       // 调接口退出登录，入参是token
-      logout(state.token).then(() => {
-        // 把vuex中的token和角色信息清除
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        // 把Cookie中的token清除
-        removeToken()
-        // 重置路由（*）
-        resetRouter()
-        // reset visited views and cached views
-        // 把vuex中tagViews、缓存的视图都清除。
-        dispatch('tagsView/delAllViews', null, { root: true })
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      // logout(state.token).then(() => {
+      //
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
 

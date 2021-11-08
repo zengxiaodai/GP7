@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken')
 module.exports = async (ctx, next) => {
 	// 从上下文取出token
   const token = ctx.headers.authorization
-  console.log('token---', token)
+  // console.log('token---', token)
   if (token) {
     try {
       var decoded = jwt.verify(token, 'qf')
-      console.log('decoded', decoded)
+      // console.log('decoded', decoded)
       // 把反解析成功的用户信息放在上下文，交给下一个中间件
       ctx.user = decoded.data
 

@@ -54,6 +54,9 @@
         prop="cate"
         label="品类"
         align='center'>
+        <template slot-scope='scope'>
+          <div>{{cate2Zh(scope.row.cate)}}</div>
+        </template>
       </el-table-column>
       <el-table-column
         prop="price"
@@ -92,11 +95,15 @@
         align='center'
         width='240'
         label="操作">
-        <template>
+        <template slot-scope='scope'>
           <div>
-            <el-button v-permission='["admin"]' size='mini' type="info">审核</el-button>
-            <el-button size='mini' type="primary">编辑</el-button>
-            <el-button size='mini' type="danger">删除</el-button>
+            <el-button
+              v-if='scope.row.checked===0' v-permission='["admin"]'
+              @click='checkShow(scope.row)' size='mini' type="info">审核</el-button>
+            <span v-permission='["editor"]'>
+              <el-button size='mini' type="primary" @click='editRow(scope.row)'>编辑</el-button>
+              <el-button size='mini' type="danger">删除</el-button>
+            </span>
           </div>
         </template>
       </el-table-column>
@@ -123,6 +130,7 @@
 <script>
 import CateSelect from './components/CateSelect'
 import moment from 'moment'
+import { mapState } from 'vuex'
 export default {
   name: 'GoodList',
   components: { CateSelect },
@@ -142,6 +150,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('good', ['cates']),
     params() {
       // filter是用于表单双向绑定的。
       // 对filter数据进行二次处理
@@ -149,6 +158,7 @@ export default {
     }
   },
   created() { this.init() },
+  activated () { this.init() },
   watch: {
     // params(newF, oldF) {
     //   console.log('newF', newF)
@@ -197,6 +207,32 @@ export default {
       this.$forceUpdate()
     },
     skipToForm() { this.$router.push('/good/add') },
+    checkShow(row) {
+      this.$confirm('是否允许当前商品通过?', '提示', {
+         confirmButtonText: '确定',
+         cancelButtonText: '驳回',
+         type: 'warning'
+       }).then(() => {
+         this.$api.fetchGoodCheck({id:row._id,checked:1})
+          .then(()=>{
+            this.$message({message:'审核成功',type:'success'})
+            this.count++
+          })
+       }).catch(() => {
+         this.$api.fetchGoodCheck({id:row._id,checked:-1})
+          .then(()=>{
+            this.$message({message:'审核成功',type:'success'})
+            this.count++
+          })
+       });
+    },
+    editRow (row) {
+      this.$router.push('/good/edit/'+row._id)
+    },
+    cate2Zh(cate) {
+      const result = this.cates.find(ele=>ele.cate==cate)
+      return result ? result.cate_zh : ''
+    }
   }
 }
 </script>

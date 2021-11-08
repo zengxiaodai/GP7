@@ -21,8 +21,8 @@
           <el-option label="区域二" value="beijing"></el-option>
         </el-select> -->
       </el-form-item>
-      <el-form-item label="商品品类" required>
-        <CateSelect />
+      <el-form-item label="商品品类" prop='cate' required>
+        <CateSelect v-model='ruleForm.cate' />
       </el-form-item>
       <el-form-item label="是否热销" prop="hot">
         <el-switch v-model="ruleForm.delivery"></el-switch>
@@ -39,7 +39,7 @@
   </div>
 
   <div class="btns" :style='{left: left+"px"}'>
-    <el-button type="primary" @click="submitForm">添加</el-button>
+    <el-button type="primary" @click="submitForm">{{$route.params.id?'修改':'添加'}}</el-button>
     <el-button>取消</el-button>
   </div>
 </div>
@@ -61,7 +61,8 @@ export default {
         name: '',
         price: '',
         desc: '',
-        hot: false
+        hot: false,
+        cate: ''
       },
       rules: {
         name: [
@@ -88,13 +89,26 @@ export default {
       return l
     }
   },
+  created() {
+    const id = this.$route.params.id
+    if (id) {
+      this.$api.fetchGoodInfo({id})
+        .then(res=>{
+          console.log('商品详情', res)
+          this.ruleForm = res.info
+        })
+    }
+  },
   methods: {
     submitForm() {
       console.log('提交', this.ruleForm)
-      this.$api.fetchGoodForm(this.ruleForm).then(()=>{
+      let params = this.ruleForm
+      const id = this.$route.params.id
+      if (id) params.id = id
+      this.$api.fetchGoodForm(params).then(()=>{
         console.log('商品添加成功')
         this.$message({
-          message: '商品添加成功',
+          message: id?'修改成功':'新增成功',
           type: 'success'
         })
         setTimeout(()=>this.$router.replace('/good/list'), 3000)
