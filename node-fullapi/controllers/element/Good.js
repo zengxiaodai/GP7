@@ -13,6 +13,7 @@ class Good {
       name: new RegExp(name, 'img'),
       cate,
       checked,
+      status: { $gte: 0 }
     }
     // 进一步处理那些前端没有传递的非必填参数
     if (!name) delete params.name
@@ -76,6 +77,13 @@ class Good {
     // 校验id
     const info = await goodModel.findOne({_id: id})
     ctx.body = { err:0, msg:'success', data: {info}}
+  }
+
+  static async goodDelete(ctx) {
+    let { id } = ctx.request.query
+    // status 1-正常 0-下架 -1 删除
+    const info = await goodModel.updateOne({_id:id}, {$set:{status:-1}})
+    ctx.body = { err: 0, msg:'success', data:{info}}
   }
 }
 

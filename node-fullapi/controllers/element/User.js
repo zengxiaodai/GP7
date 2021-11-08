@@ -3,19 +3,30 @@ const jwt = require('../../utils/jwt')
 
 class User {
   // 添加用户（用户。。。）
-  static async regist(ctx) {
-    let { username, password } = ctx.request.body
-    // 如果这两个参数没有传递，报业务错误
+  static async addUser(ctx) {
+    let { username, role, role_name } = ctx.request.body
+    // 各种字段的校验
+    // 查询是否用户名已被占用
     const user = await userModel.findOne({username})
-    if (user) return ctx.body = { err: 1, msg: `${username}已被占用` }
-    await userModel.insertMany([{username, password}])
-    ctx.body = { err: 0, msg: '注册成功', data: {username} }
+    if (user) username+=2
+    let ele = {
+      username,
+      password: '123456',
+      role,
+      role_name
+    }
+    const info = await userModel.insertMany([ele])
+    ctx.body = { err: 0, msg: 'success', data: {username} }
   }
 
   // 登录接口
   static async login(ctx) {
     let { username, password } = ctx.request.body
     const user = await userModel.findOne({username, password})
+    if (user && user.status !== 1) {
+      ctx.body = { err: -2, msg: '用户账号异常，请联系管理员', data: { }}
+      return
+    }
     if(user) {
       // 生成token
       const token = jwt.creataToken(user)
@@ -48,6 +59,32 @@ class User {
         }
       }
     }
+  }
+
+  static async getUserList(ctx) {
+    let { status, page, size, role } = ctx.request.query
+    page = parseInt(page || 1)
+    size = parseInt(size || 10)
+    let params = {
+      status: Number((status || -1)),
+      role
+    }
+    if (params.status===-1) delete params.status
+    if (!params.role) {
+      // 查询带有role这个字段的用户
+      params.role = { $exists: true }
+    }
+    const total = await userModel.find(params).count()
+    const list = await userModel.find(params).skip((page-1)*size).limit(size)
+    ctx.body = {err:0, msg:'success', data: {list,total}}
+  }
+
+  static async updateUser(ctx) {
+    let { id, status } = ctx.request.query
+    // 要求前端一定要传status
+    status = Number(status)
+    const info = await userModel.updateOne({_id:id}, {$set:{status}})
+    ctx.body = { err: 0, msg: 'success', data: { info } }
   }
 }
 

@@ -45,6 +45,7 @@ router
 .get(`${v}/element/all/cate`, checkToken, EG.getAllCate)
 .get(`${v}/element/good/check`, checkToken, EG.goodCheck)
 .get(`${v}/element/good/info`, checkToken, EG.goodInfo)
+.get(`${v}/element/user/list`,  EU.getUserList)
 
 .post(`${v}/upload/img`, UP.imgUpload)
 
