@@ -7,7 +7,10 @@
     <div class="right-menu">
       <template v-if="device!=='mobile'">
 
-        <i class="el-icon-message-solid" :style='{color: messageList.length>0 ? "red":"black", fontSize:"24px"}'></i>
+        <div class="right-menu-item">
+          <i class="el-icon-bell" :style='{color: messageList.length>0 ? "red":"black", fontSize:"18px"}'></i>
+        </div>
+
 
         <search id="header-search" class="right-menu-item" />
 
