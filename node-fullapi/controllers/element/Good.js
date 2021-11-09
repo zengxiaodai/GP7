@@ -2,6 +2,8 @@ const goodModel = require('../../models/good')
 const cateModel = require('../../models/cate')
 const userModel = require('../../models/user')
 
+const socket = require('../../utils/socket')
+
 class Good {
   static async goodList(ctx) {
     let { name, cate, page, size, hot, checked } = ctx.request.query
@@ -34,14 +36,14 @@ class Good {
     list.forEach((ele,idx)=>{
       // 模拟的店铺信息
       console.log('ele', ele)
-      const info = userModel.findOne({_id: (ele.user_id)})
-      console.log('info', info._id)
-      newList[idx].shop_info = { shop_name: '千锋商城' }
+      // userModel.findOne({_id: (ele.user_id)}).then(info=>{
+      //   newList[idx].shop_info = { shop_name: info.username, msg:'模拟商家信息' }
+      //   i++
+      // })
+      newList[idx].shop_info = { shop_name: '千锋商城', msg:'模拟商家信息' }
       i++
     })
-    if (i===list.length) {
-      ctx.body = { err: 0, msg: 'success', data: {total,list:newList}}
-    }
+    if (i===newList.length) ctx.body = { err: 0, msg: 'success', data: {total,list:newList}}
   }
 
   // 编辑与新增
@@ -74,6 +76,7 @@ class Good {
     ctx.body = { err: 0, msg:'success', data: { list } }
   }
 
+  // 描述：admin用户审核商品
   static async goodCheck(ctx) {
     // 谁修改的？审核消息？
     // 当前商品审核完成后，下一次需要审核是什么时候？
@@ -84,8 +87,17 @@ class Good {
     checked = Number(checked)
     console.log('id', id, 'checked', checked)
     try {
-      const info = await goodModel.updateOne({_id:id}, {$set:{checked}})
-      console.log('---', info)
+      const info = await goodModel.findOneAndUpdate({_id:id}, {$set:{checked}})
+      console.log('---------', info)
+      // 在这里，就是操作数据库已经成功，这个商品审核已完成。需求是要告诉shop用户
+      const msg = {
+        message: checked===1 ? '审核已通过' : '审核未通过',
+        user_id: info.user_id,  // 模拟的是商家店铺
+        good_id: info._id
+      }
+      console.log('msg', msg)
+      // 审核完成时，向数据库表中存储一条消息
+      socket.emit('server', msg)
       ctx.body = { err: 0, msg: 'success', data: {info}}
     } catch(err){
       console.log('err', err)

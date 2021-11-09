@@ -6,6 +6,8 @@ const path = require('path')
 app.use(require('koa-static')(path.resolve(__dirname, 'public')))
 // 连接数据库
 require('./utils/connect')
+// 连接socket服务器
+require('./utils/socket')
 
 // 用于解析body体中数据的中间件
 // 开启koa-body对文件数据的解析，默认只能普通post提交的body数据
