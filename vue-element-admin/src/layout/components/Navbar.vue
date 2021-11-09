@@ -6,6 +6,9 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
+
+        <i class="el-icon-message-solid" :style='{color: messageList.length>0 ? "red":"black", fontSize:"24px"}'></i>
+
         <search id="header-search" class="right-menu-item" />
 
         <error-log class="errLog-container right-menu-item hover-effect" />
@@ -53,7 +56,8 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
-
+import { io } from 'socket.io-client'
+import { mapActions, mapState } from 'vuex'
 export default {
   components: {
     Breadcrumb,
@@ -68,9 +72,21 @@ export default {
       'sidebar',
       'avatar',
       'device'
-    ])
+    ]),
+    ...mapState('user', ['userinfo', 'messageList'])
+  },
+  mounted () {
+    const socket = io('ws://localhost:8888', {})
+    // 当socket服务向我发消息，触发getUserInfo()调接口（消息列表）
+    // 如果消息列表的长度大于零，有未读消息，显示高亮
+    // const that = this
+    socket.on(this.userinfo._id, msg=>{
+      console.log('来自socket服务的消息', msg)
+      this.getInfo()
+    })
   },
   methods: {
+    ...mapActions('user', ['getInfo']),
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },

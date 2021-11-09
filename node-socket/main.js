@@ -3,7 +3,10 @@ const http = require('http')
 
 const httpServer = http.createServer()
 const io = new Server(httpServer, {
-  // 解决跨域
+  cors: {
+    origin: "http://localhost:8002",
+    methods: ["GET", "POST"]
+  }
 })
 
 io.on('connection', socket=>{
@@ -13,6 +16,7 @@ io.on('connection', socket=>{
   socket.on('server', msg=>{
     console.log('有客户端向我发消息了', msg)
     // 收到node api服务器发来的消息后，再转发给浏览器
+    io.emit(msg.user_id, msg)
   })
 })
 

@@ -1,5 +1,6 @@
 const userModel = require('../../models/user')
 const roleModel = require('../../models/role')
+const Message = require('./Message')
 const jwt = require('../../utils/jwt')
 
 class User {
@@ -48,6 +49,7 @@ class User {
       roles = userinfo.role.split(';').filter(ele=>ele)
     }
     console.log('roles', roles)
+    const message_list = await Message.getUserMessage(u._id)
 	  ctx.body = {
       err: 0, msg: 'success',
       data: {
@@ -57,7 +59,8 @@ class User {
           roles,
           avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
           introduction: '高薪就业'
-        }
+        },
+        message_list
       }
     }
   }

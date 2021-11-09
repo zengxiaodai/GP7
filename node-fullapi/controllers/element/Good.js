@@ -1,6 +1,7 @@
 const goodModel = require('../../models/good')
 const cateModel = require('../../models/cate')
 const userModel = require('../../models/user')
+const Message = require('./Message')
 
 const socket = require('../../utils/socket')
 
@@ -27,23 +28,21 @@ class Good {
     if (!cate) delete params.cate
     if (checked===undefined) delete params.checked
     if (checkRoles.includes(u.role)) delete params.user_id
-    // 一切准备到位，可以开始查询了
-    const total = await goodModel.find(params).count()
-    const list = await goodModel.find(params).limit(size).skip((page-1)*size).sort({create_time:-1})
-    const newList = JSON.parse(JSON.stringify(list))
-    // 得到商品列表后，再遍历list查询每个商品所对应商家信息
-    let i = 0
-    list.forEach((ele,idx)=>{
-      // 模拟的店铺信息
-      console.log('ele', ele)
-      // userModel.findOne({_id: (ele.user_id)}).then(info=>{
-      //   newList[idx].shop_info = { shop_name: info.username, msg:'模拟商家信息' }
-      //   i++
-      // })
-      newList[idx].shop_info = { shop_name: '千锋商城', msg:'模拟商家信息' }
-      i++
-    })
-    if (i===newList.length) ctx.body = { err: 0, msg: 'success', data: {total,list:newList}}
+    try {
+      // 一切准备到位，可以开始查询了
+      const total = await goodModel.find(params).count()
+      const list = await goodModel.find(params).limit(size).skip((page-1)*size).sort({create_time:-1})
+      let newList = JSON.parse(JSON.stringify(list))
+      // 得到商品列表后，再遍历list查询每个商品所对应商家信息
+      for (let i=0; i<newList.length; i++) {
+        const info = await userModel.findOne({_id: (newList[i].user_id)})
+        newList[i]['shop_info'] = { shop_name: info.username, msg:'模拟商家信息' }
+      }
+      ctx.body = { err: 0, msg: 'success', data: {total,list:newList}}
+    } catch (err) {
+      console.log('----', err)
+      ctx.body = {}
+    }
   }
 
   // 编辑与新增
@@ -91,10 +90,11 @@ class Good {
       console.log('---------', info)
       // 在这里，就是操作数据库已经成功，这个商品审核已完成。需求是要告诉shop用户
       const msg = {
-        message: checked===1 ? '审核已通过' : '审核未通过',
+        content: checked===1 ? '审核已通过' : '审核未通过',
         user_id: info.user_id,  // 模拟的是商家店铺
         good_id: info._id
       }
+      await Message.addMessage(msg)
       console.log('msg', msg)
       // 审核完成时，向数据库表中存储一条消息
       socket.emit('server', msg)

@@ -7,7 +7,9 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  messageList: [],
+  userinfo: {}
 }
 
 const mutations = {
@@ -25,6 +27,12 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_MESSAGE: (state, list) => {
+    state.messageList = list
+  },
+  SET_USERINFO: (state, userinfo) => {
+    state.userinfo = userinfo
   }
 }
 
@@ -57,7 +65,7 @@ const actions = {
       // 真正调接口获取用户信息
       // 注意：这个作者是用query参数的方式向后端传递token的
       getInfo({}).then(data => {
-        const { userinfo } = data
+        const { userinfo, message_list } = data
         // 如果data不存在，这说明token要么是假的，要么过期了。
         // 注意：为了配合这个异常，当拿不到用户信息时，希望data是null/undefined
         if (!userinfo) {
@@ -74,6 +82,8 @@ const actions = {
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
+        commit('SET_MESSAGE', message_list)
+        commit('SET_USERINFO', userinfo)
         // 给.then()使用
         resolve(userinfo)
       }).catch(error => {
