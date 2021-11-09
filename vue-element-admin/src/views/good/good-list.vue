@@ -22,7 +22,7 @@
           end-placeholder="结束日期">
         </el-date-picker>
         <el-button type="primary" icon="el-icon-search" @click='count++'>搜索</el-button>
-        <el-button v-permission='["editor"]' type="primary" icon="el-icon-edit" @click='skipToForm'>新增</el-button>
+        <el-button v-permission='["shop"]' type="primary" icon="el-icon-edit" @click='skipToForm'>新增</el-button>
       </el-col>
     </el-row>
   </div>
@@ -45,8 +45,19 @@
         align='center'>
         <template slot-scope='scope'>
           <div class="good">
-            <img :src='`http://localhost:9999${scope.row.img}`' alt="" />
+            <img :src='`${$img.imgBase}${scope.row.img}`' alt="" />
             <div v-text='scope.row.name' />
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-permission='["admin"]'
+        prop="shop_name"
+        label="店铺名称"
+        align='center'>
+        <template slot-scope='scope'>
+          <div class="good">
+            {{scope.row.shop_info.shop_name}}
           </div>
         </template>
       </el-table-column>
@@ -100,7 +111,7 @@
             <el-button
               v-if='scope.row.checked===0' v-permission='["admin"]'
               @click='checkShow(scope.row)' size='mini' type="info">审核</el-button>
-            <span v-permission='["editor"]'>
+            <span v-permission='["shop"]'>
               <el-button size='mini' type="primary" @click='editRow(scope.row)'>编辑</el-button>
               <el-button size='mini' type="danger">删除</el-button>
             </span>

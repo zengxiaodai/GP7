@@ -1,9 +1,13 @@
 const goodModel = require('../../models/good')
 const cateModel = require('../../models/cate')
+const userModel = require('../../models/user')
 
 class Good {
   static async goodList(ctx) {
     let { name, cate, page, size, hot, checked } = ctx.request.query
+    // 做审核的用户
+    const checkRoles = ['admin']
+    const u = ctx.user
     // 对必填参数进行校验，如果有误，就结束传话并告知业务错误
     // 对非必填参数添加值
     page = parseInt(page || 1)
@@ -13,21 +17,37 @@ class Good {
       name: new RegExp(name, 'img'),
       cate,
       checked,
-      status: { $gte: 0 }
+      status: { $gte: 0 },
+      user_id: u._id
     }
     // 进一步处理那些前端没有传递的非必填参数
     if (!name) delete params.name
     if (!cate) delete params.cate
     if (checked===undefined) delete params.checked
+    if (checkRoles.includes(u.role)) delete params.user_id
     // 一切准备到位，可以开始查询了
     const total = await goodModel.find(params).count()
     const list = await goodModel.find(params).limit(size).skip((page-1)*size).sort({create_time:-1})
-    ctx.body = { err: 0, msg: 'success', data: {total,list}}
+    const newList = JSON.parse(JSON.stringify(list))
+    // 得到商品列表后，再遍历list查询每个商品所对应商家信息
+    let i = 0
+    list.forEach((ele,idx)=>{
+      // 模拟的店铺信息
+      console.log('ele', ele)
+      const info = userModel.findOne({_id: (ele.user_id)})
+      console.log('info', info._id)
+      newList[idx].shop_info = { shop_name: '千锋商城' }
+      i++
+    })
+    if (i===list.length) {
+      ctx.body = { err: 0, msg: 'success', data: {total,list:newList}}
+    }
   }
 
   // 编辑与新增
   static async goodAddOrEdit(ctx) {
     let { id, name, desc, price, img, cate, hot } = ctx.request.body
+    const u = ctx.user
     // 有id是编辑，没有id是新增
     // 对所有的必填参数进行数据校验
     let ele = {
@@ -35,7 +55,8 @@ class Good {
       desc,
       price,
       img,
-      cate
+      cate,
+      user_id: u._id   // 把商品根据用户ID（商家ID）来做区分
     }
     if (id) {
       // 每次修改时，都要重新审核

@@ -113,16 +113,6 @@ export default {
         })
         setTimeout(()=>this.$router.replace('/good/list'), 3000)
       })
-
-      // this.$refs.form.validate((valid) => {
-      //   console.log('valid', valid)
-      //   if (valid) {
-      //
-      //   } else {
-      //     console.log('error submit!!');
-      //     return false;
-      //   }
-      // })
     }
   }
 }

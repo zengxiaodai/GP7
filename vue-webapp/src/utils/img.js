@@ -13,6 +13,7 @@ import iJD from '@/assets/icon/jd.png'
 
 
 export default {
+  imgBase: 'http://localhost:9999',
   iHome,
   iHomeOn,
   iFind,

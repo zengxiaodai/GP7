@@ -84,33 +84,52 @@ export const asyncRoutes = [
   {
     path: '/good',
     component: Layout,
-    meta: { title: '商品管理', icon: 'el-icon-goods', roles: ['admin', 'editor'] },
+    meta: { title: '商品管理', icon: 'el-icon-goods', roles: ['admin', 'editor', 'shop'] },
     children: [
       {
         path: 'list',
         component: ()=>import('@/views/good/good-list'),
         name: 'GoodList',
-        meta: { title: '商品列表', icon: 'el-icon-sugar', noCache: false, roles: ['admin', 'editor'] }
+        meta: {
+          title: '商品列表',
+          icon: 'el-icon-sugar',
+          noCache: false,
+          roles: ['admin', 'editor', 'shop']
+        }
       },
       {
         path: 'add',
         component: ()=>import('@/views/good/good-form'),
         hidden: true,
         name: 'GoodAdd',
-        meta: { title: '商品新增', icon: 'el-icon-sugar', noCache: false, roles: ['editor'] }
+        meta: {
+          icon: 'el-icon-sugar',
+          noCache: false,
+          roles: ['editor', 'shop']
+        }
       },
       {
         path: 'edit/:id',
         component: ()=>import('@/views/good/good-form'),
         hidden: true,
         name: 'GoodEdit',
-        meta: { title: '商品编辑', icon: 'el-icon-sugar', noCache: false, roles: ['editor'] }
+        meta: {
+          title: '商品编辑',
+          icon: 'el-icon-sugar',
+          noCache: false,
+          roles: ['editor','shop']
+        }
       },
       {
         path: 'cate',
         component: ()=>import('@/views/good/cate-manage'),
         name: 'CateManage',
-        meta: { title: '品类管理', icon: 'el-icon-food', noCache: false, roles: ['editor'] }
+        meta: {
+          title: '品类管理',
+          icon: 'el-icon-food',
+          noCache: false,
+          roles: ['editor', 'shop']
+        }
       },
     ]
   },

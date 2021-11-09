@@ -8,7 +8,11 @@ class GoodController {
   	size = parseInt(size || 10)
   	page = parseInt(page || 1)
   	// 查询条件
-  	const params = { cate }
+  	const params = {
+      cate,
+      checked: 1,  // 审核通过的
+      status: 1    // 正常上架的
+    }
   	if (!params.cate) delete params.cate
   	const total = await goodModel.find(params).count()
   	const list = await goodModel.find(params).limit(size).skip((page-1)*size).sort({create_time: -1})
@@ -19,7 +23,7 @@ class GoodController {
 	  let list = await cateModel.find({})
 	  ctx.body = { err:0, msg:'success', data: {list} }
   }
-  
+
   static async getGoodInfo(ctx) {
 	  let { id } = ctx.request.query
 	  if(!id) return ctx.body = { err: 1, msg:'id是必填入参', data: {} }

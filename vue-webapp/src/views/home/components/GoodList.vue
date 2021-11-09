@@ -9,7 +9,7 @@
     <div class="row-wrap">
       <div v-for='j in 2' :key='j' @click='skip(item(i,j))'>
         <div>
-          <img :src="item(i,j).img" alt=""/>
+          <img :src="$img.imgBase+item(i,j).img" alt=""/>
           <div>
             <span>ll</span>
             <span v-text='item(i,j).desc'></span>

@@ -49,8 +49,7 @@ router
 .post(`${v}/element/user/add`, checkToken, EU.addUser)
 .get(`${v}/element/user/upd`, checkToken, EU.updateUser)
 .get(`${v}/element/role/list`, checkToken, EU.getRoleList)
-
-.post(`${v}/upload/img`, UP.imgUpload)
+.post(`${v}/upload/img`, checkToken, UP.imgUpload)
 
 
 

@@ -7,10 +7,12 @@
       :multiple="false"
       :show-file-list="false"
       :on-success="handleImageSuccess"
+      :before-upload="beforeUpload"
       class="image-uploader"
       drag
-      action="http://localhost:8002/api/v1/upload/img"
+      :action="$img.imgUpd"
       name='img'
+      :headers='{"Authorization": token}'
     >
       <div v-if='!value'>
         <i class="el-icon-upload" />
@@ -18,7 +20,7 @@
           将文件拖到此处，或<em>点击上传</em>
         </div>
       </div>
-      <img v-else :src='`http://localhost:9999${value}`' alt=""/>
+      <img v-else :src='`${$img.imgBase}${value}`' alt="qf"/>
     </el-upload>
     <div class="image-preview" style="display:none;">
       <div v-show="imageUrl.length>1" class="image-preview-wrapper">
@@ -32,7 +34,8 @@
 </template>
 
 <script>
-import { getToken } from '@/api/qiniu'
+// import { getToken } from '@/api/qiniu'
+import { mapState } from 'vuex'
 
 export default {
   name: 'SingleImageUpload',
@@ -49,6 +52,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('user', ['token']),
     imageUrl() {
       return this.value
     }
@@ -65,21 +69,29 @@ export default {
       // this.emitInput(this.tempUrl)
       this.emitInput(response.data.img)
     },
-    beforeUpload() {
-      const _self = this
-      return new Promise((resolve, reject) => {
-        getToken().then(response => {
-          const key = response.data.qiniu_key
-          const token = response.data.qiniu_token
-          _self._data.dataObj.token = token
-          _self._data.dataObj.key = key
-          this.tempUrl = response.data.qiniu_url
-          resolve(true)
-        }).catch(err => {
-          console.log(err)
-          reject(false)
-        })
-      })
+    beforeUpload(file) {
+
+      console.log('上传之前',file)
+      // 对图片大小尺寸、图片格式、图片命名等校验。。。
+      // 在上传之前，对图片进行自定义切割
+      if (file.size/1024 > 2048) {
+        this.$message.error('图片不能超出2M')
+        return false
+      }
+
+      // 【参考】把图片上传到七牛CDN上
+      // const _self = this
+      //     const key = response.data.qiniu_key
+      //     const token = response.data.qiniu_token
+      //     _self._data.dataObj.token = token
+      //     _self._data.dataObj.key = key
+      //     this.tempUrl = response.data.qiniu_url
+      //     resolve(true)
+      //   }).catch(err => {
+      //     console.log(err)
+      //     reject(false)
+      //   })
+      // })
     }
   }
 }
