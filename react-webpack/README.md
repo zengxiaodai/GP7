@@ -25,3 +25,16 @@
 - 需求：配置本地服务，以便开发环境。
 - webpack-dev-server 它是基于express、sockjs的一个node服务器。全局、本地都安装。
 - html-webpack-plugin 这是一个webpack plugins，用于把webpack编译后的js代码和指定的html文件组装起来。
+
+- 需求：自动清除dist目录，添加文件hash值，开启编译进度条、开启代码压缩。
+
+- 需求：区分开发环境和生产环境。
+- cross-env 手动添加环境变量，这在v4中应用很广泛。
+- 使用 `webpack (serve) --env`，这种方式在v5才能使用。
+- webpack-merge 对webpack配置文件进行浅合并。
+
+- 需求：把src中的js代码编译成浏览器能够普通兼容的ES5代码。
+- babel-loader 是一条loaders规则。
+- 安装了一系列的Babel预设和插件，添加babel.config.js对各种Babel包进行配置。
+
+- 学习方法（作业）：把webpack文档、Babel文档都翻一遍。
