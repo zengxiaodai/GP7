@@ -61,6 +61,7 @@ import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
 import { io } from 'socket.io-client'
 import { mapActions, mapState } from 'vuex'
+import { socketBase } from '@/config'
 export default {
   components: {
     Breadcrumb,
@@ -79,7 +80,7 @@ export default {
     ...mapState('user', ['userinfo', 'messageList'])
   },
   mounted () {
-    const socket = io('ws://localhost:8888', {})
+    const socket = io(socketBase, {})
     // 当socket服务向我发消息，触发getUserInfo()调接口（消息列表）
     // 如果消息列表的长度大于零，有未读消息，显示高亮
     // const that = this

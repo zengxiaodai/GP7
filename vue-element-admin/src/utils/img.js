@@ -1,6 +1,8 @@
 // 图片资源模块化
 
+import { imgBase, imgUpd } from '@/config'
+
 export default {
-  imgUpd: 'http://localhost:8002/api/v1/upload/img',
-  imgBase: 'http://localhost:9999',
+  imgUpd,
+  imgBase,
 }

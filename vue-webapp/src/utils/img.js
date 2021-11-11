@@ -11,9 +11,10 @@ import iUserOn from '@/assets/icon/user-on.png'
 
 import iJD from '@/assets/icon/jd.png'
 
+import { imgBase } from '@/config'
 
 export default {
-  imgBase: 'http://localhost:9999',
+  imgBase,
   iHome,
   iHomeOn,
   iFind,

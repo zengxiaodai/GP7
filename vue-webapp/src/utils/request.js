@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { Toast } from 'vant'
 import store from '@/store'
+import { baseURL } from '@/config'
 
 // const baseURL = 'https://c.y.qq.com'
-const baseURL = 'http://localhost:8001'
+// const baseURL = 'http://localhost:8001'
 
 const version = '/api/v1'
 

@@ -2,8 +2,8 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import { baseURL } from '@/config'
 
-const baseURL = 'http://localhost:8002'
 const version = '/api/v1'
 
 // create an axios instance

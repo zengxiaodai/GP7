@@ -13,7 +13,8 @@ const Login = () => import('@/views/user/Login.vue')
 const Regist = () => import('@/views/user/Regist.vue')
 
 const router = new VueRouter({
-  mode: 'hash',
+  // mode: 'hash',
+  mode: 'history',
   routes: [
     { path: '/', components: { alive: Home } },
     { path: '/good/detail/:id', component: Detail },

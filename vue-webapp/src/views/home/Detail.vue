@@ -6,7 +6,7 @@
   </QfNavBar>
 
   <div>
-    <img :src="info.img" alt="" />
+    <img :src="$img.imgBase+info.img" alt="" />
     <div v-text='info.desc'></div>
     <div v-text='info.price'></div>
   </div>

@@ -25,7 +25,7 @@
         <van-grid-item v-for='item in cache[activeKey]' :key='item._id'>
           <template>
             <div class="good">
-              <img :src="item.img" alt=""/>
+              <img :src="$img.imgBase+item.img" alt=""/>
               <div v-text='item.name'></div>
             </div>
           </template>

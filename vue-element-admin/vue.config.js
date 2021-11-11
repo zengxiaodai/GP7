@@ -29,7 +29,7 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
-  // 本地node服务器
+  // 本地node服务器，只在开发环境中起作用。
   devServer: {
     port: port,
     open: true,
