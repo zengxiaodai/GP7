@@ -19,7 +19,7 @@ module.exports = {
       // enforce:'pre' 这条规则是一条前置规则，发生一般规则之前。只有当这条规则验证通过了，后面的一般规则才会运行。
       // eslint-loader 专门用于加载javascript文件，然后交给eslint系列的检测工具进行检测。所以，我们还要安装很多合适的eslint检测工具，并在项目中添加eslint的相关配置文件。
       // {
-      //   test: /\.js$/,
+      //   test: /\.(js|jsx|ts|tsx)$/,
       //   use: [{loader:'eslint-loader', options: {}}],
       //   exclude: /node_modules/,
       //   enforce: 'pre'
@@ -28,6 +28,7 @@ module.exports = {
   },
 
   plugins: [
+    // v5中集成ESLint检测
     new ESLintPlugin({
       eslintPath: 'eslint',
       extensions: ['js','jsx','ts','tsx'],

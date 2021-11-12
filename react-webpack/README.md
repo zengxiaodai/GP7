@@ -42,3 +42,17 @@
 - @babel/preset-typesript  用于编译ts代码
 
 - 学习方法（作业）：把webpack文档、Babel文档都翻一遍。
+
+- 需求：在当前环境支持图片的模块化。file-loader、url-loader，v5写法参考文档。
+
+- 需求：在当前环境中支持样式的模块化。css-loader、style-loader、css抽离。。。
+
+- 需求：在当前环境中集成ESLint检测（集成React开发环境的代码检测）。
+- v4   eslint-loader
+- v4   eslint-webpack-plugin  参见.eslintrc.js这个配置。
+
+- 需求：在当前环境下支持jsx语法。
+- 安装 @babel/preset-react  参见babel.config.js这个配置。
+
+- 下周一：webpack高级技术，自定义loaders、自定义plugins、构建优化。
+- 下周二：开始react。

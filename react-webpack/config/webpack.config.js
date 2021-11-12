@@ -58,7 +58,7 @@ const config = {
     rules: [
       // 第一条规则：当webpack运行时，如果遇到以.js为后缀的文件时，webpack就使用babel-loader来加载.js文件，然后交给Babel编译器（@babel/core、@babel/preset-env）进行编译转换，最终得到ES5代码。
       // babel-loader 专门用于加载javascript文件，然后交给Babel编译器进行编译。
-      { test: /\.js$/, use: [{loader:'babel-loader',options:{}}] },
+      { test: /\.(js|jsx|ts|tsx)$/, use: [{loader:'babel-loader',options:{}}], include: /src/ },
 
       // 处理图片模块，下面是v4的写法
       // { test: /\.(png|jpg|jpeg|gif|webp|svg)$/, use: ['url-loader'] },
@@ -77,12 +77,17 @@ const config = {
       // node v12-   sass-loader v10-   webpack v4
       // { test: /\.(css|scss|sass)$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
       { test: /\.(css|scss|sass)$/, use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] },
-
-
-
-
     ]
-  }
+  },
+  // 解析配置
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      '@': path.resolve(__dirname, '../src'),
+      '@@': path.resolve(__dirname, '../public'),
+      'react': path.resolve(__dirname, '../node_modules/react/umd/react.development.js')
+    }
+  },
 }
 
 module.exports = ({development}) => merge(config, development?serve:build)
