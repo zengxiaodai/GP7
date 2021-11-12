@@ -36,5 +36,9 @@
 - 需求：把src中的js代码编译成浏览器能够普通兼容的ES5代码。
 - babel-loader 是一条loaders规则。
 - 安装了一系列的Babel预设和插件，添加babel.config.js对各种Babel包进行配置。
+- @babel/core  Babel编译器核心包
+- @babel/preset-env  用于编译ES6+代码
+- @babel/preset-react  用于编译jsx代码
+- @babel/preset-typesript  用于编译ts代码
 
 - 学习方法（作业）：把webpack文档、Babel文档都翻一遍。

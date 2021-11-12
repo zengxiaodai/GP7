@@ -1,6 +1,7 @@
 // 这是serve时的专用配置
 
 const path = require('path')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -9,6 +10,30 @@ module.exports = {
   optimization: {
     minimize: false,
   },
+
+  // 仅对开发环境起作用的loaders规则
+  module: {
+    rules: [
+      // 【在v4中配置eslist的检测规则】
+      // exclude 忽略对某种目录或文件的检测
+      // enforce:'pre' 这条规则是一条前置规则，发生一般规则之前。只有当这条规则验证通过了，后面的一般规则才会运行。
+      // eslint-loader 专门用于加载javascript文件，然后交给eslint系列的检测工具进行检测。所以，我们还要安装很多合适的eslint检测工具，并在项目中添加eslint的相关配置文件。
+      // {
+      //   test: /\.js$/,
+      //   use: [{loader:'eslint-loader', options: {}}],
+      //   exclude: /node_modules/,
+      //   enforce: 'pre'
+      // }
+    ]
+  },
+
+  plugins: [
+    new ESLintPlugin({
+      eslintPath: 'eslint',
+      extensions: ['js','jsx','ts','tsx'],
+      exclude: 'node_modules'
+    })
+  ],
 
   // 本地服务配置（前提是要安装webpack-dev-server）
   // 本地服务只对development环境起作用
@@ -26,8 +51,13 @@ module.exports = {
     static: path.resolve(__dirname, '../dist'),
 
     client: {
-      progress: true
+      progress: true,
+      // 添加报错覆盖层
+      overlay: {
+        errors: true,
+        warnings: false
+      }
     },
-    compress: false
+    compress: false,
   },
 }

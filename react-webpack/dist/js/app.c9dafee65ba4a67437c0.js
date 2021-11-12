@@ -1,1 +1,0 @@
-(()=>{"use strict";var r,o;console.log("arr",(r=[1,2,3],o=[4,5,6],[...r,...o]))})();

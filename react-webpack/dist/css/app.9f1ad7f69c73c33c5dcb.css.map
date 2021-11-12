@@ -1,0 +1,1 @@
+{"version":3,"file":"css/app.9f1ad7f69c73c33c5dcb.css","mappings":"AAEA,iCAFK,C","sources":["webpack://react-webpack/./src/styles/init.scss"],"sourcesContent":["$bg: orange;\r\n\r\nhtml,body { background-color: $bg; }\r\n"],"names":[],"sourceRoot":""}
