@@ -57,8 +57,22 @@
 
 # webpack扩展
 
-- 常用loader
+- 常用loader有哪些？罗列七八个。
 - 自定义loader
+  - 每个loader都是一个function函数，它接收一种文件(对象或字符串)，最终返回另外一种文件(对象、字符串或JS代码)，什么是必须返回JS代码呢？如果当前封装的loader用于webpack规则中最后的一个loader,那么必须返回js代码。
+  - 自定义loader的基本语法：
+  ```
+  module.exports = function(source) {
+    // 使用任何第三方js模块do something
+    const result = 'some string or object'
+    // return `module.exports = ${JSON.stringify(result)}`
+    return `export default ${JSON.stringify(result)}`
+  }
+  ```
+  - 如果一个loader不用于webpack规则的最后一个loader，不要抛出js代码。
+- 常用loaders有哪些？具体到某一个loader的背后是怎么工作的？如何自定义loader？
 
-  webpack   .xxx  -> xxx-loader(function)(编译器)   -> 另一种资源文件
-  .md  ->   ....   ->  html
+- 常用plugins有哪些？罗列七八个。
+- 自定义plugin
+  - 每个plugin本质上都是一个class类（这个类必须有一个叫apply实例方法，在这个apply方法中触发一个事件来执行工具）。
+  - clean-webpack-plugin

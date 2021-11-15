@@ -63,7 +63,8 @@ const config = {
       { test: /\.(png|svg|jpg|jpeg|gif)$/, type: 'asset/resource' },
 
       // 使用自定义loader
-      { test: /\.md$/, use: ['html-loader', path.resolve(__dirname, 'loaders/mark.js')] }
+      { test: /\.md$/, use: [path.resolve(__dirname, 'loaders/mark')] },
+      { test: /\.txt$/, use: [path.resolve(__dirname, 'loaders/txt')] }
     ]
   },
   // 解析配置

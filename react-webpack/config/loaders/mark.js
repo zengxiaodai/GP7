@@ -6,7 +6,11 @@ const marked = require('marked')
 
 function markLoader(source) {
   const html = marked.parse(source)
-  return html
+
+  console.log('html', html)
+  // return html
+  // return `export default ${JSON.stringify(html)}`
+  return `module.exports = ${JSON.stringify(html)}`
 }
 
 module.exports = markLoader
