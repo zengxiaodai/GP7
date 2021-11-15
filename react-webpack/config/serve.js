@@ -24,6 +24,8 @@ module.exports = {
       //   exclude: /node_modules/,
       //   enforce: 'pre'
       // }
+
+      { test: /\.(css|scss|sass)$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
     ]
   },
 
@@ -61,4 +63,9 @@ module.exports = {
     },
     compress: false,
   },
+  resolve: {
+    alias: {
+      'react': path.resolve(__dirname, '../node_modules/react/umd/react.development.js')
+    }
+  }
 }

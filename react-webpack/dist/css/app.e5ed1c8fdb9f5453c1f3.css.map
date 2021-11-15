@@ -1,0 +1,1 @@
+{"version":3,"file":"css/app.e5ed1c8fdb9f5453c1f3.css","mappings":"AAEA,+BAFK,C","sources":["webpack://react-webpack/./src/styles/init.scss"],"sourcesContent":["$bg: blue;\r\n\r\nhtml,body { background-color: $bg; }\r\n"],"names":[],"sourceRoot":""}

@@ -54,5 +54,11 @@
 - 需求：在当前环境下支持jsx语法。
 - 安装 @babel/preset-react  参见babel.config.js这个配置。
 
-- 下周一：webpack高级技术，自定义loaders、自定义plugins、构建优化。
-- 下周二：开始react。
+
+# webpack扩展
+
+- 常用loader
+- 自定义loader
+
+  webpack   .xxx  -> xxx-loader(function)(编译器)   -> 另一种资源文件
+  .md  ->   ....   ->  html
