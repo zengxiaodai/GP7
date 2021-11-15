@@ -15,6 +15,7 @@ module.exports = {
   // 什么插件？用于弥补预设不能编译的小语法问题
   plugins: [
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
-    ["@babel/plugin-proposal-class-properties", {}]
+    ["@babel/plugin-proposal-class-properties", {}],
+    ["@babel/plugin-syntax-dynamic-import", {}]
   ]
 }

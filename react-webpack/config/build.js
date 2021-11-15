@@ -2,6 +2,7 @@
 const TerserPlugin = require("terser-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const path = require('path')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   mode: 'production',
@@ -28,6 +29,11 @@ module.exports = {
     // 抽离css文件
     new MiniCssExtractPlugin({
       filename: 'css/[name].[chunkhash].css'
+    }),
+    // 开启bundle分析功能
+    new BundleAnalyzerPlugin({
+      analyzerPort: 8888,
+      openAnalyzer: true
     })
   ],
   resolve: {

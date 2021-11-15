@@ -10,6 +10,7 @@ module.exports = {
   optimization: {
     minimize: false,
   },
+  cache: { type: 'memory' },
 
   // 仅对开发环境起作用的loaders规则
   module: {
@@ -25,7 +26,10 @@ module.exports = {
       //   enforce: 'pre'
       // }
 
-      { test: /\.(css|scss|sass)$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
+      {
+        test: /\.(css|scss|sass)$/,
+        include: /src/,
+        use: ['cache-loader', 'style-loader', 'css-loader', 'sass-loader'] },
     ]
   },
 

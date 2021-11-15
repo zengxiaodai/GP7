@@ -9,6 +9,7 @@ const path = require('path')
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const QfCleanPlugin = require('./plugins/qf-clean-plugin')
 
 const build = require('./build')
 const serve = require('./serve')
@@ -18,7 +19,12 @@ const config = {
   // entry: './src/main.js',
   // entry: path.resolve(__dirname, 'src/main.js'),
   entry: {
-    app: path.resolve(__dirname, '../src/main.js')
+    // 在chunk中重复导入的第三方包
+    vendor: ['react', 'react-dom'],
+    app: {
+      dependOn: 'vendor',
+      import: path.resolve(__dirname, '../src/main.js')
+    }
   },
 
   // 出口配置（在配置出口时只能使用绝对路径）
@@ -28,7 +34,8 @@ const config = {
     path: path.resolve(__dirname, '../dist'),
     // 实现自动清除output.path目录中的文件
     // 如果是v4，用 clean-webpack-plugin
-    clean: true
+    // 在最新的v5中，clean:true 可以代替clean-webpack-plugin功能
+    // clean: true
   },
 
   // 插件：是webpack中一些用于扩展的小插件
@@ -44,7 +51,9 @@ const config = {
       favicon: path.resolve(__dirname, '../public/favicon.ico')
     }),
     // 开启编译进度条
-    new webpack.ProgressPlugin()
+    new webpack.ProgressPlugin(),
+    // 测试自定义的plugin
+    new QfCleanPlugin()
   ],
 
   // loaders 用于加载各种各样的文件模块，并使用相应的编译器对这些模块进行编译
@@ -53,7 +62,13 @@ const config = {
     rules: [
       // 第一条规则：当webpack运行时，如果遇到以.js为后缀的文件时，webpack就使用babel-loader来加载.js文件，然后交给Babel编译器（@babel/core、@babel/preset-env）进行编译转换，最终得到ES5代码。
       // babel-loader 专门用于加载javascript文件，然后交给Babel编译器进行编译。
-      { test: /\.(js|jsx|ts|tsx)$/, use: [{loader:'babel-loader',options:{}}], include: /src/ },
+      {
+        test: /\.(js|jsx|ts|tsx)$/,
+        include: /src/,
+        use: [
+          {loader:'thread-loader', options:{workers:2}},
+          {loader:'babel-loader',options:{}}
+        ],  },
 
       // 处理图片模块，下面是v4的写法
       // { test: /\.(png|jpg|jpeg|gif|webp|svg)$/, use: ['url-loader'] },
@@ -73,7 +88,10 @@ const config = {
     alias: {
       '@': path.resolve(__dirname, '../src'),
       '@@': path.resolve(__dirname, '../public')
-    }
+    },
+    // 在不使用npm run link时候，可以提升解析速度
+    symlinks: false,
+    modules: ['node_modules']
   },
 }
 

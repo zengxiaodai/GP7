@@ -1,12 +1,12 @@
-function concat(arr1, arr2) {
-  return [...arr1, ...arr2]
+function add(a,b) {
+  return a+b
 }
 
-function abc(C) { return C }
-
-@abc
-class Dog {
-  run() { console.log('dog run')}
+function sub(a,b) {
+  return a-b
 }
 
-export { concat, Dog }
+export default {
+  add,
+  sub
+}

@@ -74,5 +74,26 @@
 
 - 常用plugins有哪些？罗列七八个。
 - 自定义plugin
-  - 每个plugin本质上都是一个class类（这个类必须有一个叫apply实例方法，在这个apply方法中触发一个事件来执行工具）。
-  - clean-webpack-plugin
+  - 每个plugin本质上都是一个class类（这个类必须有一个叫apply实例方法，在这个apply用于向webpack的hooks钩子上添加一个事件）。
+  - 自定义封装plugin最重要的是理解什么webpack的hooks钩子。
+  - 举例：clean-webpack-plugin
+
+- Wepack开发环境优化（start）优化标准：运行速度尽量快
+  - devtool: 'inline-source-map'（负）
+  - watch代码依赖图的变化，在v5中hot:true实现热更新（正）
+  - 在开发环境中开启memory缓存（生产环境下默认是关闭的）（正）
+  - 在编写各种loaders规则或者plugin时，使用exclude、include减少node文件系统的工作。（正）
+  - 巧用resolve对各种路径进行优化，缩小搜索范围。（正）
+  - 使用thread-loader（注意硬件配置）开启多线程构建。（正）
+  - 使用cache-loader对“指定文件模块”进行缓存。（正）
+
+- Webpack生产打包优化（build）优化标准：代码质量优化
+  - devtool: 'source-map'（正）
+  - chunks拆分
+    - 在前端代码中使用“动态导入()=>import()”自动实现代码分离（正）（推荐）
+      - 安装 @babel/plugin-syntax-dynamic-import 支持动态导入语法
+    - 使用optimization.splitChunks 或 split-chunks-plugin手动实现分离分离（正）（很少用）
+  - vendor抽离
+    - 在entry入口中对多个chunk中重复的代码进行抽离（正）
+  - bundle分析技术
+    - 使用webpack-bundle-analyzer对“代码依赖图”进行人工分析
