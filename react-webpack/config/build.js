@@ -3,13 +3,16 @@ const TerserPlugin = require("terser-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const path = require('path')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
+const QfCleanPlugin = require('./plugins/qf-clean-plugin')
 
 module.exports = {
   mode: 'production',
   devtool: 'source-map',
+  // 优化
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin()]
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
   },
   module: {
     rules: [
@@ -34,7 +37,9 @@ module.exports = {
     new BundleAnalyzerPlugin({
       analyzerPort: 8888,
       openAnalyzer: true
-    })
+    }),
+    // 测试自定义的plugin
+    new QfCleanPlugin()
   ],
   resolve: {
     alias: {

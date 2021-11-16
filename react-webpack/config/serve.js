@@ -3,12 +3,13 @@
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
 
+
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
 
   optimization: {
-    minimize: false,
+    minimize: false
   },
   cache: { type: 'memory' },
 
@@ -29,7 +30,9 @@ module.exports = {
       {
         test: /\.(css|scss|sass)$/,
         include: /src/,
-        use: ['cache-loader', 'style-loader', 'css-loader', 'sass-loader'] },
+        // use: ['cache-loader', 'style-loader', 'css-loader', 'sass-loader'] },
+        use: ['style-loader', 'css-loader', 'sass-loader']
+      },        
     ]
   },
 
@@ -54,8 +57,10 @@ module.exports = {
     hot: true,
     // v4中有contentBase
     // contentBase: path.resolve(__dirname, 'public')
+
     // v5中要使用html-webpack-plugin实现静态资源目录和src的组装
-    static: path.resolve(__dirname, '../dist'),
+    // v5中默认的静态资源目录就是public
+    // static: path.resolve(__dirname, '../dist'),
 
     client: {
       progress: true,

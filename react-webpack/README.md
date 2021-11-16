@@ -84,8 +84,9 @@
   - 在开发环境中开启memory缓存（生产环境下默认是关闭的）（正）
   - 在编写各种loaders规则或者plugin时，使用exclude、include减少node文件系统的工作。（正）
   - 巧用resolve对各种路径进行优化，缩小搜索范围。（正）
-  - 使用thread-loader（注意硬件配置）开启多线程构建。（正）
+  - 使用thread-loader / happypack（注意硬件配置）开启多线程构建。（正）
   - 使用cache-loader对“指定文件模块”进行缓存。（正）
+  - 使用 speed-measure-webpack-plugin 对所有的plugins进行加速。（正）
 
 - Webpack生产打包优化（build）优化标准：代码质量优化
   - devtool: 'source-map'（正）
@@ -97,3 +98,16 @@
     - 在entry入口中对多个chunk中重复的代码进行抽离（正）
   - bundle分析技术
     - 使用webpack-bundle-analyzer对“代码依赖图”进行人工分析
+  - 使用 tree-shaking 技术把src中的“死代码”移除掉，以节省打包后代码的体积。
+    - 具体做法是在package.json中添加"sideEffects":false，该功能只对mode:production起作用。
+  - 抽离CSS并压缩
+    - 使用 mini-css-extract-plugin 把css代码抽离出来
+    - 使用 css-minimizer-webpack-plugin 把css代码进行压缩
+  - terser压缩
+    - 使用 terser-webpack-plugin 集成terser高性能压缩
+
+# Webpack学习总结
+
+- 能够使用webpack搭建任意的前端架构环境（v4、v5都要会使用）。
+- 尽可能多地了解webpack工作流程、底层原理，以及与vite、gulp、rollup等工具的差异与优劣。
+- 尽可能多地实践一些webpack构建优化技巧（运行速度、代码质量）。
