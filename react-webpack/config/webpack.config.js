@@ -38,7 +38,7 @@ const config = {
     // 如果是v4，用 clean-webpack-plugin
     // 在最新的v5中，clean:true 可以代替clean-webpack-plugin功能
     // clean: true,
-    pathinfo: false,
+    // pathinfo: false,
   },
 
   // 插件：是webpack中一些用于扩展的小插件

@@ -7,7 +7,7 @@ import TestJSX from '@/views/study/12/TestJSX'
 export default () => {
   return (
     <div className='app'>
-      <TestJSX />
+      <TestJSX listType='photo' />
     </div>
   )
 }
