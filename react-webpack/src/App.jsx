@@ -7,7 +7,9 @@ import React from 'react'
 // import TestEvent from '@/views/study/12/TestEvent'
 // import TestCondition from '@/views/study/12/TestCondition'
 // import TestList from '@/views/study/12/TestList'
-import TestForm from '@/views/study/12/TestForm'
+// import TestForm from '@/views/study/12/TestForm'
+import TestLife from '@/views/study/12/TestLife'
+
 
 
 
@@ -15,7 +17,7 @@ import TestForm from '@/views/study/12/TestForm'
 export default () => {
   return (
     <div className='app'>
-      <TestForm />
+      <TestLife />
     </div>
   )
 }
