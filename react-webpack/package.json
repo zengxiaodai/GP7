@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "sideEffects": ["*.css", "*.scss"],
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
   "scripts": {
     "build1": "cross-env NODE_ENV=production webpack --config config/webpack.config.js",
     "serve1": "cross-env NODE_ENV=development webpack serve --config config/webpack.config.js",
@@ -54,6 +57,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
