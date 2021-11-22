@@ -14,7 +14,8 @@ import React from 'react'
 // import TestCombine from '@/views/study/14/TestCombine'
 
 // import TestContext from '@/views/study/16/TestContext'
-import TestHoc from '@/views/study/16/TestHoc'
+// import TestHoc from '@/views/study/16/TestHoc'
+import TestHooks from '@/views/study/16/TestHooks'
 
 import { Provider } from '@/utils/theme'
 import { ToggleTheme } from '@/components'
@@ -44,7 +45,7 @@ export default class App extends React.PureComponent {
     const { theme } = this.state
     return (
       <Provider value={theme}>
-          <TestHoc />
+          <TestHooks />
           {/*<ToggleTheme
             theme={theme}
             onTheme={theme=>this.setState({theme})}

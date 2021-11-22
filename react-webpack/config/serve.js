@@ -71,6 +71,12 @@ module.exports = {
       }
     },
     compress: false,
+    proxy: {
+      '/api': {
+        target: 'https://cnodejs.org',
+        changeOrigin: true
+      }
+    }
   },
   resolve: {
     alias: {
