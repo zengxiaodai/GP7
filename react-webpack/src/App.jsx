@@ -13,7 +13,8 @@ import React from 'react'
 // import TestLift from '@/views/study/14/TestLift'
 // import TestCombine from '@/views/study/14/TestCombine'
 
-import TestContext from '@/views/study/16/TestContext'
+// import TestContext from '@/views/study/16/TestContext'
+import TestHoc from '@/views/study/16/TestHoc'
 
 import { Provider } from '@/utils/theme'
 import { ToggleTheme } from '@/components'
@@ -43,11 +44,12 @@ export default class App extends React.PureComponent {
     const { theme } = this.state
     return (
       <Provider value={theme}>
-          <TestContext />
-          <ToggleTheme
+          <TestHoc />
+          {/*<ToggleTheme
             theme={theme}
             onTheme={theme=>this.setState({theme})}
           />
+          */}
       </Provider>
     )
   }
