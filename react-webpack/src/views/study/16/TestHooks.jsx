@@ -38,20 +38,61 @@
   // 当第二个参数是空数组时【useEffect(()=>{fn1();return fn2}, [])】，初始化时fn1执行、fn2不执行；当set*调用时，fn2和fn1都不执行。当组件被路由销毁时，fn2执行。
   // 当第二个参数是“响应式依赖”的数据时【useEffect(()=>{fn1();return fn2}, [a,b,...])】，初始化时fn1执行、fn2不执行；当“响应式依赖”被set*改变时，先执行fn2，再执行fn1。当组件被路由销毁时，fn2执行。
 
-// useContext
-// useMemo
-// useCallback
-// useRef
-// useReducer
+// 三、useContext
+// 语法：const theme = useContext(ThemeContext)
 
-import React, { useState, useEffect } from 'react'
+// 四、useRef
+// 语法：const boxRef = useRef(null)  // boxRef.current
+
+// 五、useMemo
+// 语法：const computedValue = useMemo(computeExpensiveValue, [依赖数组])
+// 理解：这玩意儿就是计算属性，具有缓存功能。当我们在函数式组件中需要处理Expensive的运算时，我们使用useMemo()来做优化。避免无关的“风吹草动”导致我重新计算。
+// 注意：useMemo() 的第二个参数，不能省，必须手动收集依赖。据说未来无须手动收集依赖了。
+
+// 六、useCallback
+// 语法：const memoFn = useCallback(fn, [依赖数据])
+// 理解：这玩意儿用于缓存一个函数声明。避免每次风吹草动时函数重新被声明。
+// 注意：useCallback() 的第二个参数，一般用空数组，避免重新理解。
+
+// 七、自定义Hooks
+
+// 1、Hooks只能在顶部使用，不能在循环、函数调用中使用。
+// 2、Hooks只能在函数式组件、自定义Hooks中使用。
+// 3、自定义Hooks必须以use*，在自定义的Hooks还可以调用其它的Hooks。
+// 4、自定义的Hooks，本质上就是一个函数封装。
+// 5、自定义Hooks是一种逻辑复用技巧，自定义Hooks是完全独立的，互不干扰。
+
+// 八、如何深入实践React Hooks编程？
+// 1、反复研究React Hooks官方文档以及背后的参考文献。（理论）
+// 2、反复实战使用react-use这个库。（开发）
+
+import React, {
+  useState,
+  useEffect,
+  // useContext,
+  useRef,
+  useMemo,
+  useCallback
+} from 'react'
+
+import { useInterval, useTitle } from 'react-use'
+
 import fetch from '@/utils/request'
+import { useTheme } from '@/utils/theme'
 
 export default () => {
-  console.log('---rendered')
+  // console.log('---rendered')
   const [count, setCount] = useState(0)
   const [text, setText] = useState('')
   const [num, setNum] = useState(100)
+  const [price, setPrice] = useState(0)
+  const [amount, setAmount] = useState(0)
+
+  const theme = useTheme()
+
+  useTitle('哥哥')
+
+  const boxRef = useRef(null)
 
   const [list, setList] = useState([])
   const [params, setParams] = useState({
@@ -60,26 +101,31 @@ export default () => {
     tab: ''
   })
 
-  useEffect(()=>{
-    // console.log('---活了')
-    // 这里相当于是componentDidMount()
-    // 在副作用里开启定时器
-    const timer = setTimeout(()=>{
-      // console.log('---timer', num)
-      setNum(num+1)
-      // console.log('---timer', num)
-    }, 2000)
+  // useEffect(()=>{
+  //   // console.log('---活了')
+  //   // 这里相当于是componentDidMount()
+  //   // 在副作用里开启定时器
+  //   const timer = setTimeout(()=>{
+  //     // console.log('---timer', num)
+  //     setNum(num+1)
+  //     // console.log('---timer', num)
+  //   }, 2000)
+  //
+  //   return ()=>{
+  //     // 这里相当于是componentWillUnmount()
+  //     clearTimeout(timer)
+  //     // console.log('---死了')
+  //   }
+  // }, [num])
 
-    return ()=>{
-      // 这里相当于是componentWillUnmount()
-      clearTimeout(timer)
-      // console.log('---死了')
-    }
-  }, [count, num])
+  useInterval(()=>{
+    setNum(num+1)
+  }, 1000)
 
   useEffect(()=>{
     // mounted(componentDidMount)
-    document.getElementById('box').style.opacity = Math.random()
+    // document.getElementById('box').style.opacity = Math.random()
+    boxRef.current.style.opacity = Math.random()
     console.log('dom 执行了')
   }, [count])
 
@@ -91,12 +137,27 @@ export default () => {
     })
   }, [params])
 
-  const search = () => {
-    console.log('调接口', text)
-  }
+  // 假如这是一个比较耗费性能的计算，使用useMemo来优化。
+  // const total = price * amount
+  const total = useMemo(()=>{
+    console.log('我重新计算了')
+    return price*amount
+  }, [price, amount])
+
+  // console.log('total', total)
+
+  // 使用useCallback()把这个函数声明变量可记忆的（缓存起来，避免重新声明）
+  const search = useCallback((ev) => {
+    if (ev.keyCode === 13) console.log('调接口', text)
+  }, [])
+
+
+
+
+
 
   return (
-    <div>
+    <div style={theme}>
       <h2>学习Hooks系列API</h2>
       <h2>{ count }</h2>
       <div onClick={()=>setCount(count+1)}>自增</div>
@@ -111,7 +172,25 @@ export default () => {
       <hr/>
       <h2>{ num }</h2>
       <hr/>
-      <div id='box'>颜色变化</div>
+      <div ref={boxRef} id='box'>颜色变化</div>
+      <hr/>
+
+      <div>
+        价格：
+        <input
+          type="number"
+          value={price}
+          onChange={ev=>setPrice(ev.target.value)}
+        /><br/>
+        数量：
+        <input
+          type="number"
+          value={amount}
+          onChange={ev=>setAmount(ev.target.value)}
+        /><br/>
+        总价：<h4>{ total }</h4>
+      </div>
+
       <hr/>
       <div>
       {

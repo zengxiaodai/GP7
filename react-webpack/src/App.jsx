@@ -46,10 +46,11 @@ export default class App extends React.PureComponent {
     return (
       <Provider value={theme}>
           <TestHooks />
-          {/*<ToggleTheme
+          <ToggleTheme
             theme={theme}
             onTheme={theme=>this.setState({theme})}
           />
+          {/*
           */}
       </Provider>
     )
