@@ -29,7 +29,7 @@ module.exports = {
 
       {
         test: /\.(css|scss|sass)$/,
-        include: /src/,
+        // include: /src/,
         // use: ['cache-loader', 'style-loader', 'css-loader', 'sass-loader'] },
         use: ['style-loader', 'css-loader', 'sass-loader']
       },

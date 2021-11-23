@@ -111,3 +111,28 @@
 - 能够使用webpack搭建任意的前端架构环境（v4、v5都要会使用）。
 - 尽可能多地了解webpack工作流程、底层原理，以及与vite、gulp、rollup等工具的差异与优劣。
 - 尽可能多地实践一些webpack构建优化技巧（运行速度、代码质量）。
+
+
+# react-router-dom
+
+- v6文档：https://reactrouter.com
+- v5文档：https://v5.reactrouter.com/web/guides/quick-start
+
+- react-router
+- react-router-dom
+- react-router-native
+
+- 安装 cnpm install react-router-dom@5.3.0 -S
+
+- v4 没有路由Hooks
+- v5 新增了路由Hooks
+- v6 变化很大
+
+- 安装react-router-dom(v5.3.0)，会使用HashRouter、Route、Switch、Redirect、Link。
+- 使用@loadable/component（React.lazy、Suspense）实现“代码分割”。
+- 安装antd-mobile，把tabbar组件搞进来。
+- 在react-router-dom路由系统中，不是每个React组件都能访问到路由api。只有那些被Route直接包裹过的React页面组件可以通过props访问到路由api。
+- 那些未被Route直接包裹的React组件默认无法访问路由api，怎么办呢？
+  - 可以通过属性继承{...props}语法，把页面组件的props（路由API）手动向后代组件传递。
+  - 使用withRouter这个高阶组件，向组件中注入路由API。（非Hooks编程中用得比较多）
+  - 使用react-router-dom（v5）提供的hooks api直接使用路由API。

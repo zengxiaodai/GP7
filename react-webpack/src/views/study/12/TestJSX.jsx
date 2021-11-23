@@ -157,7 +157,6 @@ export default class TestJSX extends React.Component {
     }
     const a9 = {color:'red',fontSize:'0.5rem'}
     const a10 = 'qf'
-    const UnknowList = unknow[this.props.listType]
 
     return (
       <div>
@@ -178,7 +177,6 @@ export default class TestJSX extends React.Component {
         <div>{ count }</div>
         <Qf.Model />
         <Qf.Select />
-        <UnknowList a={1+2+2} />
         <div {...{title:'qf', className:'box', id:'box'}}>测试展开运算符</div>
         <div title='qf' className='box' id='box'>与上一行等价的</div>
         <Qf.Model>
