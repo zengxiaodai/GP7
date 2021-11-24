@@ -128,6 +128,8 @@
 - v5 新增了路由Hooks
 - v6 变化很大
 
+- React路由的编程特点：组件化、hooks api、withRouter。
+
 - 安装react-router-dom(v5.3.0)，会使用HashRouter、Route、Switch、Redirect、Link。
 - 使用@loadable/component（React.lazy、Suspense）实现“代码分割”。
 - 安装antd-mobile，把tabbar组件搞进来。
@@ -136,3 +138,26 @@
   - 可以通过属性继承{...props}语法，把页面组件的props（路由API）手动向后代组件传递。
   - 使用withRouter这个高阶组件，向组件中注入路由API。（非Hooks编程中用得比较多）
   - 使用react-router-dom（v5）提供的hooks api直接使用路由API。
+  - 【】修改react-router-dom出口，把路由上下文对象抛出来，useContext()直接使用这些路由API。
+
+- 路由传参：params动态路由传参，query传参。
+
+- 嵌套视图：Route所包裹的组件中又使用了Route。
+  - 在嵌套视图时，一定要用Switch把二级Route路由包裹起来。
+  - 在编写Route规则，不要“一刀切地加exact”，注意exact对 / 的影响。
+```
+function App() {
+  return (
+    <Switch>
+      <Route path='/list' component={List} />
+    </Switch>
+  )
+}
+function List() {
+  return (
+    <Switch>
+      <Route path='/list/video' component={ListVideo} />
+    </Switch>
+  )
+}
+```

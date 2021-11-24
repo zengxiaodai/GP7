@@ -11,18 +11,16 @@ import './style.scss'
 export default () => {
   const renderRoutes = () => {
     return routes.map(ele=>(
-      <Route exact key={ele.id} path={ele.path} component={ele.component} />
+      <Route exact={ele.exact} key={ele.id} path={ele.path} component={ele.component} />
     ))
   }
   return (
     <div className='qf-layout'>
     <Switch>
       { renderRoutes() }
-      <Redirect from='/*' to='/jsx' />
     </Switch>
 
     <Tabbar />
     </div>
-
   )
 }

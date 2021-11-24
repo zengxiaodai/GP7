@@ -26,13 +26,16 @@ const TestProps = loadable(()=>import('@/views/study/12/TestProps'),{fallback:<L
 
 // webapp
 const ArticleList = loadable(()=>import('@/views/cnode/ArticleList'),{fallback:<Loading/>})
-
+const ArticleDetail = loadable(()=>import('@/views/cnode/ArticleDetail'),{fallback:<Loading/>})
+const Find = loadable(()=>import('@/views/find/Find'))
 
 const routes = [
   { id: 1, path: '/jsx', component: TestJSX },
   { id: 2, path: '/props', component: TestProps },
-  { id: 2001, path: '/', component: ArticleList },
-  { id: 2002, path: '/find', component: ArticleList },
+  // 首页加 exact 精准匹配。
+  { id: 2001, exact:true, path: '/', component: ArticleList },
+  { id: 2004, path: '/detail/:id', component: ArticleDetail },
+  { id: 2002, path: '/find', component: Find },
   { id: 2003, path: '/user', component: ArticleList },
 ]
 
