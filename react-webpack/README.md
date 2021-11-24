@@ -145,19 +145,53 @@
 - 嵌套视图：Route所包裹的组件中又使用了Route。
   - 在嵌套视图时，一定要用Switch把二级Route路由包裹起来。
   - 在编写Route规则，不要“一刀切地加exact”，注意exact对 / 的影响。
-```
-function App() {
-  return (
-    <Switch>
-      <Route path='/list' component={List} />
-    </Switch>
-  )
-}
-function List() {
-  return (
-    <Switch>
-      <Route path='/list/video' component={ListVideo} />
-    </Switch>
-  )
-}
-```
+  ```
+  function App() {
+    return (
+      <Switch>
+        <Route path='/list' component={List} />
+      </Switch>
+    )
+  }
+  function List() {
+    return (
+      <Switch>
+        <Route path='/list/video' component={ListVideo} />
+      </Switch>
+    )
+  }
+  ```
+  - 在v6中如何解决“嵌套视图”的问题（v6中用element渲染组件）
+  ```
+  <Routes>
+    <Route path='/' element={<Home />}></Route>
+    <Route path='/find' element={<Find />}>
+      <Route path='video' element={<Video />}></Route>
+      <Route path='image' element={<Image />}></Route>      
+    </Route>
+  </Routes>
+
+  function Find() {
+    return (
+      <div>something</div>
+      <Outlet />
+    )
+  }
+  ```
+
+# 状态管理
+
+- 常用React数据架构：
+  - mobx（v5/v6）、mobx-react（v6/v7）
+  - redux、react-redux、redux-thunk
+  - redux、react-redux、redux-saga（dva）
+  - redux、react-redux、@reduxjs/toolkit
+  - flux（Facebook官方提出的数据流思想）
+
+- mobx(v5) + mobx-react(v6) 编写语法还有ES5、ES6两种。
+- mobx(v6) + mobx-react(v7) 编写语法还有ES5、ES6两种。
+
+- 以下mobx(v6) + mobx-react(v7) 用ES6语法、函数式组件为例，说明集成mobx架构的一般步骤：
+  - 1、安装mobx(v6)，用面向对象语法编写store和子store的代码逻辑，参见store目录。
+  - 2、安装mobx-react(v7)，在App根组件中，使用<Provider {...store} />
+  - 3、在React组件中，使用 inject('user')(observer(props=>(<div></div>)))

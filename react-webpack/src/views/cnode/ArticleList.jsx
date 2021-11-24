@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'antd-mobile'
+
 import { useHistory } from 'react-router-dom'
+import { observer, inject } from 'mobx-react'
 
-import request from '@/utils/request'
+// 原则：一切外部数据都要从props进来。
+export default inject('study')(
+  observer(
+    ({study}) => {
+      console.log('rendered', study.list)
+      const history = useHistory()
 
-export default () => {
+      useEffect(()=>{
+        const params = { tab:'',page:1,limit:5}
+        // 触发mobx走流程
+        study.getList(params)
+      }, [])
 
-  const [list, setList] = useState([])
-  const history = useHistory()
-
-  useEffect(()=>{
-    request('/topics', {}).then(list=>{
-      setList(list)
-    })
-  }, [])
-
-  const skipToDetail = ele => {
-    console.log('press')
-    history.push(`/detail/${ele.id}?articleId=${ele.id}`)
-  }
-
-  return (
-    <div className='qf-article-list'>
-      <Button type="primary">default</Button>
-      {
-        list.map(ele=>(
-          <div key={ele.id} onClick={()=>skipToDetail(ele)}>
-            { ele.title }
-          </div>
-        ))
+      const skipToDetail = ele => {
+        console.log('press')
+        history.push(`/detail/${ele.id}?articleId=${ele.id}`)
       }
-    </div>
+
+      return (
+        <div className='qf-article-list'>
+          {
+            study.list.map(ele=>(
+              <div key={ele.id} onClick={()=>skipToDetail(ele)}>
+                { ele.title }
+              </div>
+            ))
+          }
+        </div>
+      )
+    }
   )
-}
+)

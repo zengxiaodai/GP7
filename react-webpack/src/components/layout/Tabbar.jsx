@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
 import { TabBar } from 'antd-mobile'
 import { withRouter, useHistory, useLocation } from 'react-router-dom'
+import tabs from './tabs'
+import { useTab } from '@/hooks'
 
 // 用了withRouter和路由hooks，二选一。
 export default withRouter(
   props => {
-    console.log('tabbar props', props)
-    const [list] = useState([
-      { id: 1, path: '/', title: '首页', icon: 'https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg', iconOn: 'https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg', },
-      { id: 2, path: '/find', title: '发现', icon: 'https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg', iconOn: 'https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg', },
-      { id: 3, path: '/user', title: '我的', icon: 'https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg', iconOn: 'https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg', }
-    ])
-
     const history = useHistory()
-    const location = useLocation()
+    const { pathname } = useLocation()
+
+    const [flag, tabIdx] = useTab(tabs)
 
     const switchTab = ele => {
       history.replace(ele.path)
@@ -26,13 +23,13 @@ export default withRouter(
         barTintColor="white"
       >
       {
-        list.map(ele=>(
+        tabs.map((ele,idx)=>(
           <TabBar.Item
             icon={{ uri: ele.icon }}
             selectedIcon={{ uri: ele.iconOn }}
             title={ele.title}
             key={ele.id}
-            selected={location.pathname===ele.path}
+            selected={flag && tabIdx===idx}
             onPress={()=>switchTab(ele)}
           >
           </TabBar.Item>
