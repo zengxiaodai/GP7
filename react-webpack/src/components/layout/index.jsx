@@ -15,6 +15,7 @@ export default () => {
   const [flag] = useTab(tabs)
 
   const renderRoutes = () => {
+    console.log('-')
     return routes.map(ele=>(
       <Route
         exact={ele.exact}

@@ -183,6 +183,7 @@
 
 - 常用React数据架构：
   - mobx（v5/v6）、mobx-react（v6/v7）
+  - mobx(v6)、mobx-react-lite(v3)  更适合Hooks编程
   - redux、react-redux、redux-thunk
   - redux、react-redux、redux-saga（dva）
   - redux、react-redux、@reduxjs/toolkit
@@ -195,3 +196,25 @@
   - 1、安装mobx(v6)，用面向对象语法编写store和子store的代码逻辑，参见store目录。
   - 2、安装mobx-react(v7)，在App根组件中，使用<Provider {...store} />
   - 3、在React组件中，使用 inject('user')(observer(props=>(<div></div>)))
+
+# 学习总结
+
+- 工具：node、npm、淘宝镜像、yarn。。。
+- webpack(v4/v5) 一个简易版本的webpack配置应该由哪些组件（入口、出口、loaders、babel、eslint、plugin、devServer、生产与开发环境的分离、npm scripts命令的配置）
+- webpack优化：运行速度优化、打包构建优化。
+- webpack扩展：loaders封装、plugins封装，进一步理解webpack的工作流程。
+- 达到目标：能够使用v4/v5搭建任意的前端脚
+
+- react基础：JSX、props、state特点、受控表单、合成事件、状态提升、组合（children、render props）、上下文、高阶组件、Hooks（useState、useEffect、useMemo、自定义Hooks、react-use）、prop-types。
+- antd-mobile(v2)这个移动组件库灵活
+- 移动端布局、移动端事件由FastClick进行处理（区分PC事件在移动端的bug）。
+- sass样式，怎么优雅地组织sass代码。
+
+- react-router-dom(v5)：几个组件（HashRouter、Route、Switch、Redirect、Link），四个Hooks、withRouter。路由传参（params、query）、代码分割（webpack动态导入技术）、嵌套路由（难点）。
+- react-router-dom(v6)：有哪些变化。
+
+- mobx(v6) 编写store的技巧，常用注解observable、computed、action、flow、autorun(用于依赖收集).
+- mobx-react(v7) 基于上下文和高阶组件的，Provider、observer、inject()。
+- 扩展：mobx文档多翻、核心概念（State、Derivation、Action、Reaction）与Mobx的工作流程、Mobx的响应式原理（和Vue的响应原理是差不多）
+
+- 2 * 2 * 2 * 5 * 2 * 2 * 0.6 => 技术选型（前端主管）

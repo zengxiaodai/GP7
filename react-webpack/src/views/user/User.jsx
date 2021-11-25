@@ -14,7 +14,6 @@ import { Button } from 'antd-mobile'
 export default inject('study')(
   observer(
     ({ study }) => {
-
       const handle = step => {
         study.changeNum(step)
       }

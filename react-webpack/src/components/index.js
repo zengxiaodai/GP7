@@ -8,5 +8,5 @@ export {
   Layout,
   ToggleTheme,
   Tabbar,
-  Navbar
+  Navbar,
 }

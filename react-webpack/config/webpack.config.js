@@ -24,7 +24,7 @@ const config = {
     vendor: ['react', 'react-dom'],
     app: {
       dependOn: 'vendor',
-      import: path.resolve(__dirname, '../src/main.js')
+      import: path.resolve(__dirname, '../src/main.jsx')
     }
   },
 

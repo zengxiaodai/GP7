@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import { useHistory } from 'react-router-dom'
 import { observer, inject } from 'mobx-react'
@@ -6,12 +6,12 @@ import { observer, inject } from 'mobx-react'
 // 原则：一切外部数据都要从props进来。
 export default inject('study')(
   observer(
-    ({study}) => {
+    ({ study }) => {
       console.log('rendered', study.list)
       const history = useHistory()
 
       useEffect(()=>{
-        const params = { tab:'',page:1,limit:5}
+        const params = { tab: '', page: 1, limit: 5 }
         // 触发mobx走流程
         study.getList(params)
       }, [])

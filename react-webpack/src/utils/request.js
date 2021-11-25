@@ -7,25 +7,22 @@ const version = '/api/v1'
 const instance = axios.create({
   baseURL: baseURL + version,
   timeout: 5000, // 毫秒
-  headers: {}
+  headers: {},
 })
 
-instance.interceptors.request.use(function (config) {
+instance.interceptors.request.use((config) => {
+  console.log('-')
   return config
-}, function (error) {
-  return Promise.reject(error)
-})
+}, (error) => Promise.reject(error))
 
-instance.interceptors.response.use(function (response) {
-  if (response.status===200) {
+instance.interceptors.response.use((response) => {
+  if (response.status === 200) {
     // 数据过滤
     if (response.data && response.data.success) {
       return response.data.data
     }
   }
   return response
-}, function (error) {
-  return Promise.reject(error)
-})
+}, (error) => Promise.reject(error))
 
 export default instance

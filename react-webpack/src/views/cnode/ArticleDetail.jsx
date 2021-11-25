@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@/hooks'
 
 export default () => {
-
   const { id } = useParams()
   console.log('params id', id)
   const query = useQuery()

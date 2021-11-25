@@ -1,5 +1,5 @@
 import React from 'react'
-import loadable from "@loadable/component"
+import loadable from '@loadable/component'
 const Loading = ()=>(<div>Loading...</div>)
 
 // 代码分割（webpack支持代码分割）
@@ -18,8 +18,8 @@ const Loading = ()=>(<div>Loading...</div>)
 // import TestHooks from '@/views/study/16/TestHooks'
 
 // webapp
-const ArticleList = loadable(()=>import('@/views/cnode/ArticleList'),{fallback:<Loading/>})
-const ArticleDetail = loadable(()=>import('@/views/cnode/ArticleDetail'),{fallback:<Loading/>})
+const ArticleList = loadable(()=>import('@/views/cnode/ArticleList'), {fallback:<Loading/>})
+const ArticleDetail = loadable(()=>import('@/views/cnode/ArticleDetail'), {fallback:<Loading/>})
 const Find = loadable(()=>import('@/views/find/Find'))
 const User = loadable(()=>import('@/views/user/User'))
 

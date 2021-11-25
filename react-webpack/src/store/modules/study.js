@@ -1,8 +1,15 @@
-import { makeObservable, observable, action, computed, flow } from 'mobx'
+import {
+  makeObservable,
+  observable,
+  action,
+  computed,
+  flow,
+} from 'mobx'
 import { fetchArticleList } from '@/api'
 
 // makeObservable(this, {})
 // 根据开发者的需求，把指定的成员属性变成observable变量，把成员方法变成action。
+// 当在action中需要用到同步的async/await时，建议使用 flow，编写generator的语法。
 
 // 【mobx(v6)写法】
 export default class StudyStore {
@@ -13,9 +20,10 @@ export default class StudyStore {
       changeNum: action,
       num2: computed,
       list: observable,
-      getList: action
+      getList: flow,
     })
   }
+
   msg = 'GP7'
   num = 0
   list = []
@@ -25,10 +33,9 @@ export default class StudyStore {
   changeNum (payload) {
     this.num += payload
   }
-  getList (params) {
-    fetchArticleList(params).then(list=>{
-      this.list = list
-    })
+  * getList (params) {
+    const list = yield fetchArticleList(params)
+    this.list = list
   }
 }
 

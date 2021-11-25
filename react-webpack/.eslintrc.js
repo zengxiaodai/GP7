@@ -59,9 +59,31 @@ module.exports = {
   // warn (1) -违反规则给警告
   // error (2) -违反规则给报错
   rules: {
-    "no-console": "off",
-    "indent": "error",
-    "no-var": "warn"
+    "no-console": 0,
+    "semi": 0,
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
+    "linebreak-style": 0,
+    "react/function-component-definition": 0,
+    "react/jsx-props-no-spreading": 0,
+    "arrow-spacing": 0,
+    "react/prop-types": 0,
+    "arrow-parens": 0,
+    "prefer-destructuring": 0,
+    "jsx-quotes": 0,
+    "lines-between-class-members": 0,
+    "space-before-function-paren": 0,
+    "react-hooks/exhaustive-deps": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "comma-dangle": 0,
+    "object-curly-spacing": 0,
+    "object-curly-newline": 0,
+    "key-spacing": 0,
+    "react/jsx-curly-brace-presence": 0,
+    "import/newline-after-import": 0,
+    "react/jsx-tag-spacing": 0,
+    "react/jsx-one-expression-per-line": 0
   },
   env: {
     node: true,

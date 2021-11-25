@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 function useQuery() {
   const { search } = useLocation()
   return React.useMemo(() => {
-    let result = {}
+    const result = {}
     search.replace('?', '').split('&').forEach(ele=>{
       const arr = ele.split('=')
       result[arr[0]] = arr[1]
@@ -21,17 +21,17 @@ function useTab(tabs) {
   return React.useMemo(()=>{
     // 计算是不是tabbar页面
     const p = pathname.split('/')[1]
-    const r = tabs.filter(ele=>ele.path===`/${p}`)
+    const r = tabs.filter(ele=>ele.path === `/${p}`)
     // 计算得出当前tabbar索引号
     let idx = 1
-    if(pathname==='/') idx= 0
-    if(pathname==='/user') idx=2
+    if (pathname === '/') idx = 0
+    if (pathname === '/user') idx = 2
 
     return [r.length !== 0, idx]
-  }, [pathname])
+  }, [pathname, tabs])
 }
 
 export {
   useQuery,
-  useTab
+  useTab,
 }
