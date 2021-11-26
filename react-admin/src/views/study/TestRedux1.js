@@ -1,5 +1,6 @@
 import { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { countChange } from '@/store/actions'
 
 // 语法：connect(mapStateToProps, mapDispatchToProps)(UI)
 // 把store.getState()返回的状态数据放在props上
@@ -12,7 +13,7 @@ function mapStateToProps(state) {
 // 把store.dispatch传递给props用于封装方法
 function mapDispatchToProps(dispatch){
   return {
-    changeMsg: (payload)=>dispatch({type:'change',payload})
+    changeMsg: num=>dispatch(countChange(num))
   }
 }
 

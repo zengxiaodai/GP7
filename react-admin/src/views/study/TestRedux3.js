@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
+import { countChange } from '@/store/actions'
 
 export default connect(
   state => ({
     msg: state.study.msg
   }),
   dispatch => ({
-    changeMsg: payload => dispatch({type:'change', payload})
+    changeMsg: num => dispatch(countChange(num))
   })
 )(
   props => (

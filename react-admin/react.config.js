@@ -7,13 +7,17 @@ module.exports = {
     }
   },
   module: {
-    rules: [
-
-    ]
+    rules: []
   },
   plugins: [],
   devServer: {
     port: 9090,
-    open: false
+    open: false,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9999',
+        changeOrigin: true
+      }
+    }
   }
 }

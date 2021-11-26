@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
+import { countChange } from '@/store/actions'
 
 export default () => {
   const msg = useSelector(state=>state.study.msg)
@@ -6,7 +7,7 @@ export default () => {
   return (
     <div>
       <h1>{ msg }</h1>
-      <button onClick={()=>dispatch({type:'change',payload:-1})}>修改MSG</button>
+      <button onClick={()=>dispatch(countChange(-1))}>修改MSG</button>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { countChange } from '@/store/actions'
 
 class TestRedux2 extends PureComponent {
   render () {
@@ -19,6 +20,6 @@ export default connect(
     msg: state.study.msg
   }),
   dispatch => ({
-    changeMsg: payload => dispatch({type:'change', payload})
+    changeMsg: num => dispatch(countChange(num))
   })
 )(TestRedux2)
