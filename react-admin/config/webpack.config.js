@@ -353,7 +353,7 @@ module.exports = function (webpackEnv) {
         new ModuleScopePlugin(paths.appSrc, [
           paths.appPackageJson,
           reactRefreshOverlayEntry,
-        ]),
+        ])
       ],
     },
     resolveLoader: {
@@ -546,6 +546,9 @@ module.exports = function (webpackEnv) {
             // In production, they would get copied to the `build` folder.
             // This loader doesn't use a "test" so it will catch all modules
             // that fall through the other loaders.
+            
+            // 在file-loader之前添加用户的loader
+            ...((qfconfig.module && qfconfig.module.rules) || []),
             {
               loader: require.resolve('file-loader'),
               // Exclude `js` files to keep "css" loader working as it injects
@@ -744,6 +747,8 @@ module.exports = function (webpackEnv) {
             },
           },
         }),
+      // 添加用户的plugins
+      ...(qfconfig.plugins || [])
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.

@@ -144,7 +144,8 @@ checkBrowsers(paths.appPath, isInteractive)
       }
 
       console.log(chalk.cyan('Starting the development server...\n'));
-      openBrowser(urls.localUrlForBrowser);
+      // 是否自动打开浏览器
+      (qfconfig.devServer && qfconfig.devServer.open) && openBrowser(urls.localUrlForBrowser)
     });
 
     ['SIGINT', 'SIGTERM'].forEach(function (sig) {

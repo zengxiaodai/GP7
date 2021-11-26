@@ -21,3 +21,8 @@ cnpm install
 npm start
 ```
 - 把src目录、public目录、入口文件、App根组件中无关的文件和代码整理好。
+
+# create-react-app
+
+- 脚手架文档
+- webpack的二次封装（建议模仿vue.config.js）

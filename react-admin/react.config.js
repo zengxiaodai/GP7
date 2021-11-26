@@ -1,4 +1,4 @@
-// webpack二次封装（建议使用webpack的一级字符）
+// webpack二次封装（参考vue.config.js）
 const path = require('path')
 module.exports = {
   resolve: {
@@ -13,6 +13,7 @@ module.exports = {
   },
   plugins: [],
   devServer: {
-    port: 9090
+    port: 9090,
+    open: false
   }
 }
