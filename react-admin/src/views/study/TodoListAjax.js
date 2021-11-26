@@ -4,7 +4,7 @@ import './style.css'
 import { listTodo, addTodo, delTodo, editTodo, statusTodo } from '@/store/actions'
 
 const TodoPanel = props => {
-  const { title, list, status } = props
+  const { title, list } = props
   const dispatch = useDispatch()
   return (
     <div className="panel">
@@ -14,11 +14,11 @@ const TodoPanel = props => {
       </div>
       {
         list.map(ele=>(
-          <div className={`panel_list ${status?'panel_list-done':''}`} key={ele._id}>
+          <div className={`panel_list ${!ele.done?'panel_list-done':''}`} key={ele._id}>
             <span onClick={()=>dispatch(statusTodo(ele))}></span>
             <span>
             {
-              status
+              !ele.done
               ? <input
                 value={ele.task}
                 disabled
@@ -72,7 +72,7 @@ export default () => {
       </div>
 
       <TodoPanel list={list1} title='正在进行' />
-      <TodoPanel list={list2} title='已经完成' status />
+      <TodoPanel list={list2} title='已经完成' />
 
       <div className="app_bot">此TODO由GP7班制作完成</div>
     </div>
