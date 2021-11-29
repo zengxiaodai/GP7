@@ -6,13 +6,20 @@
 // 第二个“三”（3个特点）：单一数据源、store是只读的、使用reducer纯函数来修改store。
 // 第三个“三”（3个概念）：State、Action、Reducer。
 
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 
 import study from './reducers/study'
 import todo from './reducers/todo'
 
 const reducer = combineReducers({study,todo})
-const store = createStore(reducer, applyMiddleware(thunk))
+const store = createStore(
+  reducer,
+  compose(
+    applyMiddleware(thunk),
+    applyMiddleware(logger)
+  )
+)
 
 export default store

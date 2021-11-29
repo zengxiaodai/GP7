@@ -1,26 +1,11 @@
-import { useState, useEffect, useReducer } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
+import { ReactReduxContext } from 'react-redux'
 import store from '@/store'
-// store.getState()
-// store.subscribe()
-// store.dispatch()
+// store.getState()  用于获取store中所有的state
+// store.subscribe() 用于添加一个change事件，监听store变化
+// store.dispatch()  用于派发一个action
 
-// export default qfconnect(
-//   function mapStateToProps(state) {
-//     return {
-//       msg: state.user.msg
-//     }
-//
-//
-//   function mapDispatchToProps(dispatch) {
-//     return {
-//       changeMsg: function() {
-//         dispatch({type,payload})
-//       }
-//     }
-//   }
-// )(Home)
-
-function qfconnect(mapStateToProps, mapDispatchToProps) {
+function qfconnect1(mapStateToProps, mapDispatchToProps) {
   // do something
   const actions = mapDispatchToProps(store.dispatch)
   console.log('actions', actions)
@@ -36,11 +21,36 @@ function qfconnect(mapStateToProps, mapDispatchToProps) {
           setState(mapStateToProps(newState))
         })
         return () => unsubcrible()
-      }, [store])
+      }, [])
       return (
         <C {...props} {...actions} {...state} />
       )
     }
+  }
+}
+
+function qfconnect2(mapStateToProps, mapDispatchToProps) {
+  const actions = mapDispatchToProps(store.dispatch)
+  return function(C) {
+    class NewC extends React.PureComponent {
+      componentDidMount() {
+        const { store } = this.context
+        store.subscribe(()=>{
+          this.forceUpdate()
+        })
+      }
+
+      render() {
+        console.log('qfconnect1 ctx', this.context.store)
+        const { store } = this.context
+        const state = mapStateToProps(store.getState())
+        return (
+          <C {...this.props} {...actions} {...state} />
+        )
+      }
+    }
+    NewC.contextType = ReactReduxContext
+    return NewC
   }
 }
 
@@ -49,35 +59,30 @@ function useQfDispatch() {
   return store.dispatch
 }
 
-// const msg = useSelector(state=>state.user.msg)
-// function useQfSelector(fn) {
-//   const [state, setState] = useState(fn(store.getState()))
-//   useEffect(()=>{
-//     const unsubcrible = store.subscribe(()=>{
-//       setState(fn(store.getState()))
-//     })
-//     return ()=>unsubcrible()
-//   }, [store])
-//   return state
-// }
+function useQfSelector1(fn) {
+  const [state, setState] = useState(fn(store.getState()))
+  useEffect(()=>{
+    const unsubcrible = store.subscribe(()=>{
+      setState(fn(store.getState()))
+    })
+    return ()=>unsubcrible()
+  }, [store])
+  return state
+}
 
-// function useQfSelector(fn) {
-//   const [,dispatch] = useReducer(s=>s+1, 0)
-//   useEffect(()=>{
-//     const unsubcrible = store.subscribe(()=>dispatch())
-//     return ()=>unsubcrible()
-//   }, [store])
-//   return fn(store.getState())
-// }
-
-function useQfSelector(fn) {
-  const [,forceRender] = useReducer(s=>s+1, 0)
-  store.subscribe(()=>forceRender())
+function useQfSelector2(fn) {
+  const [,dispatch] = useReducer(s=>s+1, 0)
+  useEffect(()=>{
+    const unsubcrible = store.subscribe(()=>dispatch())
+    return ()=>unsubcrible()
+  }, [store])
   return fn(store.getState())
 }
 
 export {
-  qfconnect,
+  qfconnect1,
+  qfconnect2,
   useQfDispatch,
-  useQfSelector
+  useQfSelector1,
+  useQfSelector2
 }

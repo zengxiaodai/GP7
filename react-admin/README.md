@@ -113,3 +113,9 @@ function App() {
   - mobx是典型的响应式的状态管理工具, 比较适用于中小型项目.
 
 - 如何手动封装 react-redux ? (上下文,高阶组件,Hooks)
+
+- 如何封装connect()? 首先要理解connect到底在做什么? mapStateToProps把store.getState()中的数据添加到当前UI组件的props上, mapDispatchToProps给当前UI组件的props方法注入store.dipatch这个API, connect()还做了另一件重要的事,在当前UI组件中监听store变化.
+- 思路1: 编写类组件,使用 contextType接收ReactReduxContext上下文(也就是说你在当前UI组件中就拿到了store数据), 在componentDidMount()监听store的变化,当store变化时强制更新页面.
+- 思路2: 编写函数式组件, 使用useContext()拿到上下文(就是拿到了store数据),在useEffect()监听store变化,当store变化时set*方法触发当前组件更新.
+
+- 如何封装useSelector()? 它所做的事情和connect()是一样的. 使用useState/useReducer都能实现.

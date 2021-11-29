@@ -4,6 +4,7 @@ module.exports = {
     "react-app/jest"
   ],
   rules: {
-    "import/no-anonymous-default-export": 0
+    "import/no-anonymous-default-export": 0,
+    "react-hooks/exhaustive-deps": 0
   }
 }

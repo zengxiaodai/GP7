@@ -10,7 +10,5 @@ export default () => (
     <TestRedux2 /><hr/>
     <TestRedux3 /><hr/>
     <TestRedux4 /><hr/>
-
-
   </>
 )

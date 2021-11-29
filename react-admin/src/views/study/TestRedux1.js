@@ -1,6 +1,5 @@
 import { PureComponent } from 'react'
-import { connect } from 'react-redux'
-import { qfconnect } from './qf'
+import { qfconnect1 } from './qf'
 import { countChange } from '@/store/actions'
 
 // 语法：connect(mapStateToProps, mapDispatchToProps)(UI)
@@ -18,7 +17,7 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-@qfconnect(mapStateToProps, mapDispatchToProps)
+@qfconnect1(mapStateToProps, mapDispatchToProps)
 class TestRedux1 extends PureComponent {
   render () {
     console.log('props', this.props)

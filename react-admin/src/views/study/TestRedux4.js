@@ -1,6 +1,5 @@
 import { useReducer } from 'react'
-// import { useSelector, useDispatch } from 'react-redux'
-import { useQfSelector, useQfDispatch } from './qf'
+import { useQfSelector1, useQfDispatch } from './qf'
 import { countChange } from '@/store/actions'
 
 // 学习useReducer()
@@ -29,7 +28,7 @@ const Demo = () => {
 }
 
 export default () => {
-  const msg = useQfSelector(state=>state.study.msg)
+  const msg = useQfSelector1(state=>state.study.msg)
   const dispatch = useQfDispatch()
   return (
     <div>
