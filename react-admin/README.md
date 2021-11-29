@@ -26,3 +26,90 @@ npm start
 
 - 脚手架文档
 - webpack的二次封装（建议模仿vue.config.js）
+
+# redux集成
+
+```
+cnpm i redux -S
+cnpm i react-redux -S
+cnpm i redux-thunk -S
+```
+
+- 第一步,构建store的逻辑
+```
+const store = createStore(
+  combineReducers({good,user,...}),
+  compose(
+    applyMiddleware(ReduxThunk),
+    applyMiddleware(ReduxLogger),
+    ...
+  )
+)
+```
+```
+import produce from 'immer'
+function reducer(state=initState, action) {
+  return produce(state, newState=>{
+    switch(action.type) {
+      case '':
+    }
+  })
+}
+export default reducer
+```
+
+- 第二步,连接redux和react
+```
+function App() {
+  return (
+    <Provider store={store}>
+    </Provider>
+  )
+}
+```
+- 第三步,在react组件中使用store
+  - 如果是类组件, 只能使用 connect() 高阶组件.
+  ```
+  @connect(
+    state=>({msg:state.user.msg, ....}),
+    dispatch=>({changeMsg:(payload)=>dispatch({type,payload})})
+  )
+  class Home extends PureComponent { }
+  export default Home
+  ```
+  ```
+  class Home extends PureComponent { }
+  export default connect(
+    state=>({msg:state.user.msg, ....}),
+    dispatch=>({changeMsg:(payload)=>dispatch({type,payload})})
+  )(Home)
+  ```
+  - 如果是函数式组件, 使用 connect() 高阶组件
+  ```
+  export default connect(
+    state=>({msg:state.user.msg, ....}),
+    dispatch=>({changeMsg:(payload)=>dispatch({type,payload})})
+  )(props=>(<div></div>))
+  ```
+  - 如果是函数式组件(react v16.8),还可以使用react-redux的hooks写法
+  ```
+  export default () => {
+    const msg = useSelector(state=>state.user.msg)
+    const dispatch = useDispatch()
+  }
+  ```
+
+- 重新梳理redux中的三个概念
+  - store, 如何创建store, store有哪三个特点(单一数据源,只读的,只能使用reducer来修改store)
+  - action, 是一个plain object, 它是固定格式的{type:'信号',payload:'负载'},你可以把它理解成是"一封邮件", action是给dispatch(action)用的,这表示的是"一个业务逻辑".
+
+- 从redux架构的角度,思考下面几个问题?
+  - 为什么要把redux架构中的所有type抽离成常量,并且放在同一个type文件中? 就是为了低耦合,避免协同开发中对type赋值冲突的问题(如果type冲突,"信号"就冲突了,那么redux工作中肯定出现bug,这也违背了"单向数据流"的设计理念).
+  - redux默认不支持异步调接口, redux的store如果接收到了一个非action={type,payload}的信号时,会报错. 那该怎么办呢? 使用redux-thunk来解决问题. redux-thunk这个中间件作用是在store收到信号时对"信号"的数据类型进行判断,如果function类型,redux-thunk就调用这个funciton并把dispatch传递这个function,还会拦截掉这个function, 所以这个function就不会抵达reducer.
+  - 为什么要封装"action生成器"? 其一是为了把业务逻辑(调接口的逻辑)从react组件中抽离出来, 其二是action可以被复用.(在这里,你可把"action生成器"理解成一个具体的业务逻辑).
+
+- redux原理? redux和mobx有什么区别?分别有什么优势和劣势?
+  - redux是基于事件监听,react上下文,高阶组件来实现的, 比较适用中大型项目.
+  - mobx是典型的响应式的状态管理工具, 比较适用于中小型项目.
+
+- 如何手动封装 react-redux ? (上下文,高阶组件,Hooks)
