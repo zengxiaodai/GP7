@@ -1,0 +1,20 @@
+.qf-layout {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  &>.ant-layout {
+    height: 100%;
+  }
+  .ant-layout-sider {
+    position: relative;
+  }
+  .toggle {
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding-left: 16px;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+  }
+}
