@@ -10,7 +10,7 @@ const System = () => {
   return (
     <Switch>
       <Route path='/login' component={Login} />
-      <Route path='/dashboard' component={Layout} />
+      <Route path='/' component={Layout} />
     </Switch>
   )
 }

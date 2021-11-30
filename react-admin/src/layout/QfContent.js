@@ -9,7 +9,7 @@ export default () => {
     function recursion(arr) {
       arr.map(ele=>{
         result.push(
-          <Route key={ele.id} exact path={ele.path} component={ele.component} />
+          <Route key={ele.id} path={ele.path} component={ele.component} />
         )
         if(ele.children) recursion(ele.children)
       })
