@@ -4,8 +4,15 @@ import { Layout, Menu } from 'antd'
 
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import routes from '@/views'
+import { logo } from '@/utils/img'
 const { Sider } = Layout
 const { SubMenu } = Menu
+
+const Logo = ({value}) => (
+  <div className={`logo ${value?'on':''}`}>
+    <img src={logo} alt=""/>
+  </div>
+)
 
 const Toggle = ({value, onChange}) => (
   <div className='toggle' onClick={onChange}>
@@ -34,9 +41,9 @@ export default () => {
     ))
   }
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
-      <div className="logo" />
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+    <Sider trigger={null} collapsed={collapsed}>
+      <Logo value={collapsed} />
+      <Menu theme="dark" mode="inline">
         { renderMenu() }
       </Menu>
 

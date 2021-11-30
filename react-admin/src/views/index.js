@@ -1,6 +1,11 @@
 import loadable from '@loadable/component'
 
-import { UserOutlined, VideoCameraOutlined, UploadOutlined } from '@ant-design/icons'
+import {
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
+  AppstoreOutlined
+} from '@ant-design/icons'
 
 const UserManage = loadable(()=>import('./user/UserManage'))
 const MenuManage = loadable(()=>import('./menu/MenuManage'))
@@ -22,7 +27,7 @@ export default [
   {
     id: 11,
     text: '菜单管理',
-    icon: <UserOutlined />,
+    icon: <AppstoreOutlined />,
     children: [
       {
         id: 1101,

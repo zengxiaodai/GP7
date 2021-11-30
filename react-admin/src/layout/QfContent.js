@@ -22,17 +22,13 @@ export default () => {
     return result
   }
   return (
-    <Content
-      className="site-layout-background"
-      style={{
-        margin: '24px 16px',
-        padding: 24,
-        minHeight: 280,
-      }}
-    >
-      <Switch>
-        { renderRoutes() }
-      </Switch>
+    <Content>
+      <div className='qf-content'>
+        <Switch>
+          { renderRoutes() }
+        </Switch>
+      </div>
+      <div className='qf-footer'>千锋出品</div>
     </Content>
   )
 }

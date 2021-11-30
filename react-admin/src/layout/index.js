@@ -9,7 +9,7 @@ export default () => {
     <div className='qf-layout'>
       <Layout>
         <QfSider />
-        <Layout className="site-layout">
+        <Layout>
           <QfHeader />
           <QfContent />
         </Layout>

@@ -7,7 +7,28 @@ module.exports = {
     }
   },
   module: {
-    rules: []
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                modifyVars: {
+                  'primary-color': '#1DA57A',
+                  'link-color': '#1DA57A',
+                  'border-radius-base': '2px',
+                },
+                javascriptEnabled: true,
+              }
+            }
+          }
+        ]
+      }
+    ]
   },
   plugins: [],
   devServer: {

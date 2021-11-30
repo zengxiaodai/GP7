@@ -119,3 +119,14 @@ function App() {
 - 思路2: 编写函数式组件, 使用useContext()拿到上下文(就是拿到了store数据),在useEffect()监听store变化,当store变化时set*方法触发当前组件更新.
 
 - 如何封装useSelector()? 它所做的事情和connect()是一样的. 使用useState/useReducer都能实现.
+
+
+# 辅助开发系统
+
+- 功能：布局、路由、菜单管理、角色管理、用户管理、定制主题。。。
+- 工具：README，有赞管理系统，Axure原型工具（墨刀）、流程图。。。
+
+# Bug与需求（每天都要做一个小需求）
+
+- create-react-app默认支持sass，已经安装过sass-loader(v10)，还需要安装sass，重启项目就成功。
+- 在create-react-app默认是不支持less，需要自己安装less-loader(v7)和less(v3)
