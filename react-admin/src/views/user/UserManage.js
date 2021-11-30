@@ -1,22 +1,6 @@
 import { Row, Col, Input, Select, Button, Table, Tag, Space } from 'antd'
 import './style.scss'
-
-const RoleSelect = () => (
-  <Select style={{width:'120px'}}>
-  {
-    [
-      {id:1,role:'admin',role_name:'系统管理员'},
-      {id:2,role:'editor',role_name:'编辑'},
-      {id:3,role:'teacher',role_name:'讲师'}
-    ].map(ele=>(
-      <Select.Option key={ele.id} value={ele.role}>
-      {ele.role_name}
-      </Select.Option>
-
-    ))
-  }
-  </Select>
-)
+import { RoleSelect } from '@/components'
 
 const data = [
   {
@@ -123,8 +107,13 @@ export default () => {
             total: 23,
             showTotal: (total, range) => `第${range[0]}-${range[1]}条 / 总共${total}条`,
             pageSizeOptions: [2,5,10,20],
-            size: 'small'
+            size: 'small',
+            showQuickJumper: true,
+            showSizeChanger: true
           }}
+          title={() => (
+            <Input.Search style={{width:'150px'}} placeholder="搜索" />
+          )}
         />
       </div>
     </div>

@@ -1,0 +1,27 @@
+.qf-menu-manage {
+  box-sizing: border-box;
+  height: 100%;
+  .menu-add {
+    background-color: white;
+    padding: 20px;
+  }
+  .menu-table {
+    margin: 20px;
+    background-color: white;
+  }
+}
+
+.qf-role-manage {
+  background-color: white;
+  margin: 20px;
+  border-radius: 2px;
+}
+
+.qf-role-form {
+  background-color: white;
+  margin: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 2px;
+  height: 100%;
+}
