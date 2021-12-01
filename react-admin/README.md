@@ -126,7 +126,20 @@ function App() {
 - 功能：布局、路由、菜单管理、角色管理、用户管理、定制主题。。。
 - 工具：README，有赞管理系统，Axure原型工具（墨刀）、流程图。。。
 
-# Bug与需求（每天都要做一个小需求）
+# 项目实战第一天总结
 
 - create-react-app默认支持sass，已经安装过sass-loader(v10)，还需要安装sass，重启项目就成功。
-- 在create-react-app默认是不支持less，需要自己安装less-loader(v7)和less(v3)
+- 在create-react-app默认是不支持less，需要自己安装less-loader(v7)和less(v3)，正常create-react-app脚手架不支持less（antd只支持less和css）,实现定制主题要集成less。
+- 页面（用户管理）：用户列表、添加用户（选择角色），组件用到了 Table、Select、Input。
+- 页面（菜单管理）：菜单列表（可以展开的二级表格, 数据源中有children），新增菜单（path、text、component、icon）, 用了一个新Form（Form.Item具有双向绑定功能,被它直接包裹的表单有了value和onChange），当Form.Item如果放不是表单，我们需要封装“类表单”来解决问题？？？（我能想起ModuleSelect?）
+- 页面（角色列表、角色RoleForm页面）角色RoleForm用于编辑或新增角色（两条不同的路由对应同一个组件），这里要用到一个Tree组件（因为比较复杂，老师封装了 RoleTree，放在Form.Item中进行双向绑定）
+
+# Bug与需求
+
+- 管理系统布局：Layout，代码组件，Menu菜单（Link）, Content（Route递归）、样式处理
+- 左侧菜单折叠功能：<Logo>、<Toggle>组件封装。
+- 顶部Header：我还想做国际化、登出、用户信息。。。
+- Content中：滚动条实现，面包屑导航。。
+- 菜单管理页面，把“添加菜单”“添加模块”的交互按钮放在表格的表头，Table.title={()=>ReactNode}，还用到 Modal组件。在Modal中用到了Form收集数据，怎么收集数据？使用Form.useForm()得到form实例，通过实例api来获取表单的值。（我感觉Form，进一步深入研究）
+- Table报each key的问题。给Table添加rowKey属性（对应列表数据的id）。
+- 添加Login页面（和Layout是二选一），这里要用到Route嵌套（注意'/'，注意Switch、注意exact、注意Redirect）。后续设计接口，这个登录过程是一个什么流程？（登录流程、刷新流程）

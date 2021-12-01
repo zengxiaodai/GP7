@@ -1,18 +1,10 @@
-import { Form, Input, InputNumber, Button, Select, Table } from 'antd'
+import { useState } from 'react'
+import { Form, Input, InputNumber, Button, Select, Table, Modal } from 'antd'
 import './style.scss'
 import ModuleSelect from './components/ModuleSelect'
 import { menuData } from './data'
 
 const { Option } = Select
-
-const layout = {
-  labelCol: {
-    span: 3,
-  },
-  wrapperCol: {
-    span: 7
-  }
-}
 
 const validateMessages = {
   required: '${label} is required!',
@@ -65,31 +57,57 @@ const columns = [
 ]
 
 export default () => {
+  const [menuModalShow, setMenuModalShow] = useState(false)
+  const [form] = Form.useForm()
 
   const onFinish = (values) => {
     console.log('提交', values)
   }
 
+  const submitMenu = () => {
+    console.log('提交', form.getFieldsValue())
+  }
+
   return (
     <div className='qf-menu-manage'>
-      <div className='menu-add'>
+      <div className='menu-table'>
+        <Table
+          columns={columns}
+          dataSource={menuData}
+          title={()=>(
+            <>
+              <Button type='primary'>添加菜单模块</Button>
+              <Button
+                style={{marginLeft:'10px'}}
+                onClick={()=>setMenuModalShow(true)}
+                type='primary'>添加菜单</Button>
+            </>
+          )}
+        />
+      </div>
+
+      {/*添加菜单的弹框*/}
+      <Modal
+        title="添加菜单"
+        visible={menuModalShow}
+        onOk={()=>submitMenu()}
+        onCancel={()=>setMenuModalShow(false)}>
         <Form
-          {...layout}
+          labelCol={{span:6}}
+          wrapperCol={{span:16}}
           name="nest-messages"
           onFinish={onFinish}
+          form={form}
           validateMessages={validateMessages}>
-
           {/* value  onChange */}
           <Form.Item
             name='module'
             label="选择模块"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
           >
-            <ModuleSelect />
+            <Select>
+              <Option value='good'>商品管理</Option>
+              <Option value='order'>订单管理</Option>
+            </Select>
           </Form.Item>
 
           <Form.Item
@@ -119,20 +137,8 @@ export default () => {
           >
             <Input />
           </Form.Item>
-
-          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
-            <Button type="primary" htmlType="submit">
-              添加
-            </Button>
-          </Form.Item>
         </Form>
-      </div>
-      <div className='menu-table'>
-        <Table
-          columns={columns}
-          dataSource={menuData}
-        />
-      </div>
+      </Modal>
     </div>
   )
 }

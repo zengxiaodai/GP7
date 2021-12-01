@@ -57,6 +57,7 @@ export default () => {
       <Table
         columns={columns}
         dataSource={data}
+        rowKey='key'
         title={()=><Button type='primary' onClick={()=>history.push('/role/create')}>添加角色</Button>}
       />
     </div>

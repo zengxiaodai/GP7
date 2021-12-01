@@ -13,7 +13,8 @@ require('./utils/socket')
 // 开启koa-body对文件数据的解析，默认只能普通post提交的body数据
 app.use(require('koa-body')({multipart:true}))
 
-// 动态资源
-app.use(require('./routes/index').routes())
+// 动态资源（RESTful API）
+app.use(require('./routes/vue').routes())
+app.use(require('./routes/react').routes())
 
 app.listen(9999, ()=>console.log('server in running on 9999'))
