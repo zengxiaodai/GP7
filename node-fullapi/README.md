@@ -5,7 +5,6 @@
 npm run start:vue  连接gp7这个数据库
 npm run start:react  连接gp77这个数据库
 ```
-
 - 为了vue项目接口和react项目接口的可维护性
   - 添加react_models目录
   - 添加react_controllers目录

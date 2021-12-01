@@ -1,6 +1,7 @@
 const Koa = require('koa')
 const app = new Koa()
 const path = require('path')
+const NODE_ENV = process.env.NODE_ENV
 
 // 静态资源
 app.use(require('koa-static')(path.resolve(__dirname, 'public')))
@@ -14,7 +15,12 @@ require('./utils/socket')
 app.use(require('koa-body')({multipart:true}))
 
 // 动态资源（RESTful API）
-app.use(require('./routes/vue').routes())
-app.use(require('./routes/react').routes())
+if (NODE_ENV==='vue') {
+  app.use(require('./routes/vue').routes())
+}
+if (NODE_ENV==='react') {
+  console.log('NODE_ENV', NODE_ENV)
+  app.use(require('./routes/react').routes())
+}
 
-app.listen(9999, ()=>console.log('server in running on 9999'))
+app.listen(9999, ()=>console.log(`${NODE_ENV} server in running on 9999`))
