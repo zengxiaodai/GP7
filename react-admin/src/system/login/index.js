@@ -1,12 +1,17 @@
-import { Form, Input, Button, Checkbox } from 'antd'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { Form, Input, Button, Checkbox } from 'antd'
 import './style.scss'
+import { login } from '@/store/actions'
 
 export default () => {
   const history = useHistory()
+  const dispatch = useDispatch()
+  
   const onFinish = values => {
     console.log('登录', values)
-    history.replace('/dashboard')
+    dispatch(login(values))
+    // history.replace('/dashboard')
   }
   return (
     <div className='qf-login'>

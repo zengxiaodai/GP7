@@ -143,3 +143,8 @@ function App() {
 - 菜单管理页面，把“添加菜单”“添加模块”的交互按钮放在表格的表头，Table.title={()=>ReactNode}，还用到 Modal组件。在Modal中用到了Form收集数据，怎么收集数据？使用Form.useForm()得到form实例，通过实例api来获取表单的值。（我感觉Form，进一步深入研究）
 - Table报each key的问题。给Table添加rowKey属性（对应列表数据的id）。
 - 添加Login页面（和Layout是二选一），这里要用到Route嵌套（注意'/'，注意Switch、注意exact、注意Redirect）。后续设计接口，这个登录过程是一个什么流程？（登录流程、刷新流程）
+
+- 接口联调
+  - React重要原则：一切外部数据建议都从props进来。所以我们调接口统一走Redux流程。
+  - 再次理解“单向数据流”：React数据只能自上而下地传递（props和上下文），Redux是实现了Flux数据架构思想而呈现出的流程流（Store->View->Action->Store）。
+  - 调试工具：react-devtools、redux-logger

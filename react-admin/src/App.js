@@ -1,19 +1,9 @@
-import { HashRouter, Switch, Route } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ConfigProvider } from 'antd'
 import store from '@/store'
-import Layout from '@/layout'
-import Login from '@/login'
 import zhCN from 'antd/lib/locale/zh_CN'
-
-const System = () => {
-  return (
-    <Switch>
-      <Route path='/login' component={Login} />
-      <Route path='/' component={Layout} />
-    </Switch>
-  )
-}
+import System from '@/system'
 
 export default function App() {
   return (

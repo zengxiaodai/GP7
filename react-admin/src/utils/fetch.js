@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { message } from 'antd'
 
 const baseURL = 'http://localhost:9090'
-const version = '/api/v1'
+const version = '/api/v2'
 
 // 创建axios实例对象
 const instance = axios.create({
@@ -11,15 +12,19 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use((config) => {
-  console.log('-')
+  // 添加token鉴权
+  config.headers.Authorization = localStorage.getItem('token')
   return config
 }, (error) => Promise.reject(error))
 
 instance.interceptors.response.use((response) => {
   if (response.status === 200) {
     // 数据过滤
-    if (response.data && response.data.code===1) {
-      return response.data.data
+    const { data } = response
+    if (data && data.code===0) {
+      return data.data
+    } else {
+      return message.error(data.msg)
     }
   }
   return response

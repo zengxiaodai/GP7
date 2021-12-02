@@ -8,7 +8,7 @@ class User {
     // 验证数据
     const info = await userModel.findOne({username,password})
     // 如果用户的status=0，用户是禁用状态的，不能登录
-    if (info.status==0) {
+    if (info && info.status==0) {
       return ctx.body = { code:4, msg:'用户状态异常，请联系管理员',data:{}}
     }
     if (info && info._id) {
