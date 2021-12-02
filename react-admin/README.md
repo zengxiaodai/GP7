@@ -148,3 +148,5 @@ function App() {
   - React重要原则：一切外部数据建议都从props进来。所以我们调接口统一走Redux流程。
   - 再次理解“单向数据流”：React数据只能自上而下地传递（props和上下文），Redux是实现了Flux数据架构思想而呈现出的流程流（Store->View->Action->Store）。
   - 调试工具：react-devtools、redux-logger
+
+- 在已经登录的状态下，用户刷新系统内部页面成功时，左侧Menu菜单的展开、高亮效果和刷新一样。

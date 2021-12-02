@@ -1,6 +1,8 @@
-import { Table, Button } from 'antd'
 import { useHistory } from 'react-router-dom'
+
+import { Table, Button } from 'antd'
 import './style.scss'
+
 
 const columns = [
   {

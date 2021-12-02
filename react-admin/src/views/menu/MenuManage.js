@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
 import { Form, Input, InputNumber, Button, Select, Table, Modal } from 'antd'
-import './style.scss'
 import ModuleSelect from './components/ModuleSelect'
-import { menuData } from './data'
+import './style.scss'
+
+import { addMenu, listMenu } from '@/store/actions'
 
 const { Option } = Select
 
@@ -25,7 +28,7 @@ const columns = [
     align: 'center'
   },
   {
-    title: 'path路由',
+    title: 'PATH路由',
     align: 'center',
     dataIndex: 'path',
     key: 'path'
@@ -57,15 +60,44 @@ const columns = [
 ]
 
 export default () => {
-  const [menuModalShow, setMenuModalShow] = useState(false)
+  const dispatch = useDispatch()
+  // flag=0 表示添加模块  flag=1 表示添加菜单
+  const [flag,setFlag] = useState(0)
+  // 控制Modal弹框的显示与隐藏
+  const [show, setShow] = useState(false)
+
   const [form] = Form.useForm()
 
-  const onFinish = (values) => {
-    console.log('提交', values)
-  }
+  // 从store取出，menuList是处理好的多维的菜单数据
+  const { done, menuList } = useSelector(state=>state.admin)
 
-  const submitMenu = () => {
-    console.log('提交', form.getFieldsValue())
+  // 相当于是页面重置
+  useEffect(()=>{
+    // 页面重置
+    setShow(false)
+    form.resetFields()
+    dispatch(listMenu())
+  }, [done])
+
+  // 事件：点击表头上的两个按钮
+  const showModal = flag => {
+    setFlag(flag)
+    setShow(true)
+  }
+  // 事件：点击Modal弹框上的“确定”按钮
+  const submit = () => {
+    let data = form.getFieldsValue()
+    data.module = flag
+    // 对“添加菜单”做差异化处理
+    if (flag===1) {
+      const mm = menuList.find(ele=>ele.path===data.super)
+      // 把父模块的path拼接到当前菜单的path上
+      data.path = `${mm.path}${data.path}`
+      // pid是为了生成“树”
+      data.pid = mm._id
+    }
+    // 触发走redux流程
+    dispatch(addMenu(data))
   }
 
   return (
@@ -73,13 +105,20 @@ export default () => {
       <div className='menu-table'>
         <Table
           columns={columns}
-          dataSource={menuData}
+          dataSource={menuList}
+          pagination={false}
+          rowKey='_id'
           title={()=>(
             <>
-              <Button type='primary'>添加菜单模块</Button>
+              <Button
+                type='primary'
+                onClick={()=>showModal(0)}
+              >
+                添加模块
+              </Button>
               <Button
                 style={{marginLeft:'10px'}}
-                onClick={()=>setMenuModalShow(true)}
+                onClick={()=>showModal(1)}
                 type='primary'>添加菜单</Button>
             </>
           )}
@@ -88,31 +127,28 @@ export default () => {
 
       {/*添加菜单的弹框*/}
       <Modal
-        title="添加菜单"
-        visible={menuModalShow}
-        onOk={()=>submitMenu()}
-        onCancel={()=>setMenuModalShow(false)}>
+        title={flag===1?'添加菜单':'添加模块'}
+        visible={show}
+        onOk={()=>submit()}
+        onCancel={()=>setShow(false)}>
         <Form
           labelCol={{span:6}}
           wrapperCol={{span:16}}
-          name="nest-messages"
-          onFinish={onFinish}
           form={form}
           validateMessages={validateMessages}>
-          {/* value  onChange */}
-          <Form.Item
-            name='module'
-            label="选择模块"
-          >
-            <Select>
-              <Option value='good'>商品管理</Option>
-              <Option value='order'>订单管理</Option>
-            </Select>
-          </Form.Item>
+          {
+            flag===1 &&
+            <Form.Item
+              name='super'
+              label="选择模块"
+            >
+              <ModuleSelect />
+            </Form.Item>
+          }
 
           <Form.Item
             name='text'
-            label="菜单名称"
+            label={flag===1?"模块名称":"菜单名称"}
           >
             <Input />
           </Form.Item>
@@ -126,17 +162,20 @@ export default () => {
 
           <Form.Item
             name='path'
-            label="path路由"
+            label="PATH路由"
           >
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name='name'
-            label="组件名称"
-          >
-            <Input />
-          </Form.Item>
+          {
+            flag===1 &&
+            <Form.Item
+              name='component'
+              label="组件名称"
+            >
+              <Input />
+            </Form.Item>
+          }
         </Form>
       </Modal>
     </div>

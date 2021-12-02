@@ -12,8 +12,6 @@ const MenuManage = loadable(()=>import('./menu/MenuManage'))
 const RoleManage = loadable(()=>import('./menu/RoleManage'))
 const RoleForm = loadable(()=>import('./menu/RoleForm'))
 
-
-
 export default [
   {
     id: 10,
@@ -58,7 +56,7 @@ export default [
             component: RoleForm
           }
         ]
-      }      
+      }
     ]
   }
 ]

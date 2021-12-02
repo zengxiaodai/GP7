@@ -1,18 +1,18 @@
+import { useSelector } from 'react-redux'
 import { Select, Button, Row, Col } from 'antd'
 const { Option } = Select
 
 export default ({value,onChange}) => {
+  const { menuList } = useSelector(state=>state.admin)
   return (
     <div className='qf-module-select'>
-      <Row>
-        <Col span={16}>
-          <Select value={value} onChange={val=>onChange(val)}>
-            <Option value='good'>商品管理</Option>
-            <Option value='order'>订单管理</Option>
-          </Select>
-        </Col>
-        <Col span={4}><Button>添加模块</Button></Col>
-      </Row>
+      <Select value={value} onChange={val=>onChange(val)}>
+        {
+          menuList.map(ele=>(
+            <Option key={ele._id} value={ele.path}>{ele.text}</Option>
+          ))
+        }
+      </Select>
     </div>
   )
 }

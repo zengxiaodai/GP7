@@ -1,13 +1,39 @@
-import { Form, Input, Tree, Button } from 'antd'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+
+import { Form, Input, Tree, Button, message } from 'antd'
 import { RoleSelect } from '@/components'
 import MenuTree from './components/MenuTree'
 import './style.scss'
 
+import { addRole, listMenu, resetAdmin } from '@/store/actions'
+
 const { TextArea } = Input
 
 export default () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const { menuList, done } = useSelector(state=>state.admin)
+
+  console.log('menuList', menuList)
+
+  useEffect(()=>{
+    if (done>0) {
+      message.success('添加角色成功', 2, ()=>history.goBack())
+    }
+  }, [done])
+
+  useEffect(()=>{
+    if (menuList.length===0) dispatch(listMenu())
+    // 当组件销毁时，走store流程重置done
+    return ()=>dispatch(resetAdmin())
+  }, [])
+
   const onFinish = (values) => {
     console.log('提交', values)
+    values.menus = values.auths.join(';')
+    dispatch(addRole(values))
   }
   return (
     <div className="qf-role-form">
@@ -20,7 +46,14 @@ export default () => {
         {/* value  onChange */}
         <Form.Item
           name='role_name'
-          label="角色名称"
+          label="角色（中文）"
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name='role'
+          label="角色（英文）"
         >
           <Input />
         </Form.Item>
@@ -33,7 +66,7 @@ export default () => {
         </Form.Item>
 
         <Form.Item
-          name='role'
+          name='role_refer'
           label="参考角色"
         >
           <RoleSelect />

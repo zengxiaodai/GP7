@@ -1,6 +1,9 @@
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { Layout } from 'antd'
+
 import routes from '@/views'
+import Dashboard from '@/views/dashboard'
+
 const { Content } = Layout
 
 export default () => {
@@ -9,7 +12,7 @@ export default () => {
     function recursion(arr) {
       arr.map(ele=>{
         result.push(
-          <Route key={ele.id} exact path={ele.path} component={ele.component} />
+          <Route key={ele.id} path={ele.path} component={ele.component} />
         )
         if(ele.children) recursion(ele.children)
       })
@@ -26,7 +29,8 @@ export default () => {
       <div className='qf-content'>
         <Switch>
           { renderRoutes() }
-          <Redirect from='/*' to='/user/list' />
+          <Route path='/dashboard' component={Dashboard} />
+          <Redirect from='/*' to='/dashboard' />
         </Switch>
       </div>
       <div className='qf-footer'>千锋出品</div>

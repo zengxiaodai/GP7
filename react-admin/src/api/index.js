@@ -31,3 +31,15 @@ export function fetchLogin(data) {
 export function fetchUserInfo(params) {
   return fetch({url:'/user/info',method:'GET',params})
 }
+
+export function fetchMenuAdd(data) {
+  return fetch({url:'/menu/add',method:'POST',data})
+}
+
+export function fetchMenuList(params) {
+  return fetch({url:'/menu/list',method:'GET',params})
+}
+
+export function fetchRoleAdd(data) {
+  return fetch({url:'/role/add',method:'POST',data})
+}

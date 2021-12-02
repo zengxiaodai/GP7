@@ -103,6 +103,7 @@ export default () => {
         <Table
           columns={columns}
           dataSource={data}
+          rowKey='id'
           pagination={{
             total: 23,
             showTotal: (total, range) => `第${range[0]}-${range[1]}条 / 总共${total}条`,
