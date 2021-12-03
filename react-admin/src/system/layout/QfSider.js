@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Layout, Menu } from 'antd'
 import {
@@ -24,14 +24,10 @@ const Logo = ({value}) => (
   </div>
 )
 
-const Toggle = ({value, onChange}) => {
+const Toggle = ({value}) => {
   const dispatch = useDispatch()
-  const change = () => {
-    onChange()
-    dispatch(toggle())
-  }
   return (
-    <div className='toggle' onClick={change}>
+    <div className='toggle' onClick={()=>dispatch(toggle())}>
     {
       value
       ? <MenuUnfoldOutlined />
@@ -43,7 +39,7 @@ const Toggle = ({value, onChange}) => {
 }
 
 export default () => {
-  const [collapsed, setCollapsed] = useState(false)
+  const { collapsed } = useSelector(state=>state.admin)
   const [openId, onId] = useMenu()
   const renderMenu = () => {
     return routes.map(ele=>(
@@ -75,7 +71,7 @@ export default () => {
         { renderMenu() }
       </Menu>
 
-      <Toggle value={collapsed} onChange={()=>setCollapsed(!collapsed)} />
+      <Toggle value={collapsed} />
     </Sider>
   )
 }

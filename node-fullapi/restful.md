@@ -62,7 +62,6 @@
   ```
   menus 是由‘菜单（模块）拼接而成的字符串’
   ```
-
 - 描述：获取角色详情
   - GET /role/info
   - params: { role_id: '' }

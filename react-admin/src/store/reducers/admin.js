@@ -8,7 +8,8 @@ import {
   ADMIN_RESET,
   ROLE_LIST,
   ROLE_INFO,
-  MENU_TOGGLE
+  MENU_TOGGLE,
+  USER_LIST
 } from '../actions'
 
 const initState = {
@@ -18,7 +19,8 @@ const initState = {
   menuList: [],
   roleList: [],
   roleInfo: {},
-  collapsed: false
+  collapsed: false,
+  userTable: {}
 }
 
 // 作用：把普通一维数据变成多维数组
@@ -48,7 +50,7 @@ export default function(state=initState, {type,payload}) {
         state.roleInfo = {}
         break
       case ADMIN_DONE:
-        state.done++
+        state.done += (payload||1)
         break
       case MENU_LIST:
         // 菜单处理
@@ -67,6 +69,10 @@ export default function(state=initState, {type,payload}) {
         break
       case MENU_TOGGLE:
         state.collapsed = !state.collapsed
+        break
+      case USER_LIST:
+        state.userTable = payload
+        state.done = 0
         break
       default:
     }

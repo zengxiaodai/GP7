@@ -68,7 +68,7 @@ class User {
     // 如果前端没有给username字符，或者给的空串，那么username不参与查询
     if (!username) delete params.username
     const total = await userModel.find(params).count()
-    const list = await userModel.find(params).skip((page-1)*size).limit(size)
+    const list = await userModel.find(params).skip((page-1)*size).limit(size).sort({_id:-1})
     ctx.body = {code:0,msg:'success',data:{total,list}}
   }
 }

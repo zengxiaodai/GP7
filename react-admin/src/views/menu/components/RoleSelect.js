@@ -13,14 +13,14 @@ export default ({value,onChange}) => {
     <Select
       style={{width:'120px'}}
       value={value}
-      placeholder='选择一个角色'
       onChange={val=>change(val)}
     >
+      <Option value=''>选择角色</Option>
     {
       roleList.map(ele=>(
-        <Select.Option key={ele._id} value={ele.role}>
+        <Option key={ele._id} value={ele.role}>
           {ele.role_name}
-        </Select.Option>
+        </Option>
       ))
     }
     </Select>

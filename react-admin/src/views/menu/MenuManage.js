@@ -130,11 +130,12 @@ export default () => {
         title={flag===1?'添加菜单':'添加模块'}
         visible={show}
         onOk={()=>submit()}
+        forceRender
         onCancel={()=>setShow(false)}>
         <Form
           labelCol={{span:6}}
           wrapperCol={{span:16}}
-          form={form}
+          form={form}          
           validateMessages={validateMessages}>
           {
             flag===1 &&

@@ -19,10 +19,6 @@ export default () => {
   const [form] = Form.useForm()
   const [role, setRole] = useState('')
 
-  console.log('menuList', menuList)
-
-  console.log('id', id)
-
   useEffect(()=>{
     if (done>0) {
       message.success('添加角色成功', 2, ()=>history.goBack())
@@ -61,7 +57,8 @@ export default () => {
     form.setFieldsValue({auths})
   }
 
-  const onFinish = (values) => {
+  const onFinish = () => {
+    const values = form.getFieldsValue()
     console.log('提交', values)
     values.menus = values.auths.join(';')
     // 如果id存在，是编辑
@@ -115,15 +112,10 @@ export default () => {
           <MenuTree />
         </Form.Item>
 
-        <Form.Item wrapperCol={{ span: 7, offset: 3 }}>
-          <Button type="primary" htmlType="submit">
-            { id ? "修改" : "添加" }
-          </Button>
-        </Form.Item>
       </Form>
 
       <div className='btn' style={{left:(collapsed?'80px':'200px')}}>
-        <Button type="primary">
+        <Button type="primary" onClick={onFinish}>
           { id ? "修改" : "添加" }
         </Button>
       </div>

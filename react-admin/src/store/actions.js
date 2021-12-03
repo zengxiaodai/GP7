@@ -5,7 +5,10 @@ import {
   fetchMenuList,
   fetchRoleAdd,
   fetchRoleList,
-  fetchRoleInfo
+  fetchRoleInfo,
+  fetchUserAdd,
+  fetchUserList,
+  fetchUserStatus
 } from '@/api'
 
 export const USER_LOGIN = 'USER_LOGIN'
@@ -17,7 +20,7 @@ export const MENU_LIST = 'MENU_LIST'
 export const ROLE_LIST = 'ROLE_LIST'
 export const ROLE_INFO = 'ROLE_INFO'
 export const MENU_TOGGLE = 'MENU_TOGGLE'
-
+export const USER_LIST = 'USER_LIST'
 
 // 【管理系统的Action生成器】
 export function login(data) {
@@ -106,4 +109,31 @@ export function infoRole(params) {
 
 export function toggle() {
   return {type: MENU_TOGGLE, payload:'' }
+}
+
+export function addUser(data) {
+  return dispatch => {
+    fetchUserAdd(data).then(()=>{
+      dispatch({type:ADMIN_DONE,payload:''})
+    })
+  }
+}
+
+export function listUser(params) {
+  return dispatch => {
+    fetchUserList(params).then(res=>{
+      console.log('用户列表', res)
+      if (res.total) {
+        dispatch({type:USER_LIST,payload:res})
+      }
+    })
+  }
+}
+
+export function statusUser(params) {
+  return dispatch => {
+    fetchUserStatus(params).then(()=>{
+      dispatch({type:ADMIN_DONE,payload:2})
+    })
+  }
 }

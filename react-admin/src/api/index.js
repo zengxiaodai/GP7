@@ -51,3 +51,15 @@ export function fetchRoleList(params) {
 export function fetchRoleInfo(params) {
   return fetch({url:'/role/info',method:'GET',params})
 }
+
+export function fetchUserAdd(data) {
+  return fetch({url:'/user/add',method:'POST',data})
+}
+
+export function fetchUserList(params) {
+  return fetch({url:'/user/list',method:'GET',params})
+}
+
+export function fetchUserStatus(params) {
+  return fetch({url:'/user/status',method:'GET',params})
+}
