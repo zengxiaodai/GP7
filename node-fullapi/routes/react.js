@@ -18,7 +18,8 @@ router
 .post(`${v}/menu/add`, checkToken, M.addMenu)
 .get(`${v}/menu/list`, checkToken, M.listMenu)
 
-.post(`${v}/role/add`, checkToken, R.addRole)
+.post(`${v}/role/add`, checkToken, R.addOrEditRole)
 .get(`${v}/role/list`, checkToken, R.listRole)
+.get(`${v}/role/info`, checkToken, R.infoRole)
 
 module.exports = router

@@ -5,14 +5,20 @@ import {
   USER_LOGOUT,
   ADMIN_DONE,
   MENU_LIST,
-  ADMIN_RESET
+  ADMIN_RESET,
+  ROLE_LIST,
+  ROLE_INFO,
+  MENU_TOGGLE
 } from '../actions'
 
 const initState = {
   done: 0,
   token: localStorage.getItem('token'),
   userInfo: {},
-  menuList: []
+  menuList: [],
+  roleList: [],
+  roleInfo: {},
+  collapsed: false
 }
 
 // 作用：把普通一维数据变成多维数组
@@ -50,6 +56,17 @@ export default function(state=initState, {type,payload}) {
         break
       case ADMIN_RESET:
         state.done = 0
+        state.roleInfo = {}
+        break
+      case ROLE_LIST:
+        state.roleList = payload
+        break
+      case ROLE_INFO:
+        payload.auths = payload.menus.split(';').filter(ele=>ele)
+        state.roleInfo = payload
+        break
+      case MENU_TOGGLE:
+        state.collapsed = !state.collapsed
         break
       default:
     }

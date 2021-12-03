@@ -43,3 +43,11 @@ export function fetchMenuList(params) {
 export function fetchRoleAdd(data) {
   return fetch({url:'/role/add',method:'POST',data})
 }
+
+export function fetchRoleList(params) {
+  return fetch({url:'/role/list',method:'GET',params})
+}
+
+export function fetchRoleInfo(params) {
+  return fetch({url:'/role/info',method:'GET',params})
+}

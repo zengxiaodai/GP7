@@ -52,7 +52,7 @@ export default [
           {
             id: 1104,
             text: '编辑角色',
-            path: '/role/edit',
+            path: '/role/edit/:id',
             component: RoleForm
           }
         ]

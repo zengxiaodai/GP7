@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 import { Layout, Menu } from 'antd'
 import {
@@ -12,6 +13,8 @@ import { logo } from '@/utils/img'
 import routes from '@/views'
 import { useMenu } from '@/hooks'
 
+import { toggle } from '@/store/actions'
+
 const { Sider } = Layout
 const { SubMenu } = Menu
 
@@ -21,15 +24,23 @@ const Logo = ({value}) => (
   </div>
 )
 
-const Toggle = ({value, onChange}) => (
-  <div className='toggle' onClick={onChange}>
-  {
-    value
-    ? <MenuUnfoldOutlined />
-    : <MenuFoldOutlined />
+const Toggle = ({value, onChange}) => {
+  const dispatch = useDispatch()
+  const change = () => {
+    onChange()
+    dispatch(toggle())
   }
-  </div>
-)
+  return (
+    <div className='toggle' onClick={change}>
+    {
+      value
+      ? <MenuUnfoldOutlined />
+      : <MenuFoldOutlined />
+    }
+    </div>
+  )
+
+}
 
 export default () => {
   const [collapsed, setCollapsed] = useState(false)

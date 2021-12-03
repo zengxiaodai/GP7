@@ -3,7 +3,9 @@ import {
   fetchUserInfo,
   fetchMenuAdd,
   fetchMenuList,
-  fetchRoleAdd
+  fetchRoleAdd,
+  fetchRoleList,
+  fetchRoleInfo
 } from '@/api'
 
 export const USER_LOGIN = 'USER_LOGIN'
@@ -12,6 +14,10 @@ export const USER_LOGOUT = 'USER_LOGOUT'
 export const ADMIN_DONE = 'ADMIN_DONE'
 export const ADMIN_RESET = 'ADMIN_RESET'
 export const MENU_LIST = 'MENU_LIST'
+export const ROLE_LIST = 'ROLE_LIST'
+export const ROLE_INFO = 'ROLE_INFO'
+export const MENU_TOGGLE = 'MENU_TOGGLE'
+
 
 // 【管理系统的Action生成器】
 export function login(data) {
@@ -58,7 +64,9 @@ export function listMenu(params) {
   return dispatch => {
     fetchMenuList(params).then((res)=>{
       console.log('菜单列表', res)
-      dispatch({type: MENU_LIST, payload:res.list})
+      if (res.list) {
+        dispatch({type: MENU_LIST, payload:res.list})
+      }
     })
   }
 }
@@ -74,4 +82,28 @@ export function addRole(data) {
 // 重置admin子store中指定的字段
 export function resetAdmin() {
   return { type:ADMIN_RESET, payload:''}
+}
+
+export function listRole(params) {
+  return dispatch => {
+    fetchRoleList(params).then(res=>{
+      if (res.list) {
+        dispatch({type:ROLE_LIST,payload:res.list})
+      }
+    })
+  }
+}
+
+export function infoRole(params) {
+  return dispatch => {
+    fetchRoleInfo(params).then(res=>{
+      if (res.info) {
+        dispatch({type:ROLE_INFO,payload:res.info})
+      }
+    })
+  }
+}
+
+export function toggle() {
+  return {type: MENU_TOGGLE, payload:'' }
 }

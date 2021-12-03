@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { message } from 'antd'
+import store from '@/store'
+import { logout } from '@/store/actions'
 
 const baseURL = 'http://localhost:9090'
 const version = '/api/v2'
@@ -19,10 +21,15 @@ instance.interceptors.request.use((config) => {
 
 instance.interceptors.response.use((response) => {
   if (response.status === 200) {
+    console.log('data code', response.data)
     // 数据过滤
     const { data } = response
     if (data && data.code===0) {
       return data.data
+    } else if (data.err===-1) {
+      console.log('--', data.code)
+      store.dispatch(logout())
+      window.location.replace('#/login')
     } else {
       return message.error(data.msg)
     }
