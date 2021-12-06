@@ -24,10 +24,9 @@ create-react-app react-admin --template redux-typescript
 
 # 环境搭建
 
+- 暴露出webpack等配置文件
 ```
-暴露webpack等配置文件
 npm run eject
-npm start
 ```
 - 可以基于create-react-app做二次封装（是可选的）
 - 在scripts/start.js 修改默认端口号为 8080
@@ -58,3 +57,12 @@ cnpm i sass -D
 - 在当前环境导入.css文件，TS报“缺少CSS声明文件”的错误，建议把样式改变成.scss文件。
 - 如果项目中在导入.ts文件时省略后缀报错，在config/webpack.config.js中找到 extensions 修改配置。
 - 启动项目中，一些无关的目录中出现路径错误，也会影响项目的运行。建议把那些无关的文件中的路径也整对。
+- 启动项目时不打开浏览器，scripts/start.js中注释掉 openBrowser()。
+- 如何解决ts环境下'@'报错问题？在tsconfig.json中添加 baseUrl和paths 选项。参考链接：https://www.typescriptlang.org/tsconfig#compilerOptions
+
+- 解决TS问题两个技巧：
+  - 巧用 any
+  - 把.ts文件临时改成.js文件，把.tsx文件临时改成.jsx文件。
+- 入门学习TS
+  - TS笔记：https://zhuanlan.zhihu.com/p/377754481
+  - TS中文网：https://www.tslang.cn/docs/handbook/basic-types.html
