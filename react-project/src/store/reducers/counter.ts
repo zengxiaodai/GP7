@@ -1,7 +1,7 @@
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { RootState, AppThunk } from '../index.ts';
+import { RootState, AppThunk } from '../index';
 
 // 引入api方法
 import { fetchCount } from '../../api';
@@ -33,6 +33,7 @@ export const incrementAsync = createAsyncThunk(
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
+  // (slice对象.actions)
   reducers: {
     increment: (state) => {
       state.value += 1;
@@ -54,8 +55,9 @@ export const counterSlice = createSlice({
         state.value += action.payload;
       })
     }
-
 });
+
+console.log('counterSlice', counterSlice)
 
 // 从子reducer（slice对象）解构出所有的同步的reducer
 export const { increment, decrement, incrementByAmount } = counterSlice.actions;

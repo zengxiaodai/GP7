@@ -12,7 +12,7 @@ import {
 } from '../../store/reducers/counter';
 
 // 样式
-import styles from './style.css';
+import './style.scss';
 
 // 页面组件
 export default function Counter() {
@@ -29,38 +29,38 @@ export default function Counter() {
   return (
     <div>
       <h1>重构后的我们的页面</h1>
-      <div className={styles.row}>
+      <div className='row'>
         <button
-          className={styles.button}
+          className='button'
           aria-label="Decrement value"
           onClick={() => dispatch(decrement())}
         >
           -
         </button>
-        <span className={styles.value}>{count}</span>
+        <span className='value'>{count}</span>
         <button
-          className={styles.button}
+          className='button'
           aria-label="Increment value"
           onClick={() => dispatch(increment())}
         >
           +
         </button>
       </div>
-      <div className={styles.row}>
+      <div className='row'>
         <input
-          className={styles.textbox}
+          className='textbox'
           aria-label="Set increment amount"
           value={incrementAmount}
           onChange={(e) => setIncrementAmount(e.target.value)}
         />
         <button
-          className={styles.button}
+          className='button'
           onClick={() => dispatch(incrementByAmount(incrementValue))}
         >
           Add Amount
         </button>
         <button
-          className={styles.asyncButton}
+          className='asyncButton'
           onClick={() => dispatch(incrementAsync(incrementValue))}
         >
           Add Async
