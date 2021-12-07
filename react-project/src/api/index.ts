@@ -7,6 +7,10 @@ export function fetchCount(amount = 1) {
   );
 }
 
-export function fetchLogin(data:any) {
+export function fetchLogin(data:{username:String,password:String}) {
   return fetch({url:'/login', method:'POST', data})
+}
+
+export function fetchUserInfo() {
+  return fetch({url:'/user/info', method:'GET'})
 }

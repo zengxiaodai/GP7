@@ -13,7 +13,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   // 添加token鉴权
-  // config.headers.Authorization = localStorage.getItem('token') || ''
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers!.Authorization = token
+  }
   return config
 }, (error) => Promise.reject(error))
 

@@ -1,5 +1,6 @@
 const userModel = require('../react_models/user')
-const roleModel = require('../react_models/user')
+const roleModel = require('../react_models/role')
+const menuModel = require('../react_models/menu')
 const jwt = require('../utils/jwt')
 
 class User {
@@ -28,7 +29,14 @@ class User {
     if (userInfo.role!=='admin') {
       roleInfo = await roleModel.findOne({role:userInfo.role})
     }
-    ctx.body = { code:0, msg:'success',data:{userInfo, roleInfo}}
+
+  	let menuArr = []
+  	if (roleInfo.role==='test') {
+  	  menuArr = await menuModel.find({})
+      // 如果是非test用户，要根据roleInfo.menus字段来返回相应的菜单列表
+  	}
+
+    ctx.body = { code:0, msg:'success',data:{userInfo, roleInfo, menuArr }}
   }
 
   static async addUser(ctx) {

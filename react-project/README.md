@@ -1,3 +1,17 @@
+# 学习目标
+
+- 学习@reduxjs/toolkit的数据架构（相对传统的redux架构更加简单）
+- 熟悉TS环境（静态检测环境）。
+- 权限设计（react-project 由后端实现权限）
+- 学习完整的Hooks编程（增删）
+- antd使用（表单、表格）、自定义封装组件。
+- 自定义封装国际化组件
+- 定制主题（使用less，或者直接修改antd样式文件）
+- 使用图表（echarts、bizchart、ant-design-chart）
+- 使用地图（百度地图）
+- 结合有赞系统（选择一些有代表性页面）
+- ……
+
 # 关于@reduxjs/toolkit
 
 - 它可以优化 redux的传统架构，@reduxjs/toolkit中已经内置了redux、redux-thunk、immer。

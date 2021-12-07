@@ -5,17 +5,20 @@ import { Form, Input, Button, Checkbox } from 'antd'
 import './style.scss'
 
 import { useAppDispatch, useAppSelector } from '@/hooks'
-import { login } from '@/store/reducers/user'
+import { login, getInfo } from '@/store/reducers/user'
 
 export default () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
+  // 登录流程
   const onFinish = (values:any) => {
     console.log('登录', values)
     dispatch(login(values)).then(res=>{
       console.log('登录成功', res)
-      navigate('/good')
+      dispatch(getInfo()).then(res=>{
+        console.log('login res', res)
+      })
     })
   }
 
