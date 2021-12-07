@@ -7,7 +7,7 @@ import { fetchLogin, fetchUserInfo } from '@/api';
 
 // 可共享的子store可共享数据
 const initialState:any = {
-  token: '',
+  token: localStorage.getItem('token'),
   userInfo: {},
   roleInfo: {},
   menuArr: []
@@ -30,13 +30,21 @@ export const getInfo = createAsyncThunk(
   }
 )
 
+const arrToTree = (menuArr) => {
+  let modules = menuArr.filter(ele=>!ele.pid)
+  modules.forEach((ele,idx)=>{
+    modules[idx]['children'] = menuArr.filter(ele2=>ele2.pid===ele._id)
+  })
+  return modules
+}
+
 export const user = createSlice({
   name: 'user',
   initialState,
   reducers: {
     logout: (state) => {
       localStorage.removeItem('token')
-      state.token = ''
+      state.token = null
       state.userInfo = {}
       state.roleInfo = {}
     }
@@ -51,7 +59,7 @@ export const user = createSlice({
         const { userInfo, roleInfo, menuArr } = action.payload
         state.userInfo = userInfo
         state.roleInfo = roleInfo
-        state.menuArr = menuArr
+        state.menuArr = arrToTree(menuArr)
       })
     }
 })
