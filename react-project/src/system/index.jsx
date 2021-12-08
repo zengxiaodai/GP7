@@ -7,7 +7,6 @@ import { getInfo } from '@/store/reducers/user'
 import Layout from './layout'
 import Login from './login'
 
-
 import { elements } from '@/views'
 
 export default () => {
@@ -66,7 +65,6 @@ export default () => {
       <Route path='/login' element={<Login />} />
       <Route path='/' element={<Layout />}>
         { menuArr.length>0 && renderRoute(menuArr)}
-        <Route path='*' element={<Navigate to='/article/list' />} />
       </Route>
     </Routes>
     </>
@@ -78,3 +76,5 @@ export default () => {
 // 2、内部系统中“重定向问题”（已实现，待进一步测试）
 // 3、在没有token（未登录状态下）访问内部页面跳转到/login（已实现，待进一步测试）
 // 4、在刷新内部系统页面中，保留Menu的高亮样式（还没有实现）
+
+// <Route path='*' element={<Navigate to='/article/list' />} />

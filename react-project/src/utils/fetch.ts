@@ -1,5 +1,11 @@
 import axios from 'axios'
 import { message } from 'antd'
+import { store } from '../store'
+
+setTimeout(()=>{
+  console.log('fetch store', store)
+}, 5000)
+
 
 const baseURL = 'http://localhost:8080'
 const version = '/api/v2'
@@ -28,13 +34,14 @@ instance.interceptors.response.use((response) => {
     if (data && data.code===0) {
       return data.data
     } else if (data.err===-1) {
-      console.log('--', data.code)
-      // window.location.replace('#/login')
+      message.error('登录失效，请重新登录')
+      // 当token无效时，退出登录
+      store.dispatch({type:'user/logout',payload:''})
     } else {
       return message.error(data.msg)
     }
   }
-  return response
+  return response.data.data
 }, (error) => Promise.reject(error))
 
 export default instance

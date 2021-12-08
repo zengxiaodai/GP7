@@ -7,6 +7,17 @@ import './style.scss'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 import { login, getInfo } from '@/store/reducers/user'
 
+// 封装自定义的验证规则
+const vidatePassWord = (rule, value) => {
+  console.log('rule', rule)
+  console.log('value', value)
+  if (value==='666666') {
+    return Promise.resolve()
+  } else {
+    return Promise.reject(new Error(rule.message))
+  }
+}
+
 export default () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -39,10 +50,8 @@ export default () => {
             label="用户名"
             name="username"
             rules={[
-              {
-                required: true,
-                message: 'Please input your username!',
-              },
+              { required: true, message:'用户名不能为空' },
+              { pattern: /^[a-zA-Z][a-zA-Z0-9]{1,7}$/, message:'用户名只能以字母开关，2到8位' }
             ]}
           >
             <Input />
@@ -51,11 +60,10 @@ export default () => {
           <Form.Item
             label="密码"
             name="password"
+            validateTrigger={['onChange', 'onBlur']}
             rules={[
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
+              { required: true, message: '密码不能为空', validateTrigger: 'onBlur' },
+              { validator: vidatePassWord, message:'密码只能是666666', validateTrigger: 'onChange' }
             ]}
           >
             <Input.Password />

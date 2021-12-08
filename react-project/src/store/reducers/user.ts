@@ -26,7 +26,6 @@ export const getInfo = createAsyncThunk(
   'user/info',
   async () => {
     const res:any = await fetchUserInfo()
-    // console.log('用户信息', res)
     return res
   }
 )
@@ -48,6 +47,7 @@ export const user = createSlice({
       state.token = null
       state.userInfo = {}
       state.roleInfo = {}
+      state.menuArr = []
     }
   },
   extraReducers: (builder) => {
@@ -59,11 +59,14 @@ export const user = createSlice({
           localStorage.setItem('token', payload)
         }
       })
-      .addCase(getInfo.fulfilled, (state, action) => {
-        const { userInfo, roleInfo, menuArr } = action.payload
-        state.userInfo = userInfo
-        state.roleInfo = roleInfo
-        state.menuArr = arrToTree(menuArr)
+      .addCase(getInfo.fulfilled, (state, {payload}) => {
+        const { userInfo, roleInfo, menuArr } = payload
+        console.log('payload', payload)
+        if (payload.userInfo) {
+          state.userInfo = userInfo
+          state.roleInfo = roleInfo
+          state.menuArr = arrToTree(menuArr)
+        }
       })
     }
 })

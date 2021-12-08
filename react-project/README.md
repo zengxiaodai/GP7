@@ -80,3 +80,11 @@ cnpm i sass -D
 - 入门学习TS
   - TS笔记：https://zhuanlan.zhihu.com/p/377754481
   - TS中文网：https://www.tslang.cn/docs/handbook/basic-types.html
+
+
+# 业务开发
+
+- 表单验证方式：使用Form.Item 的rules进行验证，自定义表单验证。
+  - rules: [
+    { 验证条件、错误提示、触发机制 }
+  ]
