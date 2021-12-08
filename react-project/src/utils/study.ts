@@ -18,7 +18,7 @@ import { is } from "_immer@9.0.7@immer/dist/internal"
 // TS > ES6 > ES5，TS是JavaScript的超集，它是静态语言。
 // TS在前端工程化中，大多数的TS错误，热更新没法识别；只有当我们使用VScode时才能更好捕捉到TS的错误。
 
-// 一、基础类型
+// 基础类型
 
 const a0: boolean = true
 const a1: number = 100
@@ -112,6 +112,10 @@ const b2: Hybrid = {a:1}
 let b3: Hybrid = true
 b3 = 90
 
+// 类型字面量
+type S = 'wentao' | 'abc' | 'ced'
+const ss: S = 'abc'
+
 type Female = { hair: string } | { makeup: ()=>void }
 type Man = { work: ()=>void } & { clown: boolean }
 
@@ -147,6 +151,7 @@ type MathFn = (a:number, b:number)=>number
 const add: MathFn  = (a, b) => {
     return a + b
 }
+
 const sub: (a:number, b:number)=>number = (a,b)=>a-b
 add(1,2)
 sub(2,1)
@@ -157,6 +162,15 @@ function bar(a:string, b?:number, c?:boolean): void {
     console.log(b)
 }
 
+// 函数声明时，函数的返回值类型可以不用写，TS会进行默认“类型推断”
+// 当可选参数有默认值时，不加?，带有默认值的可选参数不一定只能放在必填的后面。
+function run(b:string='hello', a:string ) {
+    return a + b
+}
+run(undefined, 'world')  //  hello world
+run('hi', 'world')  // world hi
+
+
 function car(a:number, ...rest:Array<number>): void {
     console.log(a)
     console.log(rest)
@@ -164,6 +178,111 @@ function car(a:number, ...rest:Array<number>): void {
 car(1,2,4,4,5,6,6,7)
 
 // 函数重载
+// 什么是函数重载？函数名相同，参数列表（参数个数、参数顺序、参数类型）、函数返回值，有一点差异就是“重载”。
+function eat(a:string): void 
+function eat(a:number): void
+function eat(x:boolean, y:boolean): void
+function eat(a:any,b?:any): void {
+    if (typeof a === 'string') {
+        console.log('实现了第一个eat方法')
+    }
+    if (typeof a==='number') {
+        console.log('实现了第二个eat方法')
+    }
+    if (typeof a==='boolean' && typeof b==='boolean') {
+        console.log('实现了第三个eat方法')
+    }
+}
+eat('hello')
+eat(200)
+eat(true,false)
+
 // 泛型
+// 什么泛型？在函数声明、接口定义、类定义中，把不确定的类型用一个符号占位。当真实使用函数、接口和类时，再传入实际的类型。这就是泛型。
+// function consoleSomething (a:string): string {
+//     console.log(a)
+// }
+// function consoleSomething (b:number): number {
+//     console.log(b)
+// }
+// function consoleSomething (a:boolean): boolean {
+//     console.log(a)
+// }
+
+function consoleSomething<T> (a:T): T {
+    return a
+}
+consoleSomething<number>(100)
+consoleSomething<boolean>(true)
+consoleSomething<number[]>([1,2,3,4])
+
+function swap<T,U>(a:T, b:U): [U,T] {
+    // do something
+    return [b, a]
+}
+swap<number,string>(100,'200') // ['200', 100]
+interface Dog {
+    name: string,
+    value: number
+}
+swap<number[], Dog>([1,2,3], {name:'dog',value:20}) // [{name:'dog',value:20},[2,3,4]]
+
+// 泛型约束（不叫泛型推断）
+interface He {
+    length: number,
+    width: number
+}
+type TT = string | Array<any> | He
+function getLength<T extends TT>(arg:T) {
+    return arg.length
+}
+getLength<string>('zhangsan')  // 8
+getLength<string[]>(['a','b','c'])  // 3
+getLength<He>({length:20,width:10}) // 20
+
+// 泛型在接口中的应用
+interface Qf<T, U> {
+    teacher: T,
+    student: T,
+    work: (arg:U) => T
+}
+const szqf: Qf<string,number> = {
+    teacher: 'xia',
+    student: 'gp7',
+    work: (arg:number)=>(arg+'人')
+}
+console.log(szqf.teacher)
+szqf.work(56) // '56人'
+
+// 泛型在类定义中的应用
+class Animal<T> {}
+new Animal<string>()
+new Animal<number>()
+
+// 类型推断:  (xx as type) 、 <type>xx
+// 类型推荐只能“骗”过TS编译器，项目真实运行时该报错还是报错。
+function consoleLength(arg:any) {
+    console.log((arg as string).length)
+    console.log(<string>arg.length)
+    console.log(<Array<any>>arg.length)
+}
+consoleLength(100)
+consoleLength('hello')
+consoleLength([1,2,3])
+
 // 声明文件
+// 作用：在TS环境，一些非TS的第三方包无法正常使用，要使用"声明文件"来处理。
+// 特点：所有的声明文件都是以 .d.ts 结尾。声明文件只在包含在TS检测的目录内部，都可以起作用。
+// 常识：以后在前端工程项目，只要看到了 .d.ts文件、@types/* ，都是为了处理第三方包在TS环境中的兼容性。
+// 在TS项目中，如果安装了某一个包，但import（第三方包或文件模块）时报错、或者导入的undefined，这一定是因为缺少了“声明文件”，去社区寻找别人写好的声明文件；如果找不到，你自己写。
+
 // 配置文件
+// TS项目中的 tsconfig.json / jsconfig.json 就是TS的配置文件。
+// TS配置文件被修改了，一般不用重启项目。
+// 常用的配置选项有：compilerOptions、include、exclude、。。。。
+// 编译选项（compilerOptions）有上百个选项。理论上所有的TS报错，都可以通过适当的编译选项进行关闭。
+
+// TS编译报错 vs. ESLint报错：前者主要用于检测类型，后者用于检测代码规范。TS报错在VScode中会有更加友好的错误提示。
+
+// TS核心库提供了很多JS、BOM、DOM的类型。
+const dd: Date = new Date()

@@ -17,6 +17,7 @@ export const login = createAsyncThunk(
   'user/login',
   async (data:any) => {
     const res:any = await fetchLogin(data);
+    // return的结果就是payload
     return res.token
   }
 )
@@ -51,9 +52,12 @@ export const user = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state, action) => {
-        state.token = action.payload
-        localStorage.setItem('token', action.payload)
+      .addCase(login.fulfilled, (state, {payload}) => {
+        // 避免token是undefined的错误逻辑
+        if (payload) {
+          state.token = payload
+          localStorage.setItem('token', payload)
+        }
       })
       .addCase(getInfo.fulfilled, (state, action) => {
         const { userInfo, roleInfo, menuArr } = action.payload
