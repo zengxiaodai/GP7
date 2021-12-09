@@ -5,13 +5,15 @@ import counter from './reducers/counter';
 
 import user from './reducers/user'
 import layout from './reducers/layout'
+import article from './reducers/article'
 
 export const store = configureStore({
   // 用于合并子reducer(slice对象)
   reducer: {
     counter,
     user,
-    layout
+    layout,
+    article
   },
   // 用于安装中间件（坑：要考虑@reduxjs/toolkit默认原有的中间件）
   // 在原有的中间件的基础上，添加新的中间件

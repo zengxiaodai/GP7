@@ -4,7 +4,7 @@ import fetch from '../utils/fetch'
 export function fetchCount(amount = 1) {
   return new Promise<{ data: number }>((resolve) =>
     setTimeout(() => resolve({ data: amount }), 500)
-  );
+  )
 }
 
 export function fetchLogin(data:{username:String,password:String}) {
@@ -13,4 +13,12 @@ export function fetchLogin(data:{username:String,password:String}) {
 
 export function fetchUserInfo() {
   return fetch({url:'/user/info', method:'GET'})
+}
+
+export function fetchArticleUpdate(data) {
+  return fetch({url:'/article/update',method:'POST',data})
+}
+
+export function fetchArticleList(params) {
+  return fetch({url:'/article/list',method:'GET',params})
 }

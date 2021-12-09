@@ -11,26 +11,21 @@ const toolbar = [
   [{ 'direction': 'rtl' }],
   [{ 'size': ['small', false, 'large', 'huge'] }],
   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-  [{ 'color': [] }, { 'background': [] }],
+  [{ 'color': ['red','blue','green'] }, { 'background': ['red', 'green'] }],
   [{ 'font': [] }],
   [{ 'align': [] }],
   ['clean']
 ]
 
-const formats = [
-  'header',
-  'bold', 'italic', 'underline', 'strike', 'blockquote',
-  'list', 'bullet', 'indent',
-  'link', 'image'
-]
-
-export default () => {
+export default (props: any) => {
+  const { value, onChange } = props
   return (
     <ReactQuill
       theme="snow"
       style={{height:'270px'}}
       modules={{ toolbar }}
-      formats={formats}
+      value={value}
+      onChange={val=>onChange(val)}
     />
   )
 }

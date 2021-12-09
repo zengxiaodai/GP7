@@ -6,6 +6,10 @@ const U = require('../react_controllers/User')
 const M = require('../react_controllers/Menu')
 const R = require('../react_controllers/Role')
 
+const A = require('../react_controllers/Article')
+
+const UP = require('../controllers/Upload')
+
 const v = '/api/v2'
 
 router
@@ -21,5 +25,9 @@ router
 .post(`${v}/role/add`, checkToken, R.addOrEditRole)
 .get(`${v}/role/list`, checkToken, R.listRole)
 .get(`${v}/role/info`, checkToken, R.infoRole)
+
+.post(`${v}/article/upload`, checkToken, UP.imgUpload)
+.post(`${v}/article/update`, checkToken, A.addArticle)
+.get(`${v}/article/list`, checkToken, A.listArticle)
 
 module.exports = router

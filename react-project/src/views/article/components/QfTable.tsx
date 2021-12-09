@@ -1,13 +1,15 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { Table, Button, Row, Col, Dropdown, Menu } from 'antd'
 import { PlusOutlined, ReloadOutlined, ColumnHeightOutlined, SettingOutlined } from '@ant-design/icons'
 import './style.scss'
+
+import { useAppDispatch } from '@/hooks'
 
 import data from '../data'
 
 interface Props {
   title: string,
-  request: ()=>void,
+  request: any,
   query: object,
   columns: any,
   buttons?: any,
@@ -15,7 +17,6 @@ interface Props {
   skipTo?: ()=>void,
   [propName:string]: any
 }
-
 
 const sizes = [
   { value: 'default', label: '默认' },
@@ -59,8 +60,26 @@ const TableTitle = props => {
 }
 
 export default (props:Props) => {
+  const { columns, title, buttons, query, request } = props
+  const dispatch = useAppDispatch()
+  // 设置表格大小的size
   const [size, setSize] = useState<any>('default')
-  const { columns, title, buttons } = props
+  const [list, setList] = useState<Article[]>([])
+  const [total, setTotal] = useState<number>(0)
+  const [params, setParams] = useState<any>({size:2,page:1})
+
+  useEffect(()=>{
+    dispatch(request({...query,...params})).then(({payload})=>{
+      if (payload) {
+        setList(payload.list)
+        setTotal(payload.total)
+      }
+    })
+  }, [query, params])
+
+  useEffect(()=>{
+    setParams({...params,page:1})
+  }, [query])
 
   const cols = useMemo(()=>(
     columns.map((ele,idx)=>{
@@ -99,7 +118,7 @@ export default (props:Props) => {
         columns={cols}
         size={size}
         rowKey='_id'
-        dataSource={data}
+        dataSource={list}
         title={()=>(
           <TableTitle
             {...props}
@@ -121,11 +140,16 @@ export default (props:Props) => {
           ))
         }}
         pagination={{
-          total: 16,
+          defaultPageSize: 2,
+          total,
           size,
+          pageSize: params.size,
+          current: params.page,
+          pageSizeOptions: ['2','5','10'],
           showSizeChanger: true,
           showQuickJumper: true,
-          showTotal: total => (`Total ${total} items`)
+          showTotal: total => (`总共${total}条`),
+          onChange: (page,size)=>setParams({page,size})
         }}
       />
     </div>

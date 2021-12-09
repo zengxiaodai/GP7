@@ -4,6 +4,7 @@ import { Input, Button, Table } from 'antd'
 import './style.scss'
 
 import QfTable from './components/QfTable'
+import { listArticle } from '@/store/reducers/article'
 
 const columns = [
   ['标题', 'title'],
@@ -23,20 +24,24 @@ const buttons = [
 
 export default () => {
   const navigate = useNavigate()
+  const [title, setTitle] = useState<any>('')
   return (
     <div className='qf-article-list'>
       <div className='top'>
         <div>文章搜索</div>
         <div className='search'>
-          <Input />
+          <Input
+            onPressEnter={(e:any)=>setTitle(e.target.value)}
+            onChange={(e:any)=>{e.target.value===''&&setTitle('')}}
+          />
           <Button type='primary'>搜索</Button>
         </div>
       </div>
       <article>
         <QfTable
           title='文章表格'
-          request={()=>console.log('调接口')}
-          query={{text:''}}
+          request={listArticle}
+          query={{title}}
           columns={columns}
           buttons={buttons}
           skipTo={()=>navigate('/article/add')}
