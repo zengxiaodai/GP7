@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Input, Button, Table } from 'antd'
 import './style.scss'
 
-import { Article } from '@/types'
 import QfTable from './components/QfTable'
 
 const columns = [
@@ -22,6 +22,7 @@ const buttons = [
 ]
 
 export default () => {
+  const navigate = useNavigate()
   return (
     <div className='qf-article-list'>
       <div className='top'>
@@ -38,6 +39,7 @@ export default () => {
           query={{text:''}}
           columns={columns}
           buttons={buttons}
+          skipTo={()=>navigate('/article/add')}
         />
       </article>
     </div>

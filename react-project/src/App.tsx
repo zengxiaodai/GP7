@@ -6,8 +6,6 @@ import { store } from './store'
 
 import System from '@/system'
 
-console.log('store', store)
-
 function App() {
   return (
     <HashRouter>
