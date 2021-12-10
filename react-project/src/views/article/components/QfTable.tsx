@@ -94,7 +94,7 @@ export default (props:Props) => {
           title: '操作',
           align: 'center',
           dataIndex: 'handle',
-          render: ()=>{
+          render: (text, row)=>{
             return ele.map((ele,idx)=>(
               <Button
                 key={idx}
@@ -102,7 +102,7 @@ export default (props:Props) => {
                 danger={ele[2]&&ele[2].danger}
                 size='small'
                 style={{marginLeft:'10px'}}
-                onClick={ele[1]}>
+                onClick={()=>ele[1](row)}>
                 {ele[0]}
               </Button>
             ))

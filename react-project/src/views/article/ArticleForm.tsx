@@ -1,5 +1,5 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { Form, Switch, Upload, Input, Button, message } from 'antd'
 import QfQuill from './components/QfQuill'
@@ -8,19 +8,38 @@ import './style.scss'
 
 import { useAppDispatch } from '@/hooks'
 import { checkArticleTitle, checkArticleAuthor, checkArticleImage } from '@/utils/validate'
-import { updateArticle } from '@/store/reducers/article'
+import { updateArticle, infoArticle } from '@/store/reducers/article'
 
 export default () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const [form] = Form.useForm()
+  const [image, setImage] = useState('')
+  const [image2, setImage2] = useState('')
+
+  const { id } = useParams()
+  console.log('----id', id)
+
+  useEffect(()=>{
+    dispatch(infoArticle({id})).then(({payload})=>{
+      if (payload) {
+        // 把文章详情数据填充到Form表单上
+        form.setFieldsValue(payload)
+        // 给图片上传组件赋初始值
+        setImage2(payload.image)
+      }
+    })
+  }, [])
   const onFinish = (values) => {
     console.log('提交', values)
-    let image = values.image.reduce((prev,next)=>prev+next.thumbUrl, '')
-    values.image = image
+    // let image = values.image.reduce((prev,next)=>prev+next.thumbUrl, '')
+    values['image'] = image
+    if (id) values['id'] = id
     dispatch(updateArticle(values)).then(res=>{
-      console.log('文章新增成功', res)
       if (res.payload) {
-        message.success('文章添加成功', 1.5, ()=>{
+        console.log('payload', res.payload)
+        message.success(`文章${id?'修改':'添加'}成功`, 1.5, ()=>{
+          console.log('skip')
           navigate(-1)
         })
       }
@@ -29,14 +48,15 @@ export default () => {
   return (
     <div className='qf-article-add'>
       <Form
-        labelCol={{span:2}}
+        labelCol={{span:3}}
         wrapperCol={{span:8}}
         name="nest-messages"
+        form={form}
         initialValues={{
           title:'',
           author: '',
           top: false,
-          image:[],
+          image:'',
           content: ''
         }}
         onFinish={onFinish}
@@ -74,27 +94,26 @@ export default () => {
         </Form.Item>
 
         <Form.Item
-          name='image'
           label="缩略图"
           rules={[
             { required: true, message:'请上传两缩略图' },
             { validator: checkArticleImage, message:'必须是两张图片' }
           ]}
         >
-          <QfUpload />
+          <QfUpload value={image2} onChange={(val)=>setImage(val)} />
         </Form.Item>
 
         <Form.Item
           name='content'
-          wrapperCol={{offset:2, span:18}}
+          wrapperCol={{offset:3, span:18}}
           style={{height:'330px'}}
         >
           <QfQuill />
         </Form.Item>
 
-        <Form.Item wrapperCol={{offset:2}}>
+        <Form.Item wrapperCol={{offset:3}}>
           <Button type="primary" htmlType="submit">
-            提交
+            { id ? '修改' : '添加' }
           </Button>
         </Form.Item>
       </Form>

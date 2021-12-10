@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation, Navigate, useParams } from 'react-router-dom'
 
 import { useAppSelector, useAppDispatch } from '@/hooks'
 import { getInfo } from '@/store/reducers/user'
@@ -8,6 +8,7 @@ import Layout from './layout'
 import Login from './login'
 
 import { elements } from '@/views'
+
 
 export default () => {
   const dispatch = useAppDispatch()
@@ -70,6 +71,8 @@ export default () => {
     </>
   )
 }
+
+
 
 // 待解决的BUG:
 // 1、当前文件如果以.tsx结尾，报一个 TS（Element赋值给never）

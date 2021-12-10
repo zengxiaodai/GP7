@@ -47,11 +47,12 @@ export default () => {
       <SubMenu key={ele._id}  title={ele.text} icon={icons[ele.icon]}>
       {
         ele.children &&
-        ele.children.map(ele=>(
-          <Menu.Item key={ele._id}>
+        ele.children.map(ele=>{
+          const flag = ele.path.includes(':')
+          return !flag && <Menu.Item key={ele._id}>
             <Link to={ele.path}>{ele.text}</Link>
           </Menu.Item>
-        ))
+        })
       }
       </SubMenu>
     ))

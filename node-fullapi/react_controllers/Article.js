@@ -2,7 +2,7 @@ const articleModel = require('../react_models/article')
 
 class Article {
   static async addArticle(ctx) {
-    const { title, author, top, image, content } = ctx.request.body
+    const { title, author, top, image, content, id } = ctx.request.body
     const ele = {
       title,
       author,
@@ -10,9 +10,14 @@ class Article {
       image,
       content
     }
-    // 敏感词验证
-    const info = await articleModel.insertMany([ele])
-    ctx.body = { code: 0, msg:'success', data: {info}}
+    if (id) {
+      const info = await articleModel.updateOne({_id:id}, {$set:ele})
+      ctx.body = { code: 0, msg:'success', data: {info}}
+    } else {
+      const info = await articleModel.insertMany([ele])
+      ctx.body = { code: 0, msg:'success', data: {info}}
+    }
+
   }
 
   static async listArticle(ctx) {
@@ -26,6 +31,12 @@ class Article {
     const total = await articleModel.find(params).count()
     const list = await articleModel.find(params).skip((page-1)*size).limit(size).sort({_id:-1})
     ctx.body = {code:0,msg:'success',data:{list,total}}
+  }
+
+  static async infoArticle(ctx) {
+    let { id } = ctx.request.query
+    const info = await articleModel.findOne({_id:id})
+    ctx.body = { code: 0, msg:'success', data: {info}}
   }
 }
 

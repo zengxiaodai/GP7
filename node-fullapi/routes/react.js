@@ -29,5 +29,7 @@ router
 .post(`${v}/article/upload`, checkToken, UP.imgUpload)
 .post(`${v}/article/update`, checkToken, A.addArticle)
 .get(`${v}/article/list`, checkToken, A.listArticle)
+.get(`${v}/article/info`, checkToken, A.infoArticle)
+
 
 module.exports = router

@@ -22,3 +22,7 @@ export function fetchArticleUpdate(data) {
 export function fetchArticleList(params) {
   return fetch({url:'/article/list',method:'GET',params})
 }
+
+export function fetchArticleInfo(params) {
+  return fetch({url:'/article/info',method:'GET',params})
+}

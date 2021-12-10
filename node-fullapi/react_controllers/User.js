@@ -8,6 +8,7 @@ class User {
     let { username, password } = ctx.request.body
     // 验证数据
     const info = await userModel.findOne({username,password})
+    console.log('info', info)
     // 如果用户的status=0，用户是禁用状态的，不能登录
     if (info && info.status==0) {
       return ctx.body = { code:4, msg:'用户状态异常，请联系管理员',data:{}}
@@ -25,13 +26,14 @@ class User {
     console.log('user', user)
     const userInfo = await userModel.findOne({_id:user._id})
     // 查询非admin用户的角色信息
-    let roleInfo = null
-    if (userInfo.role!=='admin') {
-      roleInfo = await roleModel.findOne({role:userInfo.role})
-    }
-
+    let roleInfo = await roleModel.findOne({role:userInfo.role})
+    // if (userInfo.role!=='admin') {
+    //
+    // } else {
+    //   roleInfo = await roleModel.findOne({role:userInfo.role})
+    // }
   	let menuArr = []
-  	if (roleInfo.role==='test') {
+  	if (roleInfo?.role==='test') {
   	  menuArr = await menuModel.find({})
       // 如果是非test用户，要根据roleInfo.menus字段来返回相应的菜单列表
   	}

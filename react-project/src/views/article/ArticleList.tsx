@@ -6,16 +6,7 @@ import './style.scss'
 import QfTable from './components/QfTable'
 import { listArticle } from '@/store/reducers/article'
 
-const columns = [
-  ['标题', 'title'],
-  ['作者', 'author'],
-  ['置顶', 'top'],
-  ['发布时间', 'create_time'],
-  [
-    // ['删除', ()=>{}, {danger:true} ],
-    ['编辑', ()=>{} ]
-  ]
-]
+
 
 const buttons = [
   ['导出', ()=>{} ],
@@ -25,6 +16,18 @@ const buttons = [
 export default () => {
   const navigate = useNavigate()
   const [title, setTitle] = useState<any>('')
+
+  const columns = [
+    ['标题', 'title'],
+    ['作者', 'author'],
+    ['置顶', 'top'],
+    ['发布时间', 'create_time'],
+    [
+      // ['删除', ()=>{}, {danger:true} ],
+      ['编辑', (row)=>{navigate(`/article/edit/${row._id}`)} ]
+    ]
+  ]
+
   return (
     <div className='qf-article-list'>
       <div className='top'>
