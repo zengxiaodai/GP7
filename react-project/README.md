@@ -3,7 +3,7 @@
 - 学习@reduxjs/toolkit的数据架构（相对传统的redux架构更加简单）
 - 熟悉TS环境（静态检测环境）。
 - 权限设计（react-project 由后端实现权限）
-- 学习完整的Hooks编程（增删）
+- 学习完整的Hooks编程（增删改查）
 - antd使用（表单、表格）、自定义封装组件。
 - 自定义封装国际化组件
 - 定制主题（使用less，或者直接修改antd样式文件）
@@ -85,6 +85,19 @@ cnpm i sass -D
 # 业务开发
 
 - 表单验证方式：使用Form.Item 的rules进行验证，自定义表单验证。
-  - rules: [
-    { 验证条件、错误提示、触发机制 }
-  ]
+  - rules: [ { 验证条件、错误提示、触发机制 } ]
+
+- 图表
+  - echarts (DOM写法、2021年正在发布组件化的写法)，建议用DOM写法。
+  - bizchart（只有组件化的写法），在React开发建议使用。
+  - ant-design-chart（是antv子集中的子集）
+- highchart（是一个国外的图表，不是很好用）
+
+- 【react-project】
+  - @reduxjs/toolkit数据架构
+  - typescript环境熟悉：基础、编译选项、声明文件
+  - react-router-dom(v6)用法，权限设计的流程（登录流程、刷新流程）
+  - 文章列表（增删改查）QfTable、QfUpload、QfQuill、表单双向绑定、表单验证。
+  - 图表开发：echarts(DOM写法)、bizcharts(组件化的写法)，两个官网都翻一翻。
+  - 国际化
+  - 地图接入。。。。

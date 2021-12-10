@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../index';
 
 // 引入api方法
-import { fetchLogin, fetchUserInfo } from '@/api';
+import { fetchLogin, fetchUserInfo, fetchChartData } from '@/api';
 
 // 可共享的子store可共享数据
 const initialState:any = {
@@ -37,6 +37,15 @@ const arrToTree = (menuArr) => {
   })
   return modules
 }
+
+// 获取后端的图表数据
+export const getChartData = createAsyncThunk(
+  'user/chart',
+  async () => {
+    const res:any = await fetchChartData()
+    return res
+  }
+)
 
 export const user = createSlice({
   name: 'user',

@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Input, Button, Table } from 'antd'
 import './style.scss'
+import moment from 'moment'
+console.log('moment', moment)
 
 import QfTable from './components/QfTable'
 import { listArticle } from '@/store/reducers/article'
@@ -20,8 +22,8 @@ export default () => {
   const columns = [
     ['标题', 'title'],
     ['作者', 'author'],
-    ['置顶', 'top'],
-    ['发布时间', 'create_time'],
+    ['置顶', 'top', (text)=>(<div>{text?'是':'否'}</div>)],
+    ['发布时间', 'create_time', (text)=>(<div>{moment(text).format('YYYY年MM月DD日')}</div>)],
     [
       // ['删除', ()=>{}, {danger:true} ],
       ['编辑', (row)=>{navigate(`/article/edit/${row._id}`)} ]

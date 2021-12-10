@@ -7,7 +7,7 @@ import { getInfo } from '@/store/reducers/user'
 import Layout from './layout'
 import Login from './login'
 
-import { elements } from '@/views'
+import { elements, routes } from '@/views'
 
 
 export default () => {
@@ -41,6 +41,7 @@ export default () => {
     if (token && menuArr.length===0) dispatch(getInfo())
   }, [menuArr])
 
+  // 渲染有权限的路由
   const renderRoute = arr => {
     let result = []
     arr.map(ele=>{
@@ -60,12 +61,24 @@ export default () => {
     return result
   }
 
+  // 渲染静态的路由（这些url所有用户都能访问）
+  const renderContantRoute = arr => {
+    return arr.map(ele=>(
+      <Route
+        key={ele.id}
+        path={ele.path}
+        element={ele.element}
+      />
+    ))
+  }
+
   return (
     <>
     <Routes>
       <Route path='/login' element={<Login />} />
       <Route path='/' element={<Layout />}>
         { menuArr.length>0 && renderRoute(menuArr)}
+        { renderContantRoute(routes) }
       </Route>
     </Routes>
     </>

@@ -11,7 +11,7 @@ import { login, getInfo } from '@/store/reducers/user'
 const vidatePassWord = (rule, value) => {
   console.log('rule', rule)
   console.log('value', value)
-  if (value==='666666') {
+  if (value.length===6) {
     return Promise.resolve()
   } else {
     return Promise.reject(new Error(rule.message))
@@ -50,8 +50,7 @@ export default () => {
             label="用户名"
             name="username"
             rules={[
-              { required: true, message:'用户名不能为空' },
-              { pattern: /^[a-zA-Z][a-zA-Z0-9]{1,7}$/, message:'用户名只能以字母开关，2到8位' }
+              { required: true, message:'用户名不能为空' }
             ]}
           >
             <Input />

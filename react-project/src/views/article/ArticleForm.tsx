@@ -14,32 +14,22 @@ export default () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [form] = Form.useForm()
-  const [image, setImage] = useState('')
-  const [image2, setImage2] = useState('')
 
   const { id } = useParams()
   console.log('----id', id)
 
   useEffect(()=>{
     dispatch(infoArticle({id})).then(({payload})=>{
-      if (payload) {
-        // 把文章详情数据填充到Form表单上
-        form.setFieldsValue(payload)
-        // 给图片上传组件赋初始值
-        setImage2(payload.image)
-      }
+      // 把文章详情数据填充到Form表单上
+      if (payload) form.setFieldsValue(payload)
     })
   }, [])
   const onFinish = (values) => {
-    console.log('提交', values)
-    // let image = values.image.reduce((prev,next)=>prev+next.thumbUrl, '')
-    values['image'] = image
+    // console.log('提交', values)
     if (id) values['id'] = id
     dispatch(updateArticle(values)).then(res=>{
       if (res.payload) {
-        console.log('payload', res.payload)
         message.success(`文章${id?'修改':'添加'}成功`, 1.5, ()=>{
-          console.log('skip')
           navigate(-1)
         })
       }
@@ -95,12 +85,14 @@ export default () => {
 
         <Form.Item
           label="缩略图"
+          name='image'
           rules={[
             { required: true, message:'请上传两缩略图' },
             { validator: checkArticleImage, message:'必须是两张图片' }
           ]}
         >
-          <QfUpload value={image2} onChange={(val)=>setImage(val)} />
+          {/* <QfUpload value={image2} onChange={(val)=>setImage(val)} /> */}
+          <QfUpload />
         </Form.Item>
 
         <Form.Item

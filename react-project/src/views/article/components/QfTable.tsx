@@ -81,14 +81,20 @@ export default (props:Props) => {
     setParams({...params,page:1})
   }, [query])
 
-  const cols = useMemo(()=>(
+  const cols:any[] = useMemo(()=>(
     columns.map((ele,idx)=>{
       if (idx<columns.length-1) {
-        return ({
+        let col = {
           title: ele[0],
           align: 'center',
-          dataIndex: ele[1]
-        })
+          dataIndex: ele[1],
+        }
+        // 接收用户给的自定义的render()
+        if (ele[2]) {
+          col['render'] = (text,row,idx)=>ele[2](text,row,idx)
+        }
+        console.log('ele ----', ele)
+        return col
       } else {
         return ({
           title: '操作',

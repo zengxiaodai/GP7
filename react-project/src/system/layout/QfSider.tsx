@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 
@@ -38,9 +38,20 @@ const Toggle = ({value}:any) => {
 export default () => {
   const { collapsed } = useAppSelector(state=>state.layout)
   const { menuArr } = useAppSelector(state=>state.user)
+  const [menuOn, setMenuOn] = useState<any>({})
 
   // const [openId, onId] = useMenu()
   const [openId, onId] = ['10', '1001']
+  useEffect(()=>{
+    const openKeys = sessionStorage.getItem('openKeys')
+    const key = sessionStorage.getItem('key')
+    console.log('openKeys', openKeys)
+    console.log('key', key)
+    setMenuOn({
+      openKeys: openKeys.split(','),
+      selectedKeys: [key]
+    })
+  }, [])
 
   const renderMenu = (menuArr) => {
     return menuArr.map(ele=>(
@@ -58,24 +69,32 @@ export default () => {
     ))
   }
 
+  const menuClick = ({key}) => {
+    // console.log('menu item click key', key)
+    setMenuOn({...menuOn, selectedKeys:[key]})
+    sessionStorage.setItem('key', key)
+  }
+  const menuOpen = (openKeys) => {
+    // console.log('menu openKeys', openKeys)
+    setMenuOn({...menuOn, openKeys})
+    sessionStorage.setItem('openKeys',openKeys)
+  }
+
   return (
     <Sider trigger={null} collapsed={collapsed}>
       <Logo value={collapsed} />
       <Menu
         theme="dark"
         mode="inline"
-        defaultOpenKeys={[openId]}
-        defaultSelectedKeys={[onId]}
+        onClick={menuClick}
+        onOpenChange={menuOpen}
+        {...menuOn}
       >
         {/* 首页大屏的菜单，所有用户都有这个页面 */}
-        {/*
-          <Menu.Item key={1} icon={<HomeOutlined />}>
-            <Link to='/dashboard'>首页大屏</Link>
-          </Menu.Item>
-        */}
-
+        <Menu.Item key={1000} icon={<HomeOutlined />}>
+          <Link to='/dashboard'>首页大屏</Link>
+        </Menu.Item>
         { menuArr.length>0 && renderMenu(menuArr)}
-
       </Menu>
 
       <Toggle value={collapsed} />

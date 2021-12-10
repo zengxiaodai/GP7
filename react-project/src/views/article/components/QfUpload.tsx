@@ -1,22 +1,38 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { Upload, message } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import { useAppSelector } from '@/hooks'
 
-export default (props:any) => {
-  const { token } = useAppSelector(state=>state.user)
-  // 用于当前图片Upload的组件的取值
-  const [list, setList] = useState<any>([])
-  const {value, onChange} = props
+// 用于拼接图片的url
+const getImage = fileList => {
+  return fileList.reduce((prev,next)=>{
+    if (next.status==='done') {
+      return prev+`;${next.response.data.img}`
+    } else {
+      return prev+`;${next.thumbUrl.split('9999')[1]}`
+    }
+  }, '')
+}
 
+// memo()是高阶组件，和类组件中的PureComponent的功能类似
+// memo()只能用于函数式组件
+export default memo((props:any) => {
+  const {value, onChange} = props
+  const { token } = useAppSelector(state=>state.user)
+  // 用于Upload组件的受控
+  const [fileList, setFileList] = useState<any>([])
+  const [loaded, setLoaded] = useState<boolean>(false)
+
+  // 用于图片初始化显示
   useEffect(()=>{
-    if (value) {
+    if (value && !loaded) {
       const result = value.split(';').filter(ele=>ele).map(ele=>({
         thumbUrl: 'http://localhost:9999'+ele
       }))
-      setList(result)
+      setFileList(result)
+      setLoaded(true)
     }
-  }, [value])
+  }, [value, loaded])
 
   const check = file => {
     if (file.size > 204800) {
@@ -29,36 +45,17 @@ export default (props:any) => {
   const change = ({file, fileList}) => {
     console.log('file', file)
     console.log('filelist', fileList)
-    // 触发三次onChange()
-    setList(fileList)
+    setFileList(fileList)  // 为了触发三次onChange()
+
     if (file.status==='done' && file.response && file.response.err===0) {
-      // 表示当前上传图片成功，把图片URL返回给父组件
-      // onChange(file.response.data.img)
-      // 报错
-      const image = fileList.reduce((prev,next)=>{
-        if (next.status==='done') {
-          return prev+`;${next.response.data.img}`
-        } else {
-          return prev+`;${next.thumbUrl.split('9999')[1]}`
-        }
-      }, '')
-      console.log('----image', image)
+      // 这条逻辑：表示当图片上传成功时
+      const image = getImage(fileList)
       onChange(image)
-    } else if (!file.status) {
-      const image = fileList.reduce((prev,next)=>{
-        if (next.status==='done') {
-          return prev+`;${next.response.data.img}`
-        } else {
-          return prev+`;${next.thumbUrl.split('9999')[1]}`
-        }
-      }, '')
-      console.log('----image', image)
+    } else if (file.status==='removed') {
+      // 这条逻辑：表示当删除图片成功时
+      const image = getImage(fileList)
       onChange(image)
     }
-  }
-  const remove = file => {
-    console.log('---remove', file)
-    // onChange(value.filter(ele=>ele.uid!==file.uid))
   }
 
   return (
@@ -69,12 +66,13 @@ export default (props:any) => {
         headers={{Authorization:token}}
         listType="picture-card"
         maxCount={2}
-        fileList={list}
+        fileList={fileList}
         onChange={change}
         beforeUpload={check}
       >
-        {list.length<2 && '+ Upload'}
+        {fileList.length<2 && '+ Upload'}
       </Upload>
     </ImgCrop>
   )
 }
+)
