@@ -7,6 +7,7 @@ const M = require('../react_controllers/Menu')
 const R = require('../react_controllers/Role')
 
 const A = require('../react_controllers/Article')
+const C = require('../react_controllers/Chart')
 
 const UP = require('../controllers/Upload')
 
@@ -30,6 +31,8 @@ router
 .post(`${v}/article/update`, checkToken, A.addArticle)
 .get(`${v}/article/list`, checkToken, A.listArticle)
 .get(`${v}/article/info`, checkToken, A.infoArticle)
+
+.post(`${v}/chart`, checkToken, C.getErpData)
 
 
 module.exports = router

@@ -27,17 +27,15 @@ class User {
     const userInfo = await userModel.findOne({_id:user._id})
     // 查询非admin用户的角色信息
     let roleInfo = await roleModel.findOne({role:userInfo.role})
-    // if (userInfo.role!=='admin') {
-    //
-    // } else {
-    //   roleInfo = await roleModel.findOne({role:userInfo.role})
-    // }
+
   	let menuArr = []
   	if (roleInfo?.role==='test') {
-  	  menuArr = await menuModel.find({})
       // 如果是非test用户，要根据roleInfo.menus字段来返回相应的菜单列表
-  	}
-
+  	  menuArr = await menuModel.find({})
+  	} else {
+      // 非test用户，要根据用户的role->menus->menuArr
+      // 未完成，你自己做
+    }
     ctx.body = { code:0, msg:'success',data:{userInfo, roleInfo, menuArr }}
   }
 
