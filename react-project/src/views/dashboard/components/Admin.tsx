@@ -11,7 +11,7 @@ export default () => {
   const dispatch = useAppDispatch()
   const [sales, setSales] = useState<any>([])
   const [tempers, setTempers] = useState<any>([])
-  
+
   useEffect(()=>{
     dispatch(getChartData()).then(res=>{
       console.log('图表数据', res.payload.sales)

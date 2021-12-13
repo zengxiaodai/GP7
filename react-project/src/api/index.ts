@@ -27,6 +27,6 @@ export function fetchArticleInfo(params) {
   return fetch({url:'/article/info',method:'GET',params})
 }
 
-export function fetchChartData(data) {
-  return fetch({url:'/chart',method:'POST',data})
+export function fetchChartData() {
+  return fetch({url:'/chart',method:'POST',data:{}})
 }

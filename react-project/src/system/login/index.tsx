@@ -28,7 +28,7 @@ export default () => {
     dispatch(login(values)).then(res=>{
       console.log('登录成功', res)
       if (res.payload) {
-        dispatch(getInfo()).then(res=>{
+        dispatch(getInfo({})).then(res=>{
           console.log('login res', res)
         })
       }

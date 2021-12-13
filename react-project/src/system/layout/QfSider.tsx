@@ -48,7 +48,7 @@ export default () => {
     console.log('openKeys', openKeys)
     console.log('key', key)
     setMenuOn({
-      openKeys: openKeys.split(','),
+      openKeys: openKeys?.split(','),
       selectedKeys: [key]
     })
   }, [])

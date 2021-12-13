@@ -24,7 +24,7 @@ export const login = createAsyncThunk(
 
 export const getInfo = createAsyncThunk(
   'user/info',
-  async () => {
+  async (data:any) => {
     const res:any = await fetchUserInfo()
     return res
   }

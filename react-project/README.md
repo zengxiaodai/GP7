@@ -93,6 +93,8 @@ cnpm i sass -D
   - ant-design-chart（是antv子集中的子集）
 - highchart（是一个国外的图表，不是很好用）
 
+- 地图：百度地图、高德地图、谷歌地图。。。
+
 - 【react-project】
   - @reduxjs/toolkit数据架构
   - typescript环境熟悉：基础、编译选项、声明文件
