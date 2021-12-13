@@ -9,7 +9,6 @@ import Login from './login'
 
 import { elements, routes } from '@/views'
 
-
 export default () => {
   const dispatch = useAppDispatch()
   // 从状态管理中取出token，和当前拥有可以访问的菜单列表（二维数组）

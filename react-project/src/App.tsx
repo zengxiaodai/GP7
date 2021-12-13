@@ -4,7 +4,7 @@ import { HashRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store'
 
-import System from '@/system'
+import System from '@/system/index.tsx'
 
 function App() {
   return (

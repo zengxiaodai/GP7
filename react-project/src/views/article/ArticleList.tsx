@@ -8,7 +8,8 @@ console.log('moment', moment)
 import QfTable from './components/QfTable'
 import { listArticle } from '@/store/reducers/article'
 
-
+import { FormattedMessage, useIntl } from 'react-intl'
+import { useLang } from '@/lang'
 
 const buttons = [
   ['导出', ()=>{} ],
@@ -18,6 +19,11 @@ const buttons = [
 export default () => {
   const navigate = useNavigate()
   const [title, setTitle] = useState<any>('')
+
+  // const intl = useIntl()
+  const lang = useLang()
+  console.log('---lang', lang)
+
 
   const columns = [
     ['标题', 'title'],
@@ -33,7 +39,7 @@ export default () => {
   return (
     <div className='qf-article-list'>
       <div className='top'>
-        <div>文章搜索</div>
+        <div>{lang['article.title']}</div>
         <div className='search'>
           <Input
             onPressEnter={(e:any)=>setTitle(e.target.value)}
@@ -44,7 +50,7 @@ export default () => {
       </div>
       <article>
         <QfTable
-          title='文章表格'
+          title={lang['article.title']}
           request={listArticle}
           query={{title}}
           columns={columns}
