@@ -1,15 +1,15 @@
-# umi project
+# 项目创建
 
-## Getting Started
-
-Install dependencies,
-
-```bash
-$ yarn
+- node版本：v14
 ```
-
-Start the dev server,
-
-```bash
-$ yarn start
+npm install yarn -g
+npm install tyarn -g
 ```
+```
+mkdir react-ali-umi
+cd react-ali-umi
+tyarn create @umijs/umi-app
+tyarn
+npm start
+```
+- 安装各种依赖时，建议使用 tyarn。
