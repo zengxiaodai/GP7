@@ -1,0 +1,32 @@
+/* pages/find/find.wxss */
+
+.box {
+    width: 750rpx;
+    height: 750rpx;
+    background-color: red;
+}
+
+.inner {
+    width: 200rpx;
+    height: 200rpx;
+    background-color: blue;
+}
+
+view {
+    line-height: 80rpx;
+}
+
+.abc {
+    width: 200rpx;
+    height: 200rpx;
+    border: 1rpx solid red;
+    margin: 20rpx auto;
+    background-color: black;
+}
+
+.door {
+    width: 750rpx;
+    height: 200rpx;
+    border: 1rpx solid blue;
+    margin: 0 auto;
+}

@@ -1,0 +1,37 @@
+<view>
+    <block 
+        wx:for='{{list}}' 
+        wx:key="{{item}}"        
+    >
+        <view data-xxx="{{item}}" catchtap="userTap">
+            <text>{{item.name}}</text>
+            --
+            <text>{{item.age}}</text>
+        </view>
+    </block>
+
+    <view wx:if="{{idx===1}}">一行文字</view>
+    <view wx:elif='{{idx===2}}'>二行文字</view>
+    <view wx:else>三行文字</view>
+
+    <view hidden="{{true}}">四行文字</view>
+    <view style="color:{{'blue'}}">测试动态样式</view>
+
+    <view class="box" bindtap="outerTap">
+        <view class="inner" catchtap="innerTap"></view>
+    </view>
+
+    <input type="text" model:value="{{name}}" />
+
+    <view id='test'>测试DOM</view>
+
+    <view class="abc"></view>
+    <button bindtap="start1">开始动画</button>
+
+    <view class="door"></view>
+    <button bindtap="start2">关门</button>
+
+    
+</view>
+
+
