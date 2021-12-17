@@ -1,14 +1,12 @@
 <view>
-    <block 
-        wx:for='{{list}}' 
-        wx:key="{{item}}"        
-    >
-        <view data-xxx="{{item}}" catchtap="userTap">
-            <text>{{item.name}}</text>
-            --
-            <text>{{item.age}}</text>
-        </view>
-    </block>
+
+    <!-- 列表渲染时，如果事件绑定的节点和wx:for在同一个节点上，那么点击循环中动态节点，是无法拿到dataset。 -->
+    <!-- 怎么办呢？要想点击动态节点也能拿到dataset，需要把事件直接绑定动态节点上。 -->
+    <view wx:for='{{list}}' wx:key='*this'>
+        <text>{{item.name}}</text>
+        <text>--</text>
+        <text data-id="{{item.id}}" bindtap="userTap">{{item.age}}</text>
+    </view>
 
     <view wx:if="{{idx===1}}">一行文字</view>
     <view wx:elif='{{idx===2}}'>二行文字</view>
