@@ -23,7 +23,7 @@ function request(url,method,data){
 }
 
 function requestArticle(data) {
-  return request(`${baseURL}${version}'/topics'`,'GET',data)
+  return request(`${baseURL}${version}/topics`,'GET',data)
 }
 
 function login(data) {
