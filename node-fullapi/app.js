@@ -23,4 +23,6 @@ if (NODE_ENV==='react') {
   app.use(require('./routes/react').routes())
 }
 
+app.use(require('./routes/index').routes())
+
 app.listen(9999, ()=>console.log(`${NODE_ENV} server in running on 9999`))

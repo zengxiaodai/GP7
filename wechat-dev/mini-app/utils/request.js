@@ -6,10 +6,12 @@ const version = '/api/v1'
 function request(url,method,data){
   return new Promise(resolve=>{
     wx.request({
-      url: baseURL+version + url,
+      url,
       method,
       data,
-      headers: {},
+      headers: {
+        'X-Token': wx.getStorageSync('token')
+      },
       success(res) {
         // 数据过滤
         if (res.statusCode === 200) {
@@ -21,9 +23,16 @@ function request(url,method,data){
 }
 
 function requestArticle(data) {
-  return request('/topics','GET',data)
+  return request(`${baseURL}${version}'/topics'`,'GET',data)
 }
 
+function login(data) {
+  return request('http://localhost:9999/api/v1/wechat/login', 'GET', data)
+}
+
+
+
 module.exports = {
-  requestArticle
+  requestArticle,
+  login
 }

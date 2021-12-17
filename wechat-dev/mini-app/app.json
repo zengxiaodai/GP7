@@ -39,5 +39,10 @@
           "selectedIconPath": "assets/t3-on.png"
         }
       ]
+    },
+    "permission": {
+      "scope.userLocation": {
+        "desc": "为了更好地提供服务，希望获取你的位置授权"
+      }
     }
 }

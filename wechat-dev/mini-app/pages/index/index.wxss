@@ -1,5 +1,4 @@
 .canvas {
   width: 750rpx;
-  height: 1000rpx;
-  background: #eee;
+  height: 750rpx;
 }
