@@ -1,20 +1,33 @@
 // index.js
 // 获取应用实例
 const app = getApp()
+console.log('小程序中唯一的顶层对象', app)
+const { calDis, search } = require('../../utils/util')
 
 // 注册页面（页面组件，要配置在路由中的）
 Page({
   data: {
     motto: 'Hello World',
     show: true,
-    latLng: {}
+    latLng: {},
+    shopList: [
+      { id: '奈雪的茶-1', logo: '', latitude: 39.984060, longitude: 116.307520 },
+      { id: '奈雪的茶-2', logo: '', latitude: 39.985060, longitude: 116.317520 },
+      { id: '奈雪的茶-3', logo: '', latitude: 39.994060, longitude: 116.327520 },
+      { id: '奈雪的茶-4', logo: '', latitude: 40.984060, longitude: 117.307520 }
+    ],
+    markers: []
   },
   onShow() {
     wx.getSetting({
       success: (res) => {
         this.setData({show: res.authSetting['scope.userLocation']})
       }
-    })
+    });
+    // 监听用户的位置变化
+    wx.onLocationChange(function(res){
+      console.log('实时的当前位置', res)
+    });
   },
   openLogin() {
     wx.openSetting({
@@ -26,7 +39,6 @@ Page({
       }
     })
   },
-
 
   rpx2px(rpx) {
     // 当前手机的真实宽度（px）
@@ -95,19 +107,26 @@ Page({
   },
 
   onReady () {
+    app.globalData.userInfo = { name:'张三' }
     this.draw()
     if (!this.show) {
       const that = this
       wx.getLocation({
-        success(res) {
-          console.log('当前位置', res)
-          that.setData({latLng: res })
+        success(pos) {
+          console.log('当前位置', pos)
+          that.setData({latLng: pos })
+          // 测试距离计算
+          calDis(pos,that.data.shopList).then(list=>{
+            console.log('带有距离的店铺列表', list)
+          })
         },
         fail(err) {
           console.log('位置失败', err)
         }
       })
     }
+
+
 
   },
   // 保存到相同
@@ -169,5 +188,18 @@ Page({
         path: "pages/index/index"
       }
     }
+  },
+
+  // 开始搜索
+  searchTap() {
+    const that = this
+    search('奶茶').then(markers=>{
+      console.log('markers', markers)
+      that.setData({markers})
+    })
+  },
+
+  onPageScroll(e) {
+    console.log('页面滚动了', e)
   }
 })

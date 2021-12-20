@@ -30,3 +30,38 @@ view {
     border: 1rpx solid blue;
     margin: 0 auto;
 }
+
+.cates {
+  white-space: nowrap;
+}
+.cate {
+  display: inline-block;
+  width: 120rpx;
+  line-height: 80rpx;
+  border: 1rpx solid #ccc;
+  text-align: center;
+}
+.cate.on {
+  color: red;
+}
+
+.info {
+  line-height: 80rpx;
+  background: #ccc;
+}
+.info image {
+  display: inline-block;
+  width: 40rpx;
+  height: 40rpx;
+  vertical-align: middle;
+}
+.fes {
+  width: 400rpx;
+  height: 400rpx;
+  display: block;
+  margin: 0 auto;
+}
+.search {
+  border: 1rpx solid red;
+  margin: 20rpx 0;
+}

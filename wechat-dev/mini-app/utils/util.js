@@ -1,3 +1,57 @@
+var QQMapWX = require('./qqmap.js')
+
+var qqmap = new QQMapWX({
+    key: 'AHNBZ-OIZCD-WEK4D-HATSH-FK526-ZXFSD'
+})
+
+// 计算距离
+const calDis = (pos, list) => {
+  var _this = this;
+    //调用距离计算接口
+    return new Promise(resolve=>{
+      qqmap.calculateDistance({
+        mode: 'driving',
+        //from参数不填默认当前地址
+        //获取表单提交的经纬度并设置from和to参数（示例为string格式）
+        from: pos,
+        to: list,
+        success: function(res) {//成功后的回调
+          console.log(res);
+          var res = res.result
+          console.log('距离计算成功', res)
+          const result = list.map((ele,idx)=>(
+            {...ele, distance: res.elements[idx].distance}
+          ))
+          resolve(result)
+        }
+      })
+    })
+}
+
+const search = (text) => {
+  return new Promise(resolve=>{
+    qqmap.search({
+        keyword: text,  //搜索关键词
+        success: function (res) { //搜索成功后的回调
+          var mks = []
+          for (var i = 0; i < res.data.length; i++) {
+            mks.push({ // 获取返回结果，放到mks数组中
+              title: res.data[i].title,
+              id: res.data[i].id,
+              latitude: res.data[i].location.lat,
+              longitude: res.data[i].location.lng,
+              iconPath: "/assets/marker.png", //图标路径
+              width: 20,
+              height: 20
+            })
+          }
+          resolve(mks)
+        }
+    })
+  })
+
+}
+
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -14,6 +68,10 @@ const formatNumber = n => {
   return n[1] ? n : `0${n}`
 }
 
+
+
 module.exports = {
-  formatTime
+  formatTime,
+  calDis,
+  search
 }

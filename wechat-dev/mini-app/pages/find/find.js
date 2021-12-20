@@ -11,7 +11,30 @@ Page({
             { id: 3, name: 'wang wu', age: 30 }
         ],
         idx: 1,
-        name: 'GP7'
+        name: 'GP7',
+        cates: [
+          { id: 1, label:'推荐1', value: 'a' },
+          { id: 2, label:'推荐2', value: 'a' },
+          { id: 3, label:'推荐3', value: 'a' },
+          { id: 4, label:'推荐4', value: 'a' },
+          { id: 5, label:'推荐5', value: 'a' },
+          { id: 6, label:'推荐6', value: 'a' },
+          { id: 7, label:'推荐7', value: 'a' },
+          { id: 8, label:'推荐8', value: 'a' },
+          { id: 9, label:'推荐9', value: 'a' },
+          { id: 10, label:'推荐10', value: 'a' },
+          { id: 11, label:'推荐11', value: 'a' },
+          { id: 12, label:'推荐12', value: 'a' },
+          { id: 19, label:'推荐13', value: 'a' },
+          { id: 100, label:'推荐14', value: 'a' }
+        ],
+        curId: 1
+    },
+
+    cateTap(ev) {
+      console.log('ev', ev.target.dataset)
+      const { index } = ev.target.dataset
+      this.setData({curId: index})
     },
 
     innerTap() {

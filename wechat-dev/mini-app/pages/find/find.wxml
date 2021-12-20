@@ -1,5 +1,28 @@
 <view>
 
+    <!-- 滚动视频 -->
+    <scroll-view class='cates' scroll-x scroll-into-view='qf{{curId-2}}'>
+      <view
+        wx:for='{{cates}}'
+        wx:key='*this'
+        class='cate {{curId===index?"on":""}}'
+        data-index='{{index}}'
+        bindtap='cateTap'
+        id='qf{{index}}'
+      >
+        {{item.label}}
+      </view>
+    </scroll-view>
+
+    <view class='info'>
+      <image src='/assets/marker.png' />
+      <text>千锋教育</text>
+    </view>
+
+    <image class="fes" src='/assets/fes.png' mode='aspectFill' />
+
+    <input class="search" type="text" type='number' confirm-type='search' />
+
     <!-- 列表渲染时，如果事件绑定的节点和wx:for在同一个节点上，那么点击循环中动态节点，是无法拿到dataset。 -->
     <!-- 怎么办呢？要想点击动态节点也能拿到dataset，需要把事件直接绑定动态节点上。 -->
     <view wx:for='{{list}}' wx:key='*this'>
@@ -29,7 +52,5 @@
     <view class="door"></view>
     <button bindtap="start2">关门</button>
 
-    
+
 </view>
-
-
