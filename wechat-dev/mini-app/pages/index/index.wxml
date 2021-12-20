@@ -11,4 +11,14 @@
   <view hidden='{{show}}'>
     <button bindtap='openLogin'>登录</button>
   </view>
+
+  <!-- 地图 -->
+  <map class="map" latitude='{{latLng.latitude}}' longitude='{{latLng.longitude}}'></map>
+  <button bindtap='call'>咨询</button>
+  <button bindtap='navigate'>导航</button>
+
+  <!-- 企业小程序，获取手机号 -->
+  <button open-type="getPhoneNumber" bindgetphonenumber="getMobile">登录</button>
+
+  <button open-type='share'>拼团的图标</button>
 </view>

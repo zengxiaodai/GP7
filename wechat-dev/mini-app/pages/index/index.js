@@ -6,7 +6,8 @@ const app = getApp()
 Page({
   data: {
     motto: 'Hello World',
-    show: true
+    show: true,
+    latLng: {}
   },
   onShow() {
     wx.getSetting({
@@ -95,14 +96,19 @@ Page({
 
   onReady () {
     this.draw()
-    wx.getLocation({
-      success(res) {
-        console.log('当前位置', res)
-      },
-      fail(err) {
-        console.log('位置失败', err)
-      }
-    })
+    if (!this.show) {
+      const that = this
+      wx.getLocation({
+        success(res) {
+          console.log('当前位置', res)
+          that.setData({latLng: res })
+        },
+        fail(err) {
+          console.log('位置失败', err)
+        }
+      })
+    }
+
   },
   // 保存到相同
   save() {
@@ -122,5 +128,46 @@ Page({
           })
         }
     })
+  },
+  // 咨询（打电话）
+  call() {
+    wx.makePhoneCall({
+      phoneNumber: '0755-99998888'
+    })
+  },
+  // 通过微信内置地图，实现导航功能
+  navigate() {
+    const { latLng } = this.data
+    wx.openLocation({
+      latitude: latLng.latitude,
+      longitude: latLng.longitude,
+      name: '千锋教育',
+      address: '深圳西部硅谷BC一楼'
+    })
+  },
+  // 获取手机
+  getMobile(res) {
+    console.log('手机信息', res)
+    // 拿到手机信息（加密的密文）
+    // request调接口，发给后端
+    // 后端再使用appid、appserect进行解密
+  },
+  onShareAppMessage(res) {
+    console.log('分享', res)
+    if (res.from === 'button') {
+      // 如果用户点击的是拼团进行分享，分享的“拼团页面”。
+      return {
+        title: '还差1人成团',
+        imageUrl: 'https://img10.360buyimg.com/jdcms/s150x150_jfs/t1/168985/35/25959/188930/61ae101cE12371700/92be4fa17677a4b7.jpg',
+        path: "pages/index/index?tuanid=100"
+      }
+    } else {
+      // 如果用户点击的是胶囊按钮上的三个点，分享当前页面。
+      return {
+        title: '好物购买',
+        imageUrl: 'https://img10.360buyimg.com/jdcms/s150x150_jfs/t1/168985/35/25959/188930/61ae101cE12371700/92be4fa17677a4b7.jpg',
+        path: "pages/index/index"
+      }
+    }
   }
 })
