@@ -1,4 +1,13 @@
 // pages/find/find.js
+const qfData = require('./qf.js')
+const { initRange } = require('../../utils/util')
+console.log('qfData', qfData)
+
+
+
+console.log('initRange', initRange(qfData,1,3))
+
+
 Page({
 
     /**
@@ -28,7 +37,53 @@ Page({
           { id: 19, label:'推荐13', value: 'a' },
           { id: 100, label:'推荐14', value: 'a' }
         ],
-        curId: 1
+        curId: 1,
+        region: [],
+        qfRange: initRange(qfData,1,3),
+        // qfRange: [
+        //   [
+        //     {id:1,label:'HTML5',value:'HTML5'},
+        //     {id:2,label:'Java',value:'Java'}
+        //   ],
+        //   [
+        //     {id:3,pid:1,label:'2101班',value:'2101'},
+        //     {id:4,pid:1,label:'2102班',value:'2102'},
+        //     {id:5,pid:2,label:'2103班',value:'2103'},
+        //     {id:6,pid:2,label:'2104班',value:'2104'},
+        //   ],
+        //   [
+        //     { id: 7, pid:3, label:'张三', value:'2101000001' },
+        //     { id: 8, pid:3, label:'张四', value:'2101000002' },
+        //     { id: 9, pid:4, label:'张五', value:'2101000003' },
+        //     { id: 10, pid:4, label:'张五', value:'2101000003' },
+        //     { id: 11, pid:5, label:'张五', value:'2101000003' },
+        //     { id: 12, pid:5, label:'张五', value:'2101000003' },
+        //     { id: 13, pid:6, label:'张五', value:'2101000003' },
+        //     { id: 14, pid:6, label:'张五', value:'2101000003' }
+        //   ]
+        // ]
+    },
+
+    qfChange(ev) {
+      // console.log('qf picker change', ev.detail.value)
+    },
+    qfColChange(ev) {
+      console.log('qf picker col change', ev.detail)
+      const { column, value } = ev.detail
+      const { qfRange } = this.data
+      if (column===0) {
+        // 这说明变的是第一列
+        // 所以第二列要变
+        // 因为第二列变了，所以第三列也要更新
+        const newQfRange = initRange(qfData,qfRange[0][value].id)
+        this.setData({qfRange: newQfRange})
+      } else if (column===1) {
+        // 这说明变的是第二列
+        // 只用更新第三列
+        console.log('twoId', qfRange[1][value].id)
+        const newQfRange = initRange(qfData,1,qfRange[1][value].id)
+        this.setData({qfRange: newQfRange})
+      }
     },
 
     cateTap(ev) {
@@ -100,45 +155,27 @@ Page({
           }.bind(this))
     },
 
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-
+    getInfo() {
+      wx.getUserProfile({
+        desc: '希望访问你的头像、昵称',
+        success(res) {
+          console.log('用户信息', res)
+        },
+        fail(err) {
+          console.log('用户信息失败', err)
+        }
+      })
     },
 
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
+    getAvatar(res) {
+      console.log('用户头像', res)
     },
 
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
+    getRegion(ev) {
+      console.log('ev region', ev)
+      const arr = [...(new Set(ev.detail.value))]
+      console.log('arr', arr)
+      this.setData({region: arr})
     }
+
 })

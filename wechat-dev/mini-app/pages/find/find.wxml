@@ -52,5 +52,32 @@
     <view class="door"></view>
     <button bindtap="start2">关门</button>
 
+    <!-- 演示button表单的使用 -->
+    <button open-type='contact'>联系客服</button>
+    <button open-type='getUserInfo' bindtap='getInfo'>获取用户头像</button>
+    <button open-type='feedback'>投诉建议</button>
+    <button open-type='chooseAvatar' bindchooseavatar='getAvatar'>换头像</button>
+
+    <!-- 使用picker -->
+    <picker mode="region" bindchange="getRegion" value="{{region}}" custom-item="全部">
+       <view class="picker" wx:if='{{region.length===0}}'>
+         选择省市区
+       </view>
+       <view class="picker">
+         {{region[0]}}{{region[1]}}{{region[2]}}
+       </view>
+     </picker>
+
+     <picker
+       mode='multiSelector'
+       range='{{qfRange}}'
+       range-key='label'
+       bindchange='qfChange'
+       bindcolumnchange='qfColChange'
+       >
+       <view>选择学员</view>
+     </picker>
+
+
 
 </view>

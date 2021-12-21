@@ -49,7 +49,6 @@ const search = (text) => {
         }
     })
   })
-
 }
 
 const formatTime = date => {
@@ -69,9 +68,30 @@ const formatNumber = n => {
 }
 
 
+function initRange(data,firstId,twoId) {
+  let arr1 = []
+  let arr2 = []
+  let arr3 = []
+  data.forEach(ele=>{
+    arr1.push({id:ele.id,label:ele.label,value:ele.value})
+    if (firstId===ele.id) {
+      ele.children.forEach(ele=>{
+        arr2.push({id:ele.id,label:ele.label,value:ele.value})
+        if (twoId===ele.id) {
+          ele.children.forEach(ele=>{
+            arr3.push({id:ele.id,label:ele.label,value:ele.value})
+          })
+        }
+      })
+    }
+  })
+  return [arr1,arr2,arr3]
+}
+
 
 module.exports = {
   formatTime,
   calDis,
-  search
+  search,
+  initRange
 }
