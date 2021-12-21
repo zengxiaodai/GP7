@@ -32,5 +32,12 @@ Page({
   onPullDownRefresh() {
     this.setData({list:[],page:1})
     this.init()
+  },
+  skipToDetail(ev) {
+    const { id } = ev.target.dataset
+    console.log('id', id)
+    wx.navigateTo({
+      url: '/pages/detail/detail'
+    })
   }
 })

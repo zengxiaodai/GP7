@@ -70,7 +70,7 @@
 
      <picker
        mode='multiSelector'
-       range='{{qfRange}}'
+       range='{{qfRange.range}}'
        range-key='label'
        bindchange='qfChange'
        bindcolumnchange='qfColChange'

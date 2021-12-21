@@ -72,20 +72,24 @@ function initRange(data,firstId,twoId) {
   let arr1 = []
   let arr2 = []
   let arr3 = []
-  data.forEach(ele=>{
-    arr1.push({id:ele.id,label:ele.label,value:ele.value})
-    if (firstId===ele.id) {
-      ele.children.forEach(ele=>{
-        arr2.push({id:ele.id,label:ele.label,value:ele.value})
-        if (twoId===ele.id) {
-          ele.children.forEach(ele=>{
-            arr3.push({id:ele.id,label:ele.label,value:ele.value})
-          })
-        }
+  data.forEach(ele1=>{
+    arr1.push({id:ele1.id,label:ele1.label,value:ele1.value})
+    if (firstId===ele1.id) {
+      ele1.children.forEach(ele2=>{
+        arr2.push({id:ele2.id,label:ele2.label,value:ele2.value})
+        const r = ele1.children.find(e=>e.id===twoId) || ele1.children[0]
+        console.log('-rrr', r)
+        r.children.forEach(ele3=>{
+          arr3.push({id:ele3.id,label:ele3.label,value:ele3.value})
+        })
       })
     }
   })
-  return [arr1,arr2,arr3]
+  return {
+    firstId,
+    twoId,
+    range: [arr1,arr2,arr3]
+  }
 }
 
 

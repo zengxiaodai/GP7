@@ -201,5 +201,40 @@ Page({
 
   onPageScroll(e) {
     console.log('页面滚动了', e)
+  },
+
+  takePhoto() {
+    const ctx = wx.createCameraContext()
+    ctx.takePhoto({
+      quality: 'high',
+      success: (res) => {
+        console.log('拍照成功', res)
+        // wx.uploadFile()
+      }
+    })
+  },
+
+  scanCode(res) {
+    // console.log('扫码成功', res)
+    wx.scanCode({
+      onlyFromCamera: true,
+      scanType: ['barCode'],
+      success(res) {
+        console.log('扫码成功', res)
+      },
+      fail(err) {
+        console.log('扫码失败', err)
+      }
+    })
+  },
+
+  chooseIdCard() {
+    wx.chooseImage({
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success(res) {
+        console.log('选择照片成功', res)
+      }
+    })
   }
 })
