@@ -236,5 +236,19 @@ Page({
         console.log('选择照片成功', res)
       }
     })
+  },
+
+  pay() {
+    // 第一步，把用户要买的商品信息request给后端.then()
+    // 第二步，接收后端返回的signtrue... package ....  ...
+    // 第三步，调用 wx.requestPayment({success})
+    // wx.chooseAddress({
+    //   success(res) {
+    //     console.log('选择地址', res)
+    //   }
+    // })
+    wx.chooseInvoice({
+
+    })
   }
 })

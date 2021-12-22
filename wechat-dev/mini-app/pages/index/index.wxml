@@ -40,4 +40,6 @@
     <view>当页面高度不小于 400 px 且屏幕方向为纵向时展示这里</view>
   </match-media>
 
+  <button bindtap='pay'>立即支付</button>
+
 </view>
