@@ -10,19 +10,22 @@ export default class Count {
   }
 
   @action
-  increment() {
-    this.counter++
+  increment(step) {
+    this.counter+=step
   }
 
   @action
-  decrement() {
-    this.counter--
+  decrement(step) {
+    this.counter-=step
   }
 
   @action
-  incrementAsync() {
-    setTimeout(() => {
-      this.counter++
-    }, 1000)
+  incrementAsync(step) {
+    return new Promise(resolve=>{
+      setTimeout(() => {
+        this.counter+=step
+        resolve()
+      }, 1000)
+    })
   }
 }

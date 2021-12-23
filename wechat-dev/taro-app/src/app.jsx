@@ -3,9 +3,7 @@ import { Provider, MobXProviderContext, observer } from 'mobx-react'
 import store from './store'
 import './app.scss'
 import Taro, { useDidShow } from '@tarojs/taro'
-
-console.log('ctx', MobXProviderContext)
-console.log('store', store)
+import 'taro-ui/dist/style/index.scss'
 
 // 相当于是微信小程序app.js(App组件)
 export default props => {
@@ -39,7 +37,7 @@ export default props => {
   }, [])
 
   return (
-    <Provider {...store}>
+    <Provider store={store}>
       {props.children}
     </Provider>
   )

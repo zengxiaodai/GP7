@@ -1,4 +1,9 @@
+const path = require('path')
+
 const config = {
+  alias: {
+    '@': path.resolve(__dirname, '../src')
+  },
   projectName: 'taro-app',
   date: '2021-12-22',
   designWidth: 750,
@@ -58,7 +63,8 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
-    }
+    },
+    esnextModules: ['taro-ui']
   }
 }
 
