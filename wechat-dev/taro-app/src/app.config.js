@@ -2,6 +2,7 @@
 export default {
   // 路由
   pages: [
+    'pages/cnode/cnode',
     'pages/index/index'
   ],
   window: {
