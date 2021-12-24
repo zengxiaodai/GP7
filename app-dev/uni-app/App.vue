@@ -2,6 +2,13 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
+			// #ifdef MP-WEIXIN
+			uni.login({
+				success(res) {
+					console.log('code', res.code)
+				}
+			})
+			// #endif
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -12,6 +19,6 @@
 	}
 </script>
 
-<style>
-	/*每个页面公共css */
+<style lang="scss">
+
 </style>
