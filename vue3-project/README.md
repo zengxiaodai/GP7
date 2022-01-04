@@ -11,9 +11,9 @@
 
 # 组件的编写方式
 
+- [最佳实践]使用.vue文件, <script setup>编写组件.
+- [最佳实践]使用.jsx/.tsx文件, 使用defineComponent编写JXS语法的组件.
 - 在vue3中, 可以正常支持 vue2的组件定义方式(不用setup)
-- [最佳实践]使用.vue文件, <script setup> 封装组件.
-- [最佳实践]使用.jsx/.tsx文件, 使用defineComponent 编写 JXS语法的组件.
 - 使用.vue文件, 把 setup当作选项来使用, export default { setup, methods }
 - 使用.vue文件, 使用 defineComponent() 来编写组件.
 - 使用.js/.ts文件, 使用 h 函数来编写组件.
