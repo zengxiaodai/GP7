@@ -8,6 +8,9 @@ import App from './App.vue'
 
 // 创建Vue响应式系统
 const app = createApp(App)
+// 在app放置全局数据(没有响应式的)
+app.config.globalProperties.$http = 'http://baidu.com'
+
 // do something
 // 挂载vue响应式系统时，只能使用app.mount()，不支持el选项的挂载。
 app.mount('#app')
