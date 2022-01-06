@@ -1,11 +1,8 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <!-- <Home /> -->
-  <!-- <Todo1 /> -->
-  <!-- <Todo2 /> -->
-  <Find />
-  <!-- <About /> -->
-  <!-- <User /> -->
+  <router-link to='/find' custom v-slot='scope'>
+    <NavLink text='你好' :scope='scope' />
+  </router-link>
+  <router-view></router-view>
 </template>
 
 <script setup>
@@ -15,6 +12,8 @@
   import Find from '@/pages/Find.vue'
   import About from '@/pages/About'
   import User from '@/pages/User.vue'
+
+  import NavLink from '@/components/NavLink.vue'
 </script>
 
 <style>

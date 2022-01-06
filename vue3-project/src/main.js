@@ -5,11 +5,16 @@
 
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router.ts'
+import store from './store'
 
 // 创建Vue响应式系统
 const app = createApp(App)
 // 在app放置全局数据(没有响应式的)
 app.config.globalProperties.$http = 'http://baidu.com'
+
+app.use(router)
+app.use(store)
 
 // do something
 // 挂载vue响应式系统时，只能使用app.mount()，不支持el选项的挂载。

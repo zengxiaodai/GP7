@@ -108,3 +108,15 @@
   - 只使用setup, 不要再使用vue的选项了
   - 有必要封装hooks时,建议把功能封装成hooks,以便于代码的可维护性.
   - 能用vite就尽量使用vite, 能用ts就是尽量使用ts.
+
+# vue-router(v4)
+
+- 注意：在vue3环境中，必须要使用vue-router(4)
+- 创建router，使用createRouter()
+- 指定路由模式，使用history属性：createWebHashHistory/createWebHistory()
+- 路由注册，在mian.js中 app.use(router)
+- 如果当前项目严格使用组合式API进行开发，必须使用useRoute、userRouter...
+- <router-link>已经没有tag属性的，用custom和插槽实现自定义。
+- <router-view>新增了"插槽"功能，极其强大，参见路由中的伪代码，它在实现keep-alive和transition动画将变得更简单，还可以Suspense实现Loading。
+- 新增了几个组合API：useRoute/useRouter/useLink。
+- 查询vue-router(v3)和vue-router(v4)的变化：https://next.router.vuejs.org/zh/guide/migration/index.html

@@ -21,6 +21,9 @@
 
 <script setup>
 import { useApp, useDom, useToggle, useDD } from './compositions'
+import { useRoute, useRouter } from 'vue-router'
+import { useLocation } from '@/hooks'
+import { useStore } from 'vuex'
 
 import Counter from '@/components/Counter.vue'
 import { ref, unref, toRef, toRefs, reactive, shallowRef, triggerRef, provide } from 'vue'
@@ -52,6 +55,14 @@ provide('user', { name:'user',age:90})
 
 const $http = useApp('$http')
 console.log('$http', $http)
+
+const { pathname } = useLocation()
+const router = useRouter()
+console.log('pathname', pathname, 'router', router)
+
+const store = useStore()
+console.log('store cnode msg', store.state.cnode.msg)
+
 </script>
 
 <style lang="css" scoped>

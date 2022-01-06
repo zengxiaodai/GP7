@@ -1,7 +1,18 @@
 import {
   isRef,
   getCurrentInstance,
-  ref, unref, toRef, toRefs, reactive, shallowRef, triggerRef, provide
+  ref,
+  unref,
+  toRef,
+  toRefs,
+  reactive,
+  shallowRef,
+  triggerRef,
+  provide,
+  watchEffect,
+  watchPostEffect,
+  watchSyncEffect,
+  watch,
 } from 'vue'
 
 function useApp(key) {
@@ -40,9 +51,34 @@ function useDD() {
   return [d2, test]
 }
 
+function useTestWatch() {
+  let count = ref(0)
+  const stop1 = watchPostEffect(()=>{
+    // console.log('---effect post', num.value)
+  })
+  const stop2 = watchSyncEffect(()=>{
+    // console.log('---effect sync', price.value)
+  })
+  const stop3 = watchEffect(()=>{
+    // console.log('---effect timer', count.value)
+    setInterval(()=>{
+      count.value++
+      // stop3()
+    }, 1000)
+  })
+  const stopAll = () => {
+    stop1()
+    stop2()
+    stop3()
+    // stop4()
+  }
+  return [count, stopAll]
+}
+
 export {
   useApp,
   useDom,
   useToggle,
-  useDD
+  useDD,
+  useTestWatch
 }
