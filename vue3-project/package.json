@@ -8,6 +8,9 @@
     "start": "npm run dev"
   },
   "dependencies": {
+    "ant-design-vue": "^2.2.8",
+    "axios": "^0.24.0",
+    "vite-plugin-components": "^0.13.3",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2"

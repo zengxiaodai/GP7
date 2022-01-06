@@ -11,7 +11,7 @@
   <button @click='setD2'>自增</button>
   <hr>
 
-  <Counter :num='num' />
+  <!-- <Counter :num='num' /> -->
   <button @click='num++'>自增</button>
   <hr>
 
@@ -22,10 +22,10 @@
 <script setup>
 import { useApp, useDom, useToggle, useDD } from './compositions'
 import { useRoute, useRouter } from 'vue-router'
-import { useLocation } from '@/hooks'
-import { useStore } from 'vuex'
+import { useLocation, useSelector } from '@/hooks'
+import { useStore, mapState } from 'vuex'
 
-import Counter from '@/components/Counter.vue'
+// import Counter from '@/components/Counter.vue'
 import { ref, unref, toRef, toRefs, reactive, shallowRef, triggerRef, provide } from 'vue'
 
 // 在组合中使用ref操作(属性)
@@ -59,9 +59,6 @@ console.log('$http', $http)
 const { pathname } = useLocation()
 const router = useRouter()
 console.log('pathname', pathname, 'router', router)
-
-const store = useStore()
-console.log('store cnode msg', store.state.cnode.msg)
 
 </script>
 

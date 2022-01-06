@@ -7,6 +7,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router.ts'
 import store from './store'
+import "ant-design-vue/dist/antd.css"
+import { Button } from 'ant-design-vue'
 
 // 创建Vue响应式系统
 const app = createApp(App)
@@ -15,6 +17,7 @@ app.config.globalProperties.$http = 'http://baidu.com'
 
 app.use(router)
 app.use(store)
+app.use(Button)  // vant-ui
 
 // do something
 // 挂载vue响应式系统时，只能使用app.mount()，不支持el选项的挂载。

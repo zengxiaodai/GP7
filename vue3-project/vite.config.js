@@ -5,13 +5,28 @@ import vue from '@vitejs/plugin-vue'
 // 从vite的角度来支持JSX语法
 import vueJsx from '@vitejs/plugin-vue-jsx'
 const path = require('path')
+import ViteComponents, { AntDesignVueResolver } from 'vite-plugin-components'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx()],
+  plugins: [
+    vue(),
+    vueJsx(),
+    ViteComponents({
+      customComponentResolvers: [AntDesignVueResolver()],
+    })
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
+    }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://cnodejs.org',
+        changeOrigin: true
+      }
     }
   }
 })

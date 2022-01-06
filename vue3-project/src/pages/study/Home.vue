@@ -1,4 +1,5 @@
 <template>
+  <a-button type="primary" ghost>Primary</a-button>
   <hr>
   <A />
   <hr>

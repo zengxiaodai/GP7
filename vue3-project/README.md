@@ -111,7 +111,7 @@
 
 # vue-router(v4)
 
-- 注意：在vue3环境中，必须要使用vue-router(4)
+- 注意：在vue3环境中，必须要使用vue-router(v4)
 - 创建router，使用createRouter()
 - 指定路由模式，使用history属性：createWebHashHistory/createWebHistory()
 - 路由注册，在mian.js中 app.use(router)
@@ -120,3 +120,24 @@
 - <router-view>新增了"插槽"功能，极其强大，参见路由中的伪代码，它在实现keep-alive和transition动画将变得更简单，还可以Suspense实现Loading。
 - 新增了几个组合API：useRoute/useRouter/useLink。
 - 查询vue-router(v3)和vue-router(v4)的变化：https://next.router.vuejs.org/zh/guide/migration/index.html
+
+# vuex(v4)
+
+- 注意：在vue3环境中，必须要使用vuex(4)
+- 使用vuex数据时，哪怕是在setup中，也要使用computed来访问状态管理中的数据，否则数据不响应。
+
+# vue(v3)的UI组件库
+
+- 在vue3环境中，一定找支持vue3的组件库。那些vue2的组件库是无法使用的。
+- 以and-design-vue(v2)为例进行使用
+  - cnpm i ant-design-vue@next -S
+  - cnpm i vite-plugin-components -D
+  - 在vite.config.js中配置组件的按需加载。
+  - 在index.html引入ant-desing-vue的样式文件。
+  - 在代码import {Button} from 'ant-design-vue'
+  - app.use(Button)
+
+# vue(v3)变更的若干细节
+
+- v-for 和 ref 可以一起使用。
+- 使用 defineAsyncComponent 定义异步组件。
