@@ -19,6 +19,14 @@ app.use(router)
 app.use(store)
 app.use(Button)  // vant-ui
 
+app.directive('highlight', {
+  beforeMount(el, binding, vnode) {
+    el.style.background = binding.value
+  }
+})
+
+//
+
 // do something
 // 挂载vue响应式系统时，只能使用app.mount()，不支持el选项的挂载。
 app.mount('#app')

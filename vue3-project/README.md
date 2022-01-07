@@ -139,5 +139,53 @@
 
 # vue(v3)变更的若干细节
 
-- v-for 和 ref 可以一起使用。
-- 使用 defineAsyncComponent 定义异步组件。
+- v-for 和 ref 可以一起使用（自己封装方法手动收集v-for中的ref实例）。
+- 使用 defineAsyncComponent 定义异步组件（但注意不能用在路由懒加载中）。
+- $attrs 在v2中无法接收class和style，在v3是可以的。this.$attrs/useAttrs()/setupCtx.attrs。
+- $children 已经被移除了。（这会带来哪些影响？）
+- 自定义指令，使用 app.directive()，需要注意是在v3中它的钩子发生了若干的变化。
+- data选项，只支持工厂函数的写法，不支持对象的写法了。
+- 在v3中，自定义事件在子组件中要使用 emits选项、defineEmits() 来接收事件。在子组件中如何触发这些自定义事件呢？ctx.emit('事件') / this.$emit() / const emit = defineEmits()。
+- 在v3中，$on/$off/$once都移除了，只保留了$emit。
+- 在v3中，全局过滤器、filters选项都移除了。
+- 在v3中，支持片段（碎片），在template中可以使用多个根节点。
+- 在v2和v3中，都支持函数式组件，但语法有很多不同，慎用函数式组件。
+- v2中的Vue构造函数，在v3中已经不能再使用了，所以Vue静态方法和静态属性都不能使用了。在v3中新增了一套实例方法来代替，比如app.use()等。
+- globalProperties和provide都向vue组件注入数据，但官方推荐使用provide向下游的组件注入数据。
+- 在v2中，Vue.nextTick()/this.$nextTick不支持构建工具的“摇树”功能，所以在v3中用 nextTick 这个组合API替代了。
+- 在v3中，v-if/v-else/v-else-if无须再加key，即使在<transition>动画中也无须再加key了。
+- 在v2中，使用Vue.config.keyCodes可以修改键盘码，但在v3中已经淘汰了。
+- 在v3中，$listeners移除了，所以在v3中无法使用$listeners来调用父组件给的自定义事件了。
+- 在v2中，根组件挂载DOM时，可以使用el、也可以使用$mount()。在v3中只能使用$mount()来挂载了，在v3中这种挂载是向<div id='root'></div>节点中追加innerHTML。
+- 在v3中，propsData选项已经被淘汰了。
+- 在v3中的props中无法访问this了，可以使用inject来访问父级节点传递过来的数据。
+- 在v2中，有一个render选项（本质上是一个渲染函数，这个渲染函数的形参是 h 函数）。在v3中已经不能使用render选项，建议使用 h 这个组合API。（h相当于React.createElement）
+- Suspense 还尚未正式发布，不建议使用。作用是给异步组件添加Loading交互的。
+- <transition>的两个指令发生了变化，动画class名字发生了变化。
+- 在v3中，在同一个元素或组件上，可以同时使用多个v-model，语法 <Form v-model:xx='' v-model:yy='' />，在Form子组件中使用 props接收xx、yy这个属性，使用emits:['update:xx', 'update:yy'] 来接收v-model的事件。自定义修饰符的语法参考如下：
+```
+<SyncChild v-model:xx.even='xx' v-model:yy.hehe='yy' />
+
+export default {
+  props: {
+    xx: Number,
+    xxModifiers: { default: () => ({}) },
+    yy: String,
+    yyModifiers: { default: () => ({}) }
+  },
+  emits: ['update:xx'],
+  setup(props, ctx) {
+    const handle = () => {
+      // 触发update:xx访问，并回传数据给父组件中的v-model:xx
+      const { odd } = props.xxModifiers
+      const { xx } = props
+      ctx.emit('update:xx', odd?xx+1:xx+2)
+    }
+    return { handle, ...toRefs(props) }
+  }
+}
+```
+- 同一节点上使用v-for和v-if时，在v2中不推荐这么用；在v3这种写法是允许的，但v-if的优秀级更高。
+- 在v2中，静态属性和动态属性同时使用，不确定最终哪个起作用；在v3中可以确定的，谁在后面谁起作用。
+- 在v3中，注意watch对数组的监听问题，一定要 deep:true。
+- 在v3中新增了 <teleport>（穿梭框），这相当于ReactDOM.createPortal()，它的作用是把指定的组件渲染到任意父级作用域的其它DOM节点上。

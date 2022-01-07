@@ -3,6 +3,7 @@
     <NavLink text='你好' :scope='scope' />
   </router-link>
   <router-view></router-view>
+
 </template>
 
 <script setup>
