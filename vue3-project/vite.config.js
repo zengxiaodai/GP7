@@ -16,6 +16,8 @@ export default defineConfig({
       customComponentResolvers: [AntDesignVueResolver()],
     })
   ],
+  // 在本地模拟生产环境的代码运行
+  preview: {},
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
