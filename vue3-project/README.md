@@ -189,3 +189,93 @@ export default {
 - 在v2中，静态属性和动态属性同时使用，不确定最终哪个起作用；在v3中可以确定的，谁在后面谁起作用。
 - 在v3中，注意watch对数组的监听问题，一定要 deep:true。
 - 在v3中新增了 <teleport>（穿梭框），这相当于ReactDOM.createPortal()，它的作用是把指定的组件渲染到任意父级作用域的其它DOM节点上。
+
+# vue响应式原理
+
+- vue2中使用Object.defineProperty来实现的。
+- vue3中使用ES6新增的Proxy来实现的。
+- 面试要求，要能说清楚响应式的工作流程（参见vue2中响应式原理图）
+```
+var data = { a: 1, b: 2 }
+var vm = new Proxy(data, {
+  get(target, key) {
+    console.log(`你访问了${key}，它的值是`, target[key])
+    return target[key]
+  },
+  set(target, key, newVal) {
+    console.log(`你修改了${key}，它的新值是`, newVal)
+    target[key] = newVal
+  }
+})
+```
+
+# 简单聊一聊vue3中虚拟DOM和Diff运算
+
+- jquery 和 vue 区别：前者是基于DOM操作的库，后者是基于虚拟DOM的MVVM框架。
+- vue是有DOM操作的，只不过这些DOM操作被“隐藏”起来了。
+- vue为什么需要虚拟DOM？虚拟DOM本质上对真实DOM结构的一种描述，每次有数据变化时就生成新的虚拟DOM，vue用diff运算来找出两个虚拟DOM之间的最小差异，然后再通过Watcher来更新视图。之所以有虚拟DOM的存在的意义，目的是“屏蔽”掉用户自己“滥”操作DOM，这不就是一种性能的提升，尤其对数据驱动的应用程序。
+
+- vue2.0中的虚拟DOM是如何生成的？（逐层递归，最终生成一个JSON数据）
+```
+<div class='box'>
+  <h1>线上课很开心</h1>
+  <h1 v-text='some'></h1>
+</div>
+```
+```
+var vm = {
+  tagName: 'div',
+  props: {
+    class: 'box'
+  },
+  children: [
+    {
+      tagName: 'h1',
+      props: null,
+      children: [
+        { tagName: 'text', text: '线上课很开心' }
+      ]
+    },
+    {
+      tagName: 'h1',
+      props: null,
+      children: [
+        { tagName: 'text', text: '玩游戏', patchFlag: 1, content: ctx.some }
+      ]
+    }
+  ]
+}
+```
+- 当some发生变化，some对应的set方法就要执行，要生成新的虚拟DOM（重新生成）
+- 如何理解这个“新的虚拟DOM”呢？大约可以这么理，和第一次生成虚拟DOM是一样的。
+- diff(旧vm，新vm) => 所有变化的最小节点（集合） => 进一步更新DOM
+- 总结：vue2中生成虚拟DOM，没有考虑那些静态的节点；vue2.0在做diff运算时，同级比较，逐层递归，对那些“没有变化的静态节点”也做了比较。
+
+- 那么vue3在生成虚拟DOM和diff运算时，有怎样的优化策略呢？
+- 1、第一次生成虚拟DOM时，给静态节点添加标记并将其缓存起来。以后当data发生变化、再次生成虚拟DOM时，静态节点不再重新创建虚拟DOM，而是直接使用缓存中“静态节点”所对应的虚拟DOM。
+- 2、在vue3中，事件节点上的事件（v-on），也会缓存起来，目的是避免事件的重新声明和重新绑定。
+- 3、在做diff运算时，同级比较，逐层递归。但是比较时，如果这个节点是静态的，就直接忽略掉。
+
+# 面试题：为什么vue3比vue2的性能更好？
+
+- vue3使用了Proxy实现响应式，Proxy比Object.defineProperty的效率更高。
+- vue3中生成虚拟DOM会添加PatchFlag标记，并且会把静态节点和事件都缓存起来，避免再次生成虚拟DOM时重新生成静态节点的Vnode。
+- vue3使用效率更高的diff运算规则，在vue3中diff(patch方法)在同级比较时不再考虑静态节点了，这大大地提升diff的效率。
+
+- 参考文献：https://zhuanlan.zhihu.com/p/150732926
+
+
+# 聊一聊
+
+- 理念：vite真的很特点
+- 学习资源：vite中文网 https://cn.vitejs.dev/guide/
+
+- 为什么需要vite?
+  - webpack作用是把项目模块，打包一个bundle（多个chunk）兼容支持浏览。webpack启动项目时，无论什么模块都打包。webpack对大项目不友好，启动速度慢，热更新也慢。
+  - vite的优势，在构建本地开发服务器时速度非常好，热更新也快。
+
+- vite和webpack的简单对比
+  - 在vite眼中，一种是依赖（第三方包），一种是源码（你的代码），依赖和源码是分开的。在webpack眼中，一切皆模块，无论是依赖还是源码，都需要使用babel-loader进行加载处理。
+  - vite是基于“浏览器已经普遍支持了ES Module语法”这一特性，所以vite在构建本地服务时，不对各种模块进行打包；webpack完全没有考虑浏览器的新特性，只要是模块，都一律使用各种loader进行处理，比如把ES6语法编译成ES5。
+  - vite在启动本地服务，它不考虑编译的问题，它只考虑模块之间的依赖关系；当在浏览器中访问指定的页面时，浏览器才开始按需加载当前页面所需要的各种依赖，并且还会借助于浏览器的缓存功能把对应的资源缓存起来。 webpack在运行本地服务时，要对所有依赖和源码都编译，无论当前页面中有没有用到它，所以webpack特点是“先编译再运行”，所以页面越多、运行速度就越慢。
+  - vite默认支持TS，但vite对TS代码不做校验了，把类型校验这个事儿交给IDE编辑器插件来负责；vite只负责把TS模块编译成JavaScript模块。webpack默认不支持TS，我们构建webpack的TS项目时，要自己安装typescript运行时，这个tsc会对TS代码校验和编译，既然要校验，所以启动项目时，就会比较慢。（以后做vite/webpack项目，都建议使用vscoode能够友好地校验TS类型）。
